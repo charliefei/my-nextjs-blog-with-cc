@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { TocItem } from "@/lib/toc";
 import { List } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,6 @@ interface TableOfContentsProps {
 export function TableOfContents({ items }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
-  const tocRef = useRef<HTMLDivElement>(null);
 
   // Track active heading using IntersectionObserver
   useEffect(() => {
@@ -55,12 +54,12 @@ export function TableOfContents({ items }: TableOfContentsProps) {
   return (
     <>
       {/* Mobile TOC Toggle Button */}
-      <div className="lg:hidden mb-4">
+      <div className="lg:hidden">
         <Button
           variant="outline"
           size="sm"
           onClick={() => setIsOpen(!isOpen)}
-          className="gap-2"
+          className="gap-2 mb-4"
         >
           <List className="h-4 w-4" />
           目录
@@ -69,7 +68,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 
         {/* Mobile Dropdown */}
         {isOpen && (
-          <div className="mt-2 p-3 rounded-lg border border-border/40 bg-card/50 backdrop-blur-sm animate-slide-up">
+          <div className="mb-6 p-4 rounded-lg border border-border/40 bg-card/50 backdrop-blur-sm animate-slide-up">
             <nav className="space-y-1">
               {items.map((item) => (
                 <button
@@ -77,7 +76,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                   onClick={() => scrollToHeading(item.id)}
                   className={`
                     block w-full text-left py-1.5 px-2 rounded text-sm transition-colors
-                    ${item.level === 3 ? "pl-4 text-xs" : ""}
+                    ${item.level === 3 ? "pl-5 text-xs" : ""}
                     ${activeId === item.id
                       ? "text-primary bg-primary/10 font-medium"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -93,10 +92,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
       </div>
 
       {/* Desktop Sidebar TOC */}
-      <div
-        ref={tocRef}
-        className="hidden lg:block sticky top-8 self-start w-56 shrink-0"
-      >
+      <div className="hidden lg:block sticky top-24">
         <div className="p-4 rounded-lg border border-border/40 bg-card/30 backdrop-blur-sm">
           {/* Header */}
           <div className="flex items-center gap-2 text-sm font-medium text-foreground mb-3 pb-2 border-b border-border/30">
@@ -111,11 +107,11 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                 key={item.id}
                 onClick={() => scrollToHeading(item.id)}
                 className={`
-                  block w-full text-left py-1.5 px-2 -mx-2 rounded text-sm transition-all duration-200
-                  ${item.level === 3 ? "pl-4 text-xs" : ""}
+                  block w-full text-left py-1.5 px-2 rounded text-sm transition-all duration-200
+                  ${item.level === 3 ? "pl-5 text-xs" : ""}
                   ${activeId === item.id
-                    ? "text-primary bg-primary/10 font-medium border-l-2 border-primary -ml-[2px] pl-[calc(0.5rem+2px)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50 border-l-2 border-transparent"
+                    ? "text-primary bg-primary/10 font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }
                 `}
               >
