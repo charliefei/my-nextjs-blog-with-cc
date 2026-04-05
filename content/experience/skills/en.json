@@ -1,0 +1,97 @@
+[
+  {
+    "category": "Frontend",
+    "skills": [
+      {
+        "name": "React",
+        "level": 95,
+        "description": "Expert in React hooks, context, and performance optimization"
+      },
+      {
+        "name": "Next.js",
+        "level": 90,
+        "description": "App Router, SSG, SSR, and API routes"
+      },
+      {
+        "name": "TypeScript",
+        "level": 90,
+        "description": "Strong typing, generics, and utility types"
+      },
+      {
+        "name": "Tailwind CSS",
+        "level": 85,
+        "description": "Utility-first CSS with custom configurations"
+      },
+      {
+        "name": "Vue.js",
+        "level": 80,
+        "description": "Vue 3 Composition API and Vuex/Pinia"
+      }
+    ]
+  },
+  {
+    "category": "Backend",
+    "skills": [
+      {
+        "name": "Node.js",
+        "level": 85,
+        "description": "Express, Fastify, and REST API design"
+      },
+      {
+        "name": "Python",
+        "level": 75,
+        "description": "Django, FastAPI, and data processing"
+      },
+      {
+        "name": "GraphQL",
+        "level": 70,
+        "description": "Schema design and Apollo Server/Client"
+      }
+    ]
+  },
+  {
+    "category": "Database",
+    "skills": [
+      {
+        "name": "PostgreSQL",
+        "level": 80,
+        "description": "Query optimization and database design"
+      },
+      {
+        "name": "MongoDB",
+        "level": 75,
+        "description": "Document modeling and aggregation pipelines"
+      },
+      {
+        "name": "Redis",
+        "level": 70,
+        "description": "Caching strategies and session management"
+      }
+    ]
+  },
+  {
+    "category": "DevOps & Tools",
+    "skills": [
+      {
+        "name": "Git",
+        "level": 90,
+        "description": "Advanced workflows, rebasing, and conflict resolution"
+      },
+      {
+        "name": "Docker",
+        "level": 80,
+        "description": "Containerization and multi-stage builds"
+      },
+      {
+        "name": "CI/CD",
+        "level": 75,
+        "description": "GitHub Actions, GitLab CI, and deployment pipelines"
+      },
+      {
+        "name": "AWS",
+        "level": 65,
+        "description": "EC2, S3, Lambda, and CloudFront"
+      }
+    ]
+  }
+]

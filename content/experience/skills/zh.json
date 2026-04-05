@@ -1,0 +1,97 @@
+[
+  {
+    "category": "前端开发",
+    "skills": [
+      {
+        "name": "React",
+        "level": 95,
+        "description": "精通 React hooks、context 和性能优化"
+      },
+      {
+        "name": "Next.js",
+        "level": 90,
+        "description": "App Router、SSG、SSR 和 API routes"
+      },
+      {
+        "name": "TypeScript",
+        "level": 90,
+        "description": "强类型、泛型和工具类型"
+      },
+      {
+        "name": "Tailwind CSS",
+        "level": 85,
+        "description": "实用优先的 CSS 框架和自定义配置"
+      },
+      {
+        "name": "Vue.js",
+        "level": 80,
+        "description": "Vue 3 Composition API 和 Vuex/Pinia"
+      }
+    ]
+  },
+  {
+    "category": "后端开发",
+    "skills": [
+      {
+        "name": "Node.js",
+        "level": 85,
+        "description": "Express、Fastify 和 REST API 设计"
+      },
+      {
+        "name": "Python",
+        "level": 75,
+        "description": "Django、FastAPI 和数据处理"
+      },
+      {
+        "name": "GraphQL",
+        "level": 70,
+        "description": "Schema 设计和 Apollo Server/Client"
+      }
+    ]
+  },
+  {
+    "category": "数据库",
+    "skills": [
+      {
+        "name": "PostgreSQL",
+        "level": 80,
+        "description": "查询优化和数据库设计"
+      },
+      {
+        "name": "MongoDB",
+        "level": 75,
+        "description": "文档建模和聚合管道"
+      },
+      {
+        "name": "Redis",
+        "level": 70,
+        "description": "缓存策略和会话管理"
+      }
+    ]
+  },
+  {
+    "category": "运维与工具",
+    "skills": [
+      {
+        "name": "Git",
+        "level": 90,
+        "description": "高级工作流、rebase 和冲突解决"
+      },
+      {
+        "name": "Docker",
+        "level": 80,
+        "description": "容器化和多阶段构建"
+      },
+      {
+        "name": "CI/CD",
+        "level": 75,
+        "description": "GitHub Actions、GitLab CI 和部署流程"
+      },
+      {
+        "name": "AWS",
+        "level": 65,
+        "description": "EC2、S3、Lambda 和 CloudFront"
+      }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { getProfile } from "@/lib/profile";
+import { getExperienceData } from "@/lib/experience";
 import { ExperienceContent } from "@/components/experience/experience-content";
 
 interface ExperiencePageProps {
@@ -9,7 +9,10 @@ interface ExperiencePageProps {
 export default async function ExperiencePage({ params }: ExperiencePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const profile = getProfile();
 
-  return <ExperienceContent profile={profile} />;
+  const { work, projects, skills } = getExperienceData(locale);
+
+  return (
+    <ExperienceContent work={work} projects={projects} skills={skills} />
+  );
 }
