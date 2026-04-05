@@ -189,6 +189,101 @@ published: true
 
 将你的简历 PDF 文件放到 `content/resume/resume.pdf`。
 
+### 工作经历/项目/技能管理
+
+Experience 页面通过 Markdown 文件管理，支持中英文。
+
+#### 目录结构
+
+```
+content/experience/
+├── work/                  # 工作经历
+│   ├── en/               # 英文
+│   │   └── company-a.md
+│   └── zh/               # 中文
+│       └── company-a.md
+├── projects/              # 项目经历
+│   ├── en/
+│   └── zh/
+└── skills/                # 技能配置
+    ├── en.json
+    └── zh.json
+```
+
+#### 工作经历 Markdown
+
+在 `content/experience/work/{locale}/` 创建 `.md` 文件：
+
+```markdown
+---
+type: work
+company: 公司名称
+position: 职位
+startDate: 2022-03
+endDate:        # 留空表示至今
+location: 上海
+technologies:
+  - React
+  - TypeScript
+order: 1        # 排序，数字越小越靠前
+---
+
+## 概述
+
+工作描述内容，支持 Markdown 格式...
+
+## 主要成就
+
+- 成就1
+- 成就2
+```
+
+#### 项目经历 Markdown
+
+在 `content/experience/projects/{locale}/` 创建 `.md` 文件：
+
+```markdown
+---
+type: project
+title: 项目名称
+description: 项目简介
+technologies:
+  - React
+  - Node.js
+github: https://github.com/yourusername/project
+link: https://project-demo.com
+image: /images/projects/screenshot.png
+featured: true   # 是否重点项目
+order: 1
+---
+
+项目详细描述...
+```
+
+#### 技能配置 JSON
+
+在 `content/experience/skills/{locale}.json` 配置：
+
+```json
+[
+  {
+    "category": "前端开发",
+    "skills": [
+      {
+        "name": "React",
+        "level": 95,
+        "description": "精通 React hooks 和性能优化"
+      },
+      {
+        "name": "TypeScript",
+        "level": 90,
+        "description": "强类型、泛型和工具类型"
+      }
+    ]
+  }
+]
+```
+
 ### 添加头像和图片
 
 - 头像：`public/images/avatar.png`
