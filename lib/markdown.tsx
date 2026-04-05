@@ -43,8 +43,8 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               <CopyButton content={codeContent.trim()} />
               {/* Code container */}
               <pre
-                className="relative overflow-x-auto rounded-lg border border-border/40 p-4 pt-5 text-sm leading-relaxed shadow-sm"
-                style={{ background: "var(--code-bg)" }}
+                className="relative overflow-x-auto rounded-lg border border-border/40 p-4 pt-5 text-sm leading-relaxed shadow-sm font-mono"
+                style={{ background: "var(--code-bg)", color: "var(--code-text)" }}
                 {...props}
               >
                 {children}

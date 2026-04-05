@@ -210,16 +210,25 @@
 }
 
 .prose code {
-  @apply bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono;
+  @apply bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono text-accent;
+}
+
+/* Inline code - distinctive styling */
+.inline-code {
+  font-variant-ligatures: none;
+  font-feature-settings: "tnum" on;
+  color: var(--accent);
 }
 
 .prose pre {
   @apply border border-border/40 rounded-lg overflow-hidden;
   background: var(--code-bg);
+  color: var(--code-text);
 }
 
 .prose pre code {
   @apply bg-transparent p-0 block;
+  color: inherit;
 }
 
 .prose blockquote {
@@ -231,16 +240,19 @@
 }
 
 /* ========================================
-   Code Block Styling - One Dark Pro theme
+   Code Block Styling - Adaptive themes
    ======================================== */
 
-/* Code background - matches One Dark Pro */
+/* Light theme - soft gray background */
 :root {
-  --code-bg: oklch(0.18 0.02 260);
+  --code-bg: oklch(0.96 0.01 260);
+  --code-text: oklch(0.25 0.02 260);
 }
 
+/* Dark theme - One Dark Pro inspired */
 .dark {
   --code-bg: oklch(0.16 0.02 260);
+  --code-text: oklch(0.88 0.02 260);
 }
 
 /* Code block container */
@@ -278,12 +290,6 @@
   background: oklch(0.55 0.18 270 / 0.25);
   border-radius: 0.2rem;
   padding: 0.1rem 0.2rem;
-}
-
-/* Inline code - distinctive styling */
-.inline-code {
-  font-variant-ligatures: none;
-  font-feature-settings: "tnum" on;
 }
 
 /* Line numbers (if enabled) */
