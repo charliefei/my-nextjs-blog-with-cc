@@ -40,7 +40,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
 
             {/* Content */}
             <div className="absolute inset-0 flex items-end">
-              <div className="container mx-auto px-4 pb-12 pt-20 max-w-4xl">
+              <div className="container mx-auto px-6 lg:px-8 pb-12 pt-20 max-w-5xl">
                 <div className="space-y-6 animate-slide-up">
                   {/* Back Button */}
                   <Link href={`/${locale}/blog`}>
@@ -110,7 +110,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
         ) : (
           // Without Cover Image - Clean Header
           <div className="relative bg-gradient-to-b from-muted to-background">
-            <div className="container mx-auto px-4 py-12 max-w-4xl space-y-6 animate-fade-in">
+            <div className="container mx-auto px-6 lg:px-8 py-12 max-w-5xl space-y-6 animate-fade-in">
               {/* Back Button */}
               <Link href={`/${locale}/blog`}>
                 <Button variant="ghost" size="sm" className="gap-2">
@@ -169,7 +169,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
       </header>
 
       {/* Article Content - Two Column Layout */}
-      <div className="container mx-auto px-4 py-8 lg:py-12">
+      <div className="container mx-auto px-6 lg:px-8 py-8 lg:py-12 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
           {/* Main Content */}
           <div className="flex-1 min-w-0">

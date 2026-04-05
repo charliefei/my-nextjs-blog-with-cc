@@ -24,7 +24,7 @@ export function Footer({ profile }: FooterProps) {
 
   return (
     <footer className="border-t border-border/40 bg-card/50 animate-fade-in">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="space-y-3">

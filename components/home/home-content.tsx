@@ -37,7 +37,7 @@ export function HomeContent({ profile, posts }: HomeContentProps) {
   return (
     <div className="min-h-screen">
       {/* Split Layout Container */}
-      <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
+      <div className="container mx-auto px-6 lg:px-8 py-8 md:py-12 lg:py-16 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 xl:gap-16">
 
           {/* Left Column - Personal Info */}

@@ -28,7 +28,7 @@ export function AboutContent({ profile, locale }: AboutContentProps) {
   const bio = locale === "zh" ? profile.personal.bio.zh : profile.personal.bio.en;
 
   return (
-    <div className="container mx-auto px-4 py-12 space-y-8">
+    <div className="container mx-auto px-6 lg:px-8 py-12 space-y-8 max-w-4xl">
       {/* Header */}
       <div className="space-y-4 animate-fade-in">
         <h1 className="font-heading text-4xl font-bold">{t("title")}</h1>

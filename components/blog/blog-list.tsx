@@ -58,7 +58,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
         }} />
 
-        <div className="relative container mx-auto px-4 max-w-4xl">
+        <div className="relative container mx-auto px-6 lg:px-8 max-w-5xl">
           {/* Centered Content */}
           <div className="text-center space-y-8 animate-fade-in">
             {/* Title with decorative accent */}
@@ -131,7 +131,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
       {/* Compact Filters Panel */}
       {showFilters && (
         <div className="border-y border-border/40 bg-muted/20 animate-slide-up">
-          <div className="container mx-auto px-4 max-w-4xl py-6">
+          <div className="container mx-auto px-6 lg:px-8 max-w-5xl py-6">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Categories */}
               <div className="space-y-2.5">
@@ -195,7 +195,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
 
       {/* Active Filters Inline Display */}
       {hasFilters && !showFilters && (
-        <div className="container mx-auto px-4 max-w-4xl pt-4">
+        <div className="container mx-auto px-6 lg:px-8 max-w-5xl pt-4">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {selectedCategory && (
               <Badge variant="secondary" className="gap-1 text-xs">
@@ -235,7 +235,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
       )}
 
       {/* Posts Content */}
-      <div className="container mx-auto px-4 max-w-5xl py-10">
+      <div className="container mx-auto px-6 lg:px-8 max-w-6xl py-10">
         {filteredPosts.length > 0 ? (
           <div className="space-y-8">
             {/* Featured Post */}
