@@ -11,26 +11,22 @@
       "en": "A passionate developer who loves building modern web applications. I specialize in React, Next.js, and Node.js, with a focus on creating beautiful, performant, and accessible user experiences.",
       "zh": "一名热爱构建现代 Web 应用的开发者。我专注于 React、Next.js 和 Node.js，致力于创造美观、高性能且无障碍的用户体验。"
     },
-    "location": "Shanghai, China",
-    "email": "your.email@example.com"
+    "location": "Nanjing, China",
+    "email": "charliefei839@qq.com"
   },
   "social": [
     {
       "platform": "github",
-      "url": "https://github.com/yourusername",
-      "username": "yourusername"
-    },
-    {
-      "platform": "linkedin",
-      "url": "https://linkedin.com/in/yourusername"
+      "url": "https://github.com/charliefei",
+      "username": "charliefei"
     },
     {
       "platform": "twitter",
-      "url": "https://twitter.com/yourusername"
+      "url": "https://x.com/charliefei_"
     },
     {
       "platform": "email",
-      "url": "mailto:your.email@example.com"
+      "url": "mailto:charliefei839@qq.com"
     }
   ],
   "skills": [

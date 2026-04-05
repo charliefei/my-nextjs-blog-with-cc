@@ -251,7 +251,7 @@ function ArticleItem({ post, locale, index }: { post: PostMeta; locale: string; 
             {post.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="text-xs text-muted-foreground/70 hover:text-muted-foreground transition-colors"
+                className="tag-item text-xs backdrop-blur-sm bg-white/10 border-white/20"
               >
                 #{tag}
               </span>

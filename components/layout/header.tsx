@@ -29,7 +29,7 @@ export function Header() {
           href={`/${locale}`}
           className="font-heading text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
         >
-          <span className="gradient-text">Blog</span>
+          <span className="gradient-text">Charlie Fei's Blog</span>
         </Link>
 
         {/* Desktop Navigation */}
