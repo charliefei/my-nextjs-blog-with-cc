@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BlogCard } from "@/components/blog/blog-card";
+import { TableOfContents } from "@/components/blog/toc";
 import { Post, PostMeta } from "@/types/post";
 import { MarkdownRenderer } from "@/lib/markdown";
+import { extractToc } from "@/lib/toc";
 
 interface BlogContentProps {
   post: Post;
@@ -18,6 +20,7 @@ interface BlogContentProps {
 
 export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
   const t = useTranslations("blog");
+  const tocItems = extractToc(post.content);
 
   return (
     <article className="min-h-screen">
@@ -165,64 +168,77 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
         )}
       </header>
 
-      {/* Article Content */}
-      <div className="container mx-auto px-4 py-12 max-w-3xl">
-        {/* Content with enhanced markdown rendering */}
-        <div className="prose prose-lg dark:prose-invert max-w-none animate-slide-up">
-          <MarkdownRenderer content={post.content} />
-        </div>
+      {/* Article Content - Two Column Layout */}
+      <div className="container mx-auto px-4 py-8 lg:py-12">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Main Content */}
+          <div className="flex-1 min-w-0 max-w-3xl">
+            {/* Mobile TOC */}
+            <TableOfContents items={tocItems} />
 
-        {/* Tags Section - Editorial style */}
-        <div className="mt-12 pt-8 border-t border-border/30">
-          <div className="tag-section-header mb-4">
-            <Tag className="h-4 w-4" />
-            <span>文章标签</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
+            {/* Content with enhanced markdown rendering */}
+            <div className="prose prose-lg dark:prose-invert max-w-none animate-slide-up">
+              <MarkdownRenderer content={post.content} />
+            </div>
+
+            {/* Tags Section - Editorial style */}
+            <div className="mt-12 pt-8 border-t border-border/30">
+              <div className="tag-section-header mb-4">
+                <Tag className="h-4 w-4" />
+                <span>文章标签</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/${locale}/blog?tag=${tag}`}
+                    className="tag-item cursor-pointer"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Category Link */}
+            <div className="mt-6 flex items-center gap-3">
+              <FolderOpen className="h-4 w-4 text-muted-foreground" />
               <Link
-                key={tag}
-                href={`/${locale}/blog?tag=${tag}`}
-                className="tag-item cursor-pointer"
+                href={`/${locale}/blog?category=${post.category}`}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
               >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Category Link */}
-        <div className="mt-6 flex items-center gap-3">
-          <FolderOpen className="h-4 w-4 text-muted-foreground" />
-          <Link
-            href={`/${locale}/blog?category=${post.category}`}
-            className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
-          >
-            查看更多 {post.category} 分类文章
-          </Link>
-        </div>
-
-        <Separator className="my-10" />
-
-        {/* Related Posts */}
-        {relatedPosts.length > 0 && (
-          <section className="space-y-6 animate-slide-up">
-            <div className="flex items-center justify-between">
-              <h2 className="font-heading text-xl font-semibold">{t("relatedPosts")}</h2>
-              <Link
-                href={`/${locale}/blog`}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                浏览全部
+                查看更多 {post.category} 分类文章
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {relatedPosts.map((relatedPost) => (
-                <BlogCard key={relatedPost.slug} post={relatedPost} />
-              ))}
-            </div>
-          </section>
-        )}
+
+            <Separator className="my-10" />
+
+            {/* Related Posts */}
+            {relatedPosts.length > 0 && (
+              <section className="space-y-6 animate-slide-up">
+                <div className="flex items-center justify-between">
+                  <h2 className="font-heading text-xl font-semibold">{t("relatedPosts")}</h2>
+                  <Link
+                    href={`/${locale}/blog`}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    浏览全部
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {relatedPosts.map((relatedPost) => (
+                    <BlogCard key={relatedPost.slug} post={relatedPost} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+
+          {/* Desktop TOC Sidebar */}
+          <aside className="hidden lg:block">
+            <TableOfContents items={tocItems} />
+          </aside>
+        </div>
       </div>
     </article>
   );

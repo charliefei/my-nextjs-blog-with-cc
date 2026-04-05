@@ -3,6 +3,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useState } from "react";
+import { slugify } from "@/lib/toc";
 
 interface MarkdownRendererProps {
   content: string;
@@ -13,6 +14,34 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
+        // Custom heading components with anchor IDs
+        h2: ({ children }) => {
+          const text = String(children);
+          const id = slugify(text);
+          return (
+            <h2 id={id} className="font-heading text-3xl font-semibold mt-12 mb-4 scroll-mt-20">
+              {children}
+            </h2>
+          );
+        },
+        h3: ({ children }) => {
+          const text = String(children);
+          const id = slugify(text);
+          return (
+            <h3 id={id} className="font-heading text-2xl font-semibold mt-8 mb-3 scroll-mt-20">
+              {children}
+            </h3>
+          );
+        },
+        h4: ({ children }) => {
+          const text = String(children);
+          const id = slugify(text);
+          return (
+            <h4 id={id} className="font-heading text-xl font-semibold mt-6 mb-2 scroll-mt-20">
+              {children}
+            </h4>
+          );
+        },
         // Custom code block wrapper with copy button
         pre: ({ children, ...props }) => {
           const codeElement = children as React.ReactNode;
