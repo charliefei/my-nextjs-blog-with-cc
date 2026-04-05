@@ -1,5 +1,5 @@
-/* Custom fonts - refined editorial style */
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+/* Custom fonts - refined editorial style with JetBrains Mono for code */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -12,7 +12,7 @@
   --color-foreground: var(--foreground);
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-serif: 'Crimson Pro', Georgia, serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --font-heading: var(--font-serif);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -210,15 +210,16 @@
 }
 
 .prose code {
-  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+  @apply bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono;
 }
 
 .prose pre {
-  @apply bg-card border border-border rounded-lg p-4 overflow-x-auto;
+  @apply border border-border/40 rounded-lg overflow-hidden;
+  background: var(--code-bg);
 }
 
 .prose pre code {
-  @apply bg-transparent p-0;
+  @apply bg-transparent p-0 block;
 }
 
 .prose blockquote {
@@ -229,7 +230,135 @@
   @apply rounded-lg shadow-lg;
 }
 
-/* Animation utilities */
+/* ========================================
+   Code Block Styling - One Dark Pro theme
+   ======================================== */
+
+/* Code background - matches One Dark Pro */
+:root {
+  --code-bg: oklch(0.18 0.02 260);
+}
+
+.dark {
+  --code-bg: oklch(0.16 0.02 260);
+}
+
+/* Code block container */
+.code-block-wrapper {
+  position: relative;
+}
+
+/* Syntax highlighting tokens - Shiki generated styles */
+.prose pre [data-line] {
+  display: block;
+  min-height: 1lh;
+}
+
+/* Code background styling */
+.prose pre.bg-code-style {
+  background: var(--code-bg);
+}
+
+/* Highlighted line */
+.prose pre .line--highlighted {
+  background: oklch(0.25 0.03 260 / 0.5);
+  margin-left: -1rem;
+  padding-left: 1rem;
+  margin-right: -1rem;
+  padding-right: 1rem;
+  border-radius: 0;
+}
+
+.dark .prose pre .line--highlighted {
+  background: oklch(0.22 0.03 260 / 0.5);
+}
+
+/* Highlighted word/chars */
+.prose pre .word--highlighted {
+  background: oklch(0.55 0.18 270 / 0.25);
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.2rem;
+}
+
+/* Inline code - distinctive styling */
+.inline-code {
+  font-variant-ligatures: none;
+  font-feature-settings: "tnum" on;
+}
+
+/* Line numbers (if enabled) */
+.prose pre [data-line-number]::before {
+  content: attr(data-line-number);
+  display: inline-block;
+  width: 1.5rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: oklch(0.45 0.02 260 / 0.5);
+  font-size: 0.8em;
+}
+
+/* ========================================
+   Tag Styling - Editorial aesthetic
+   ======================================== */
+
+.tag-item {
+  @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full;
+  @apply bg-muted/40 border border-border/30;
+  @apply text-xs font-mono;
+  @apply text-muted-foreground;
+  @apply hover:bg-primary/10 hover:border-primary/30 hover:text-primary;
+  @apply transition-colors duration-200;
+}
+
+.tag-item::before {
+  content: "#";
+  @apply text-primary/70;
+}
+
+/* Tag section header */
+.tag-section-header {
+  @apply flex items-center gap-2 text-sm font-medium text-foreground;
+}
+
+.tag-section-header::before {
+  content: "";
+  @apply w-1 h-4 rounded-full bg-primary/60;
+}
+
+/* ========================================
+   Additional prose refinements
+   ======================================== */
+
+.prose ul, .prose ol {
+  @apply pl-6 space-y-2;
+}
+
+.prose li {
+  @apply text-lg leading-relaxed;
+}
+
+.prose li::marker {
+  @apply text-primary/70;
+}
+
+.prose hr {
+  @apply my-8 border-border/30;
+}
+
+.prose table {
+  @apply w-full border-collapse;
+}
+
+.prose th, .prose td {
+  @apply px-4 py-2 border border-border/40;
+}
+
+.prose th {
+  @apply bg-muted/30 font-semibold text-left;
+}
+
+/* ========================================
+   Animation utilities */
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
