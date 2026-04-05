@@ -3,7 +3,6 @@
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +23,6 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
 
   const switchLocale = (newLocale: string) => {
-    // Remove current locale from path
     const pathWithoutLocale = pathname.replace(/^\/(en|zh)/, "") || "/";
     const newPath = `/${newLocale}${pathWithoutLocale}`;
     router.push(newPath);
@@ -32,11 +30,11 @@ export function LanguageSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button variant="ghost" size="icon" className="gap-1">
-          <Globe className="h-5 w-5" />
-          <span className="sr-only">{t("switch")}</span>
-        </Button>
+      <DropdownMenuTrigger
+        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 w-9"
+      >
+        <Globe className="h-5 w-5" />
+        <span className="sr-only">{t("switch")}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {locales.map((l) => (
