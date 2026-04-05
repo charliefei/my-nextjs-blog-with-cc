@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "home": "首页",
+    "blog": "博客",
+    "about": "关于",
+    "resume": "简历",
+    "experience": "经历"
+  },
+  "home": {
+    "hero": {
+      "greeting": "你好，我是",
+      "profession": "一名{profession}",
+      "openToWork": "正在寻找机会"
+    },
+    "latestPosts": "最新文章",
+    "viewAll": "查看全部",
+    "skillsHighlight": "我的专长"
+  },
+  "blog": {
+    "title": "博客",
+    "description": "我的思考、教程和经验分享",
+    "readMore": "阅读更多",
+    "readingTime": "{time} 分钟阅读",
+    "tags": "标签",
+    "categories": "分类",
+    "searchPlaceholder": "搜索文章...",
+    "noPosts": "暂无文章",
+    "relatedPosts": "相关文章",
+    "share": "分享文章",
+    "prevPost": "上一篇",
+    "nextPost": "下一篇"
+  },
+  "about": {
+    "title": "关于我",
+    "bio": "个人简介",
+    "social": "联系方式",
+    "location": "所在地"
+  },
+  "resume": {
+    "title": "个人简历",
+    "download": "下载 PDF",
+    "lastUpdated": "更新于：{date}"
+  },
+  "experience": {
+    "title": "工作经历",
+    "skills": "专业技能",
+    "projects": "项目经历",
+    "work": "工作经历",
+    "present": "至今"
+  },
+  "footer": {
+    "nav": {
+      "blog": "博客",
+      "about": "关于",
+      "resume": "简历"
+    },
+    "copyright": "© {year} {name}。保留所有权利。",
+    "builtWith": "使用 Next.js 和 Tailwind CSS 构建"
+  },
+  "theme": {
+    "switch": "切换主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  },
+  "lang": {
+    "switch": "切换语言",
+    "en": "English",
+    "zh": "中文"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "description": "您访问的页面不存在。",
+    "backHome": "返回首页"
+  }
+}

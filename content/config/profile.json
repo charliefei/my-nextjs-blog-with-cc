@@ -1,0 +1,99 @@
+{
+  "personal": {
+    "name": "Your Name",
+    "avatar": "/images/avatar.png",
+    "profession": "Full Stack Developer",
+    "jobStatus": {
+      "openToWork": true,
+      "availableFor": ["full-time", "freelance"]
+    },
+    "bio": {
+      "en": "A passionate developer who loves building modern web applications. I specialize in React, Next.js, and Node.js, with a focus on creating beautiful, performant, and accessible user experiences.",
+      "zh": "一名热爱构建现代 Web 应用的开发者。我专注于 React、Next.js 和 Node.js，致力于创造美观、高性能且无障碍的用户体验。"
+    },
+    "location": "Shanghai, China",
+    "email": "your.email@example.com"
+  },
+  "social": [
+    {
+      "platform": "github",
+      "url": "https://github.com/yourusername",
+      "username": "yourusername"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/yourusername"
+    },
+    {
+      "platform": "twitter",
+      "url": "https://twitter.com/yourusername"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:your.email@example.com"
+    }
+  ],
+  "skills": [
+    { "name": "React", "level": 90, "category": "Frontend" },
+    { "name": "Next.js", "level": 85, "category": "Frontend" },
+    { "name": "TypeScript", "level": 88, "category": "Frontend" },
+    { "name": "Tailwind CSS", "level": 80, "category": "Frontend" },
+    { "name": "Node.js", "level": 75, "category": "Backend" },
+    { "name": "Python", "level": 70, "category": "Backend" },
+    { "name": "PostgreSQL", "level": 65, "category": "Database" },
+    { "name": "MongoDB", "level": 60, "category": "Database" },
+    { "name": "Git", "level": 85, "category": "Tools" },
+    { "name": "Docker", "level": 70, "category": "Tools" }
+  ],
+  "projects": [
+    {
+      "title": "Personal Blog",
+      "description": "A modern personal blog built with Next.js, featuring internationalization, dark mode, and markdown-based content management.",
+      "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui"],
+      "github": "https://github.com/yourusername/blog",
+      "link": "https://yourblog.com"
+    },
+    {
+      "title": "Task Management App",
+      "description": "A full-stack task management application with real-time updates, user authentication, and team collaboration features.",
+      "technologies": ["React", "Node.js", "MongoDB", "Socket.io"],
+      "github": "https://github.com/yourusername/task-app"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Tech Company A",
+      "position": "Senior Frontend Developer",
+      "startDate": "2022-03",
+      "endDate": "2024-01",
+      "description": "Led the frontend team in building a modern SaaS platform. Implemented micro-frontend architecture and improved performance by 40%.",
+      "technologies": ["React", "Next.js", "TypeScript"],
+      "location": "Shanghai"
+    },
+    {
+      "company": "StartUp B",
+      "position": "Full Stack Developer",
+      "startDate": "2020-06",
+      "endDate": "2022-02",
+      "description": "Built and maintained multiple web applications. Developed REST APIs and integrated third-party services.",
+      "technologies": ["Vue.js", "Node.js", "PostgreSQL"],
+      "location": "Beijing"
+    }
+  ],
+  "resume": {
+    "pdfUrl": "/resume/resume.pdf",
+    "lastUpdated": "2024-01"
+  },
+  "theme": {
+    "primaryColor": "#6366f1",
+    "accentColor": "#8b5cf6"
+  },
+  "comments": {
+    "giscus": {
+      "repo": "yourusername/blog-comments",
+      "repoId": "your-repo-id",
+      "categoryId": "your-category-id",
+      "mapping": "pathname"
+    }
+  }
+}

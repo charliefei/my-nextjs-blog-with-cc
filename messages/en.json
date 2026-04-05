@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "resume": "Resume",
+    "experience": "Experience"
+  },
+  "home": {
+    "hero": {
+      "greeting": "Hi, I'm",
+      "profession": "a {profession}",
+      "openToWork": "Open to work"
+    },
+    "latestPosts": "Latest Posts",
+    "viewAll": "View all posts",
+    "skillsHighlight": "What I do"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "My thoughts, tutorials, and experiences",
+    "readMore": "Read more",
+    "readingTime": "{time} min read",
+    "tags": "Tags",
+    "categories": "Categories",
+    "searchPlaceholder": "Search posts...",
+    "noPosts": "No posts found",
+    "relatedPosts": "Related Posts",
+    "share": "Share this article",
+    "prevPost": "Previous",
+    "nextPost": "Next"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "Biography",
+    "social": "Connect with me",
+    "location": "Based in"
+  },
+  "resume": {
+    "title": "Resume",
+    "download": "Download PDF",
+    "lastUpdated": "Last updated: {date}"
+  },
+  "experience": {
+    "title": "Experience",
+    "skills": "Skills",
+    "projects": "Projects",
+    "work": "Work Experience",
+    "present": "Present"
+  },
+  "footer": {
+    "nav": {
+      "blog": "Blog",
+      "about": "About",
+      "resume": "Resume"
+    },
+    "copyright": "© {year} {name}. All rights reserved.",
+    "builtWith": "Built with Next.js & Tailwind CSS"
+  },
+  "theme": {
+    "switch": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "lang": {
+    "switch": "Switch language",
+    "en": "English",
+    "zh": "中文"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist.",
+    "backHome": "Back to Home"
+  }
+}
