@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { ProfileConfig } from "@/types/profile";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Calendar, FileText } from "lucide-react";
+import { Download, Calendar, FileText, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 interface ResumeContentProps {
@@ -27,41 +27,36 @@ export function ResumeContent({ profile }: ResumeContentProps) {
       </div>
 
       {/* Download Button */}
-      <div className="animate-slide-up stagger-1">
+      <div className="flex gap-4 animate-slide-up stagger-1">
         <Link href={profile.resume.pdfUrl} target="_blank" download>
           <Button variant="default" size="lg" className="gap-2">
             <Download className="h-5 w-5" />
             {t("download")}
           </Button>
         </Link>
+        <Link href={profile.resume.pdfUrl} target="_blank">
+          <Button variant="outline" size="lg" className="gap-2">
+            <ExternalLink className="h-5 w-5" />
+            Open in new tab
+          </Button>
+        </Link>
       </div>
 
-      {/* PDF Viewer Placeholder */}
-      <Card className="animate-slide-up stagger-2 glass">
-        <CardHeader>
+      {/* PDF Viewer */}
+      <Card className="animate-slide-up stagger-2 glass overflow-hidden">
+        <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-primary" />
             <span className="font-medium">Resume Preview</span>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="aspect-[1/1.4] bg-muted/50 rounded-lg flex items-center justify-center border border-border">
-            <div className="text-center space-y-4 p-8">
-              <FileText className="h-16 w-16 text-muted-foreground mx-auto" />
-              <p className="text-muted-foreground">
-                PDF preview is loading...
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Please download the PDF to view the full resume, or add your PDF file to
-                <code className="text-xs bg-muted px-1 rounded"> content/resume/resume.pdf</code>
-              </p>
-              <Link href={profile.resume.pdfUrl} target="_blank">
-                <Button variant="outline" className="gap-2">
-                  <Download className="h-4 w-4" />
-                  Open PDF
-                </Button>
-              </Link>
-            </div>
+        <CardContent className="p-0">
+          <div className="w-full" style={{ height: "calc(100vh - 300px)", minHeight: "600px" }}>
+            <iframe
+              src={profile.resume.pdfUrl}
+              className="w-full h-full border-0"
+              title="Resume PDF"
+            />
           </div>
         </CardContent>
       </Card>
