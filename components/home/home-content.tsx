@@ -253,7 +253,7 @@ function ArticleItem({ post, locale, index }: { post: PostMeta; locale: string; 
                 key={tag}
                 className="tag-item text-xs backdrop-blur-sm bg-white/10 border-white/20"
               >
-                #{tag}
+                {tag}
               </span>
             ))}
           </div>
