@@ -4,33 +4,6 @@ export interface SocialLink {
   username?: string;
 }
 
-export interface Skill {
-  name: string;
-  level: number;
-  category: string;
-}
-
-export interface Project {
-  title: string;
-  description: string;
-  technologies: string[];
-  link?: string;
-  github?: string;
-  image?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface WorkExperience {
-  company: string;
-  position: string;
-  startDate: string;
-  endDate?: string;
-  description: string;
-  technologies?: string[];
-  location?: string;
-}
-
 export interface ProfileConfig {
   personal: {
     name: string;
@@ -48,9 +21,6 @@ export interface ProfileConfig {
     email?: string;
   };
   social: SocialLink[];
-  skills: Skill[];
-  projects: Project[];
-  experience: WorkExperience[];
   resume: {
     pdfUrl: string;
     lastUpdated: string;

@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { ProfileConfig } from "@/types/profile";
+import { SkillCategory } from "@/types/experience";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,14 +19,21 @@ const socialIcons = {
 };
 
 interface AboutContentProps {
-  profile: ProfileConfig;
+  profile: {
+    personal: ProfileConfig["personal"];
+    social: ProfileConfig["social"];
+  };
   locale: string;
+  skills: SkillCategory[];
 }
 
-export function AboutContent({ profile, locale }: AboutContentProps) {
+export function AboutContent({ profile, locale, skills }: AboutContentProps) {
   const t = useTranslations("about");
   const tNav = useTranslations("nav");
   const bio = locale === "zh" ? profile.personal.bio.zh : profile.personal.bio.en;
+
+  // Flatten skills from all categories for preview
+  const flattenedSkills = skills.flatMap(cat => cat.skills).slice(0, 8);
 
   return (
     <div className="container mx-auto px-6 lg:px-8 py-12 space-y-8 max-w-4xl">
@@ -114,7 +122,7 @@ export function AboutContent({ profile, locale }: AboutContentProps) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            {profile.skills.slice(0, 8).map((skill) => (
+            {flattenedSkills.map((skill) => (
               <Badge key={skill.name} variant="secondary" className="px-3 py-1">
                 {skill.name}
               </Badge>

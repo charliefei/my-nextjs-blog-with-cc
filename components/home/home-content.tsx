@@ -9,16 +9,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GitHubIcon, TwitterIcon, LinkedInIcon, MailIcon } from "@/components/icons/social-icons";
 import { ProfileConfig } from "@/types/profile";
 import { PostMeta } from "@/types/post";
+import { SkillCategory, WorkExperience, Project } from "@/types/experience";
 
 interface HomeContentProps {
   profile: {
     personal: ProfileConfig["personal"];
-    skills: ProfileConfig["skills"];
-    experience: ProfileConfig["experience"];
-    projects: ProfileConfig["projects"];
     social: ProfileConfig["social"];
   };
   posts: PostMeta[];
+  experienceData: {
+    work: WorkExperience[];
+    projects: Project[];
+    skills: SkillCategory[];
+  };
 }
 
 const SocialIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -28,11 +31,14 @@ const SocialIconMap: Record<string, React.ComponentType<{ className?: string }>>
   email: MailIcon,
 };
 
-export function HomeContent({ profile, posts }: HomeContentProps) {
+export function HomeContent({ profile, posts, experienceData }: HomeContentProps) {
   const t = useTranslations("home");
   const tNav = useTranslations("nav");
   const locale = useLocale();
   const bio = locale === "zh" ? profile.personal.bio.zh : profile.personal.bio.en;
+
+  // Calculate total skills count from all categories
+  const totalSkills = experienceData.skills.reduce((acc, cat) => acc + cat.skills.length, 0);
 
   return (
     <div className="min-h-screen">
@@ -89,11 +95,11 @@ export function HomeContent({ profile, posts }: HomeContentProps) {
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <Code2 className="h-3 w-3 text-primary" />
-                  <span>{profile.skills.length} 技能</span>
+                  <span>{totalSkills} 技能</span>
                 </Badge>
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <Briefcase className="h-3 w-3 text-primary" />
-                  <span>{profile.experience.length} 经历</span>
+                  <span>{experienceData.work.length} 经历</span>
                 </Badge>
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <FileText className="h-3 w-3 text-primary" />
