@@ -27,9 +27,10 @@ export function Header() {
         {/* Logo */}
         <Link
           href={`/${locale}`}
-          className="font-heading text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
         >
-          <span className="gradient-text">Charlie Fei's Blog</span>
+          <img src="/logo.png" alt="Logo" className="h-8 w-8 object-contain" />
+          <span className="font-heading text-xl font-bold tracking-tight">Charlie Fei&apos;s Blog</span>
         </Link>
 
         {/* Desktop Navigation */}
