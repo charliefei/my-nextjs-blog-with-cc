@@ -1,5 +1,20 @@
 [
   {
+    "category": "后端开发",
+    "skills": [
+      {
+        "name": "Java",
+        "level": 95,
+        "description": "Spring Boot、MyBatis 和 REST API 设计"
+      },
+      {
+        "name": "Python",
+        "level": 75,
+        "description": "FastAPI、LangChain 和 LangGraph 框架"
+      }
+    ]
+  },
+  {
     "category": "前端开发",
     "skills": [
       {
@@ -30,26 +45,6 @@
     ]
   },
   {
-    "category": "后端开发",
-    "skills": [
-      {
-        "name": "Node.js",
-        "level": 85,
-        "description": "Express、Fastify 和 REST API 设计"
-      },
-      {
-        "name": "Python",
-        "level": 75,
-        "description": "Django、FastAPI 和数据处理"
-      },
-      {
-        "name": "GraphQL",
-        "level": 70,
-        "description": "Schema 设计和 Apollo Server/Client"
-      }
-    ]
-  },
-  {
     "category": "数据库",
     "skills": [
       {
@@ -58,9 +53,9 @@
         "description": "查询优化和数据库设计"
       },
       {
-        "name": "MongoDB",
+        "name": "MySQL",
         "level": 75,
-        "description": "文档建模和聚合管道"
+        "description": "查询优化和数据库设计"
       },
       {
         "name": "Redis",
@@ -86,6 +81,11 @@
         "name": "CI/CD",
         "level": 75,
         "description": "GitHub Actions、GitLab CI 和部署流程"
+      },
+      {
+        "name": "Aliyun",
+        "level": 65,
+        "description": "阿里云 ECS、OSS 和百炼大模型服务"
       },
       {
         "name": "AWS",
