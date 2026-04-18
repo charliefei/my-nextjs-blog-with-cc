@@ -364,6 +364,52 @@
 }
 
 /* ========================================
+   Compact Prose for Cards - Experience UI
+   ======================================== */
+
+.prose-compact {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-code: var(--accent);
+}
+
+.prose-compact p {
+  @apply text-sm leading-relaxed mb-3 text-muted-foreground;
+}
+
+.prose-compact ul, .prose-compact ol {
+  @apply pl-4 space-y-1.5;
+}
+
+.prose-compact li {
+  @apply text-sm leading-relaxed text-muted-foreground;
+}
+
+.prose-compact li::marker {
+  @apply text-primary/60;
+}
+
+.prose-compact strong {
+  @apply font-semibold text-foreground;
+}
+
+.prose-compact a {
+  @apply underline decoration-primary/30 hover:decoration-primary transition-colors;
+}
+
+.prose-compact code {
+  @apply bg-muted/50 px-1 py-0.5 rounded text-xs font-mono;
+}
+
+.prose-compact h1,
+.prose-compact h2,
+.prose-compact h3,
+.prose-compact h4 {
+  @apply text-sm font-semibold text-foreground mb-2 mt-4;
+}
+
+/* ========================================
    Animation utilities */
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;

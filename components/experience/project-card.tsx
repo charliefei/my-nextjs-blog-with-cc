@@ -16,7 +16,7 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <Card
-      className="glass overflow-hidden group hover:border-primary/30 transition-all duration-300 animate-fade-in h-full flex flex-col"
+      className="glass overflow-hidden group hover:border-primary/30 transition-colors duration-200 animate-fade-in h-full flex flex-col cursor-pointer"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       {project.image && (
@@ -24,24 +24,24 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <img
             src={project.image}
             alt={project.title}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
         </div>
       )}
-      <CardContent className="p-6 flex-1 flex flex-col">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="font-heading text-xl font-semibold group-hover:text-primary transition-colors">
+      <CardContent className="p-5 flex-1 flex flex-col">
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="font-heading text-base font-semibold group-hover:text-primary transition-colors">
             {project.title}
           </h3>
-          <div className="flex gap-2 ml-2">
+          <div className="flex gap-1.5 ml-2 shrink-0">
             {project.github && (
               <Link
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
               >
-                <GitHubIcon className="h-5 w-5" />
+                <GitHubIcon className="h-4 w-4" />
               </Link>
             )}
             {project.link && (
@@ -49,20 +49,20 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
               >
-                <ExternalLink className="h-5 w-5" />
+                <ExternalLink className="h-4 w-4" />
               </Link>
             )}
           </div>
         </div>
-        <p className="text-muted-foreground mb-3">{project.description}</p>
-        <div className="prose prose-sm dark:prose-invert max-w-none flex-1">
+        <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{project.description}</p>
+        <div className="prose-compact dark:prose-invert max-w-none flex-1">
           <ReactMarkdown>{project.content}</ReactMarkdown>
         </div>
-        <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
+        <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-border/50">
           {project.technologies.map((tech) => (
-            <Badge key={tech} variant="outline" className="text-xs">
+            <Badge key={tech} variant="outline" className="text-xs px-2 py-0.5">
               {tech}
             </Badge>
           ))}

@@ -24,22 +24,22 @@ export function SkillsDisplay({ skills }: SkillsDisplayProps) {
       {skills.map((category, index) => (
         <Card
           key={category.category}
-          className="glass animate-fade-in"
+          className="glass animate-fade-in hover:border-primary/30 transition-colors duration-200"
           style={{ animationDelay: `${index * 0.1}s` }}
         >
-          <CardHeader className="pb-2">
-            <h3 className="font-heading text-lg font-semibold">{category.category}</h3>
+          <CardHeader className="pb-2 p-5">
+            <h3 className="font-heading text-base font-semibold">{category.category}</h3>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 p-5">
             {category.skills.map((skill) => (
-              <div key={skill.name} className="space-y-1.5">
+              <div key={skill.name} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="font-medium text-sm">{skill.name}</span>
                   <span className="text-xs text-muted-foreground">{skill.level}%</span>
                 </div>
                 <ProgressBar value={skill.level} />
                 {skill.description && (
-                  <p className="text-xs text-muted-foreground">{skill.description}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{skill.description}</p>
                 )}
               </div>
             ))}

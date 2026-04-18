@@ -53,16 +53,16 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
       <div className="animate-slide-up stagger-2">
         {/* Work Experience */}
         {activeTab === "work" && (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {work.length > 0 ? (
               work.map((item, index) => (
                 <WorkCard key={item.slug} work={item} index={index} />
               ))
             ) : (
-              <Card className="glass p-8 text-center text-muted-foreground">
-                <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No work experience found.</p>
-                <p className="text-sm mt-2">Add markdown files to content/experience/work/</p>
+              <Card className="glass p-6 text-center text-muted-foreground">
+                <Briefcase className="h-10 w-10 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">No work experience found.</p>
+                <p className="text-xs mt-1.5">Add markdown files to content/experience/work/</p>
               </Card>
             )}
           </div>
@@ -73,26 +73,26 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
           skills.length > 0 ? (
             <SkillsDisplay skills={skills} />
           ) : (
-            <Card className="glass p-8 text-center text-muted-foreground">
-              <Code2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>No skills data found.</p>
-              <p className="text-sm mt-2">Add skills JSON to content/experience/skills/</p>
+            <Card className="glass p-6 text-center text-muted-foreground">
+              <Code2 className="h-10 w-10 mx-auto mb-3 opacity-50" />
+              <p className="text-sm">No skills data found.</p>
+              <p className="text-xs mt-1.5">Add skills JSON to content/experience/skills/</p>
             </Card>
           )
         )}
 
         {/* Projects */}
         {activeTab === "projects" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {projects.length > 0 ? (
               projects.map((project, index) => (
                 <ProjectCard key={project.slug} project={project} index={index} />
               ))
             ) : (
-              <Card className="glass p-8 text-center text-muted-foreground col-span-full">
-                <FolderGit2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No projects found.</p>
-                <p className="text-sm mt-2">Add markdown files to content/experience/projects/</p>
+              <Card className="glass p-6 text-center text-muted-foreground col-span-full">
+                <FolderGit2 className="h-10 w-10 mx-auto mb-3 opacity-50" />
+                <p className="text-sm">No projects found.</p>
+                <p className="text-xs mt-1.5">Add markdown files to content/experience/projects/</p>
               </Card>
             )}
           </div>
