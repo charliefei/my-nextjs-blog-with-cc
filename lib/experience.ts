@@ -8,6 +8,7 @@ import {
   ProjectFrontmatter,
   SkillCategory,
 } from "@/types/experience";
+import { getAssetPath } from "./utils";
 
 const contentDirectory = path.join(process.cwd(), "content/experience");
 
@@ -85,6 +86,7 @@ export function getAllProjects(locale: string): Project[] {
         ...(data as ProjectFrontmatter),
         slug,
         content,
+        image: data.image ? getAssetPath(data.image) : undefined,
       };
     })
     .sort((a, b) => a.order - b.order);
