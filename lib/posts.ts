@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Post, PostMeta, PostFrontmatter } from "@/types/post";
+import { getAssetPath } from "./utils";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -33,6 +34,9 @@ export function getAllPosts(locale: string): PostMeta[] {
       return {
         ...frontmatter,
         slug,
+        coverImage: frontmatter.coverImage
+          ? getAssetPath(frontmatter.coverImage)
+          : undefined,
         readingTime: calculateReadingTime(content),
       };
     })
@@ -56,6 +60,9 @@ export function getPostBySlug(slug: string, locale: string): Post | null {
       ...frontmatter,
       slug,
       content,
+      coverImage: frontmatter.coverImage
+        ? getAssetPath(frontmatter.coverImage)
+        : undefined,
       readingTime: calculateReadingTime(content),
     };
   } catch {

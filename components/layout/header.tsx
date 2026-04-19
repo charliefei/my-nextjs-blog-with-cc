@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LanguageSwitcher } from "./language-switcher";
+import { getAssetPath } from "@/lib/utils";
 
 const navItems = [
   { key: "home", href: "/" },
@@ -29,7 +30,7 @@ export function Header() {
           href={`/${locale}`}
           className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
         >
-          <img src="/logo.png" alt="Logo" className="h-8 w-8 object-contain" />
+          <img src={getAssetPath("/logo.png")} alt="Logo" className="h-8 w-8 object-contain" />
           <span className="font-heading text-xl font-bold tracking-tight">Charlie Fei&apos;s Blog</span>
         </Link>
 

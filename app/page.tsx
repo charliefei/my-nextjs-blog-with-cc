@@ -4,10 +4,11 @@ import { useEffect } from "react";
 
 export default function RootPage() {
   useEffect(() => {
-    // Check browser language preference
+    // Use basePath for redirect to preserve GitHub Pages path
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
     const browserLang = navigator.language.toLowerCase();
-    const targetLocale = browserLang.startsWith("zh") ? "/zh" : "/en";
-    window.location.replace(targetLocale);
+    const targetLocale = browserLang.startsWith("zh") ? "/zh/" : "/en/";
+    window.location.replace(`${basePath}${targetLocale}`);
   }, []);
 
   return (
