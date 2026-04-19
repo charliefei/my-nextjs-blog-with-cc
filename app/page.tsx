@@ -4,8 +4,10 @@ import { useEffect } from "react";
 
 export default function RootPage() {
   useEffect(() => {
-    // Use relative path to preserve basePath
-    window.location.replace("./en/");
+    // Check browser language preference
+    const browserLang = navigator.language.toLowerCase();
+    const targetLocale = browserLang.startsWith("zh") ? "/zh" : "/en";
+    window.location.replace(targetLocale);
   }, []);
 
   return (
