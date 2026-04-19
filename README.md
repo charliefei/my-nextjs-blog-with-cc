@@ -417,6 +417,8 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          GITHUB_PAGES: "true"
         run: npm run build
 
       - name: Upload artifact
@@ -445,8 +447,8 @@ jobs:
 #### 方法二：手动部署
 
 ```bash
-# 构建
-npm run build
+# 构建（设置环境变量启用 basePath）
+GITHUB_PAGES=true npm run build
 
 # 进入输出目录
 cd out
