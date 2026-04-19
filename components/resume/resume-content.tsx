@@ -57,7 +57,6 @@ export function ResumeContent({ profile }: ResumeContentProps) {
               src={`${getAssetPath(profile.resume.pdfUrl)}#toolbar=0`}
               className="w-full h-full border-0"
               title="Resume PDF"
-              sandbox="allow-scripts allow-same-origin"
             />
           </div>
         </CardContent>
