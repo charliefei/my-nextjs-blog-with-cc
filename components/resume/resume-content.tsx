@@ -29,18 +29,18 @@ export function ResumeContent({ profile }: ResumeContentProps) {
 
       {/* Download Button */}
       <div className="flex gap-4 animate-slide-up stagger-1">
-        <Link href={profile.resume.pdfUrl} target="_blank" download>
+        <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" download rel="noopener noreferrer">
           <Button variant="default" size="lg" className="gap-2">
             <Download className="h-5 w-5" />
             {t("download")}
           </Button>
-        </Link>
-        <Link href={profile.resume.pdfUrl} target="_blank">
+        </a>
+        <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" rel="noopener noreferrer">
           <Button variant="outline" size="lg" className="gap-2">
             <ExternalLink className="h-5 w-5" />
             Open in new tab
           </Button>
-        </Link>
+        </a>
       </div>
 
       {/* PDF Viewer */}
@@ -54,9 +54,10 @@ export function ResumeContent({ profile }: ResumeContentProps) {
         <CardContent className="p-0">
           <div className="w-full" style={{ height: "calc(100vh - 300px)", minHeight: "600px" }}>
             <iframe
-              src={getAssetPath(profile.resume.pdfUrl)}
+              src={`${getAssetPath(profile.resume.pdfUrl)}#toolbar=0`}
               className="w-full h-full border-0"
               title="Resume PDF"
+              sandbox="allow-scripts allow-same-origin"
             />
           </div>
         </CardContent>
