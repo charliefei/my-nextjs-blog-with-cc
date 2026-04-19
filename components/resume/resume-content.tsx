@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Calendar, FileText, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { getAssetPath } from "@/lib/utils";
 
 interface ResumeContentProps {
   profile: ProfileConfig;
@@ -53,7 +54,7 @@ export function ResumeContent({ profile }: ResumeContentProps) {
         <CardContent className="p-0">
           <div className="w-full" style={{ height: "calc(100vh - 300px)", minHeight: "600px" }}>
             <iframe
-              src={profile.resume.pdfUrl}
+              src={getAssetPath(profile.resume.pdfUrl)}
               className="w-full h-full border-0"
               title="Resume PDF"
             />
