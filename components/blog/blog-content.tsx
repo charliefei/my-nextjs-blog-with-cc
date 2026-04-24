@@ -171,8 +171,8 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
       {/* Article Content - Two Column Layout */}
       <div className="container mx-auto px-6 lg:px-8 py-8 lg:py-12 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-          {/* Main Content */}
-          <div className="flex-1 min-w-0">
+          {/* Main Content - order-2 on mobile, order-1 on desktop */}
+          <div className="flex-1 min-w-0 order-2 lg:order-1">
             {/* Content with enhanced markdown rendering */}
             <div className="prose prose-lg dark:prose-invert max-w-none animate-slide-up">
               <MarkdownRenderer content={post.content} />
@@ -231,9 +231,9 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
             )}
           </div>
 
-          {/* TOC Sidebar - renders both mobile and desktop versions */}
+          {/* TOC Sidebar - order-1 on mobile (above content), order-2 on desktop (right side) */}
           {tocItems.length > 0 && (
-            <aside className="w-full lg:w-56 shrink-0">
+            <aside className="w-full lg:w-56 shrink-0 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
               <TableOfContents items={tocItems} />
             </aside>
           )}
