@@ -1,5 +1,25 @@
 [
   {
+    "category": "Backend",
+    "skills": [
+      {
+        "name": "Node.js",
+        "level": 95,
+        "description": "Express, Nest.js, and REST API design"
+      },
+      {
+        "name": "Python",
+        "level": 90,
+        "description": "Django, FastAPI, and data processing"
+      },
+      {
+        "name": "Java",
+        "level": 95,
+        "description": "Spring Boot、MyBatis and REST API design"
+      }
+    ]
+  },
+  {
     "category": "Frontend",
     "skills": [
       {
@@ -19,33 +39,13 @@
       },
       {
         "name": "Tailwind CSS",
-        "level": 85,
+        "level": 95,
         "description": "Utility-first CSS with custom configurations"
       },
       {
         "name": "Vue.js",
-        "level": 80,
+        "level": 95,
         "description": "Vue 3 Composition API and Vuex/Pinia"
-      }
-    ]
-  },
-  {
-    "category": "Backend",
-    "skills": [
-      {
-        "name": "Node.js",
-        "level": 85,
-        "description": "Express, Fastify, and REST API design"
-      },
-      {
-        "name": "Python",
-        "level": 75,
-        "description": "Django, FastAPI, and data processing"
-      },
-      {
-        "name": "GraphQL",
-        "level": 70,
-        "description": "Schema design and Apollo Server/Client"
       }
     ]
   },
@@ -54,17 +54,17 @@
     "skills": [
       {
         "name": "PostgreSQL",
-        "level": 80,
+        "level": 95,
         "description": "Query optimization and database design"
       },
       {
-        "name": "MongoDB",
-        "level": 75,
-        "description": "Document modeling and aggregation pipelines"
+        "name": "MySQL",
+        "level": 95,
+        "description": "Query optimization and database design"
       },
       {
         "name": "Redis",
-        "level": 70,
+        "level": 95,
         "description": "Caching strategies and session management"
       }
     ]
@@ -74,7 +74,7 @@
     "skills": [
       {
         "name": "Git",
-        "level": 90,
+        "level": 95,
         "description": "Advanced workflows, rebasing, and conflict resolution"
       },
       {
@@ -88,8 +88,13 @@
         "description": "GitHub Actions, GitLab CI, and deployment pipelines"
       },
       {
+        "name": "Aliyun",
+        "level": 95,
+        "description": "Aliyun ECS, OSS, and BaiLian Large Model Services"
+      },
+      {
         "name": "AWS",
-        "level": 65,
+        "level": 95,
         "description": "EC2, S3, Lambda, and CloudFront"
       }
     ]
