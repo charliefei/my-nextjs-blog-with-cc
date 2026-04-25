@@ -57,7 +57,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
         {work.technologies && work.technologies.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-2">
             {work.technologies.map((tech) => (
-              <Badge key={tech} variant="secondary" className="text-xs px-2 py-0.5">
+              <Badge key={tech} variant="secondary" className="text-xs px-2 py-0.5 tag-item">
                 {tech}
               </Badge>
             ))}

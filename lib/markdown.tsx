@@ -19,7 +19,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h2 id={id} className="font-heading text-3xl font-semibold mt-12 mb-4 scroll-mt-20">
+            <h2 id={id} className="font-heading text-2xl md:text-3xl font-semibold mt-8 md:mt-12 mb-3 md:mb-4 scroll-mt-20">
               {children}
             </h2>
           );
@@ -28,7 +28,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h3 id={id} className="font-heading text-2xl font-semibold mt-8 mb-3 scroll-mt-20">
+            <h3 id={id} className="font-heading text-xl md:text-2xl font-semibold mt-6 md:mt-8 mb-2 md:mb-3 scroll-mt-20">
               {children}
             </h3>
           );
@@ -37,7 +37,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h4 id={id} className="font-heading text-xl font-semibold mt-6 mb-2 scroll-mt-20">
+            <h4 id={id} className="font-heading text-lg md:text-xl font-semibold mt-5 md:mt-6 mb-2 scroll-mt-20">
               {children}
             </h4>
           );
@@ -72,7 +72,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
               <CopyButton content={codeContent.trim()} />
               {/* Code container */}
               <pre
-                className="relative overflow-x-auto rounded-lg border border-border/40 p-4 pt-5 text-sm leading-relaxed shadow-sm font-mono"
+                className="relative overflow-x-auto rounded-lg border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono"
                 style={{ background: "var(--code-bg)", color: "var(--code-text)" }}
                 {...props}
               >

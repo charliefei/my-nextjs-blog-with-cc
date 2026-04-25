@@ -174,7 +174,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
           {/* Main Content - order-2 on mobile, order-1 on desktop */}
           <div className="flex-1 min-w-0 order-2 lg:order-1">
             {/* Content with enhanced markdown rendering */}
-            <div className="prose prose-lg dark:prose-invert max-w-none animate-slide-up">
+            <div className="prose dark:prose-invert max-w-none animate-slide-up">
               <MarkdownRenderer content={post.content} />
             </div>
 
