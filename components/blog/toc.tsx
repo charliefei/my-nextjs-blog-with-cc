@@ -52,15 +52,15 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 
   return (
     <>
-      {/* Mobile TOC Toggle Button */}
-      <div className="lg:hidden">
+      {/* Mobile TOC Toggle Button - sticky below header */}
+      <div className="lg:hidden sticky top-16 z-40 -mx-6 px-6 py-3 bg-background/95 backdrop-blur-sm border-b border-border/30">
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault();
             setIsOpen(!isOpen);
           }}
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors shadow-sm"
         >
           <List className="h-4 w-4" />
           目录
