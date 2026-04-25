@@ -6,7 +6,7 @@ import { ArrowRight, Clock, MapPin, Sparkles, FileText, Calendar, Briefcase, Cod
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GitHubIcon, TwitterIcon, LinkedInIcon, MailIcon } from "@/components/icons/social-icons";
+import { SocialLink } from "@/components/icons/social-icons";
 import { ProfileConfig } from "@/types/profile";
 import { PostMeta } from "@/types/post";
 import { SkillCategory, WorkExperience, Project } from "@/types/experience";
@@ -23,13 +23,6 @@ interface HomeContentProps {
     skills: SkillCategory[];
   };
 }
-
-const SocialIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  github: GitHubIcon,
-  twitter: TwitterIcon,
-  linkedin: LinkedInIcon,
-  email: MailIcon,
-};
 
 export function HomeContent({ profile, posts, experienceData }: HomeContentProps) {
   const t = useTranslations("home");
@@ -109,21 +102,15 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
 
               {/* Social Links */}
               <div className="flex items-center gap-3 pt-2">
-                {profile.social.map((link) => {
-                  const IconComponent = SocialIconMap[link.platform];
-                  if (!IconComponent) return null;
-                  return (
-                    <Link
-                      key={link.platform}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="h-9 w-9 rounded-full flex items-center justify-center border border-border/50 bg-background/50 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-200"
-                    >
-                      <IconComponent className="h-4 w-4" />
-                    </Link>
-                  );
-                })}
+                {profile.social.map((link) => (
+                  <SocialLink
+                    key={link.platform}
+                    platform={link.platform}
+                    url={link.url}
+                    variant="button"
+                    iconClassName="h-4 w-4"
+                  />
+                ))}
               </div>
 
               {/* Action Buttons */}

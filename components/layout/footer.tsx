@@ -2,16 +2,8 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
-import { GitHubIcon, TwitterIcon, LinkedInIcon, MailIcon, WebsiteIcon } from "@/components/icons/social-icons";
+import { SocialLink } from "@/components/icons/social-icons";
 import { ProfileConfig } from "@/types/profile";
-
-const socialIcons = {
-  github: GitHubIcon,
-  linkedin: LinkedInIcon,
-  twitter: TwitterIcon,
-  email: MailIcon,
-  website: WebsiteIcon,
-};
 
 interface FooterProps {
   profile: ProfileConfig;
@@ -65,21 +57,14 @@ export function Footer({ profile }: FooterProps) {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold">{t("nav.about")}</h3>
             <div className="flex gap-3">
-              {profile.social.map((social) => {
-                const Icon = socialIcons[social.platform];
-                return (
-                  <Link
-                    key={social.platform}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span className="sr-only">{social.platform}</span>
-                  </Link>
-                );
-              })}
+              {profile.social.map((social) => (
+                <SocialLink
+                  key={social.platform}
+                  platform={social.platform}
+                  url={social.url}
+                  variant="icon"
+                />
+              ))}
             </div>
           </div>
         </div>

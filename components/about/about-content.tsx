@@ -6,17 +6,9 @@ import { SkillCategory } from "@/types/experience";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, Sparkles, ExternalLink } from "lucide-react";
-import { GitHubIcon, TwitterIcon, LinkedInIcon, MailIcon, WebsiteIcon } from "@/components/icons/social-icons";
+import { MapPin, Sparkles } from "lucide-react";
+import { SocialLink } from "@/components/icons/social-icons";
 import Link from "next/link";
-
-const socialIcons = {
-  github: GitHubIcon,
-  linkedin: LinkedInIcon,
-  twitter: TwitterIcon,
-  email: MailIcon,
-  website: WebsiteIcon,
-};
 
 interface AboutContentProps {
   profile: {
@@ -90,27 +82,15 @@ export function AboutContent({ profile, locale, skills }: AboutContentProps) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            {profile.social.map((social) => {
-              const Icon = socialIcons[social.platform];
-              return (
-                <Link
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 md:p-4 rounded-lg border border-border hover:border-primary/30 hover:bg-primary/5 transition-colors group"
-                >
-                  <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <div className="flex-1">
-                    <p className="font-medium text-sm md:text-base capitalize">{social.platform}</p>
-                    {social.username && (
-                      <p className="text-xs md:text-sm text-muted-foreground">{social.username}</p>
-                    )}
-                  </div>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                </Link>
-              );
-            })}
+            {profile.social.map((social) => (
+              <SocialLink
+                key={social.platform}
+                platform={social.platform}
+                url={social.url}
+                username={social.username}
+                variant="card"
+              />
+            ))}
           </div>
         </CardContent>
       </Card>

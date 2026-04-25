@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface IconProps {
   className?: string;
 }
@@ -90,5 +92,100 @@ export function WebsiteIcon({ className }: IconProps) {
       <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
       <path d="M2 12h20" />
     </svg>
+  );
+}
+
+// Unified social icon mapping - single source of truth
+export const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  github: GitHubIcon,
+  twitter: TwitterIcon,
+  linkedin: LinkedInIcon,
+  email: MailIcon,
+  website: WebsiteIcon,
+};
+
+// Get icon component by platform name
+export function getSocialIcon(platform: string): React.ComponentType<{ className?: string }> | null {
+  return SOCIAL_ICON_MAP[platform] || null;
+}
+
+// Social link component - unified rendering
+interface SocialLinkProps {
+  platform: string;
+  url: string;
+  username?: string;
+  className?: string;
+  iconClassName?: string;
+  variant?: "icon" | "card" | "button";
+}
+
+// Helper to render icon by platform name
+function SocialIcon({ platform, className }: { platform: string; className?: string }) {
+  const iconComponent = SOCIAL_ICON_MAP[platform];
+  if (!iconComponent) return null;
+  const Icon = iconComponent;
+  return <Icon className={className} />;
+}
+
+export function SocialLink({
+  platform,
+  url,
+  username,
+  className = "",
+  iconClassName = "h-5 w-5",
+  variant = "icon",
+}: SocialLinkProps) {
+  // Check if platform is supported
+  if (!SOCIAL_ICON_MAP[platform]) return null;
+
+  const baseLinkProps = {
+    href: url,
+    target: "_blank",
+    rel: "noopener noreferrer",
+  };
+
+  if (variant === "icon") {
+    return (
+      <Link
+        {...baseLinkProps}
+        className={`text-muted-foreground hover:text-primary transition-colors ${className}`}
+      >
+        <SocialIcon platform={platform} className={iconClassName} />
+        <span className="sr-only">{platform}</span>
+      </Link>
+    );
+  }
+
+  if (variant === "button") {
+    return (
+      <Link
+        {...baseLinkProps}
+        className={`h-9 w-9 rounded-full flex items-center justify-center border border-border/50 bg-background/50 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-200 ${className}`}
+      >
+        <SocialIcon platform={platform} className={iconClassName} />
+        <span className="sr-only">{platform}</span>
+      </Link>
+    );
+  }
+
+  // card variant
+  return (
+    <Link
+      {...baseLinkProps}
+      className={`flex items-center gap-3 p-4 rounded-lg border border-border hover:border-primary/30 hover:bg-primary/5 transition-colors group ${className}`}
+    >
+      <SocialIcon platform={platform} className={`${iconClassName} text-muted-foreground group-hover:text-primary transition-colors`} />
+      <div className="flex-1">
+        <p className="font-medium text-sm md:text-base capitalize">{platform}</p>
+        {username && (
+          <p className="text-xs md:text-sm text-muted-foreground">{username}</p>
+        )}
+      </div>
+      <svg className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <polyline points="15 3 21 3 21 9" />
+        <line x1="10" y1="14" x2="21" y2="3" />
+      </svg>
+    </Link>
   );
 }
