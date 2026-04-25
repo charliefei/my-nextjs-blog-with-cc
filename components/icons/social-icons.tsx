@@ -95,6 +95,53 @@ export function WebsiteIcon({ className }: IconProps) {
   );
 }
 
+export function BilibiliIcon({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* TV body */}
+      <rect x="2" y="6" width="20" height="14" rx="3" ry="3" />
+      {/* Screen area */}
+      <rect x="5" y="9" width="14" height="8" rx="1" ry="1" />
+      {/* Antenna left */}
+      <path d="M7 3L9 6" />
+      {/* Antenna right */}
+      <path d="M17 3L15 6" />
+      {/* Eyes */}
+      <circle cx="9" cy="13" r="1" fill="currentColor" />
+      <circle cx="15" cy="13" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function YouTubeIcon({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* Play button in rounded rectangle */}
+      <rect x="2" y="4" width="20" height="16" rx="4" ry="4" />
+      {/* Play triangle */}
+      <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 // Unified social icon mapping - single source of truth
 export const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   github: GitHubIcon,
@@ -102,6 +149,8 @@ export const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: s
   linkedin: LinkedInIcon,
   email: MailIcon,
   website: WebsiteIcon,
+  bilibili: BilibiliIcon,
+  youtube: YouTubeIcon,
 };
 
 // Get icon component by platform name
