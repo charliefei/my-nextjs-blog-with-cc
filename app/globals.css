@@ -130,9 +130,12 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
   html {
     @apply font-sans scroll-smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold tracking-tight;
@@ -179,7 +182,7 @@
   }
 }
 
-/* Prose styles for blog content */
+/* Prose styles for blog content - overflow protection */
 .prose {
   --tw-prose-body: var(--foreground);
   --tw-prose-headings: var(--foreground);
@@ -187,6 +190,9 @@
   --tw-prose-code: var(--accent);
   --tw-prose-quotes: var(--muted-foreground);
   --tw-prose-quote-markers: var(--primary);
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 .prose h1 {
@@ -203,14 +209,20 @@
 
 .prose p {
   @apply text-base md:text-lg leading-relaxed mb-4 md:mb-6;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .prose a {
   @apply underline decoration-primary/30 hover:decoration-primary transition-colors;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 .prose code {
   @apply bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono text-accent;
+  word-wrap: break-word;
 }
 
 /* Inline code - distinctive styling */
@@ -218,17 +230,24 @@
   font-variant-ligatures: none;
   font-feature-settings: "tnum" on;
   color: var(--accent);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .prose pre {
-  @apply border border-border/40 rounded-lg overflow-hidden;
+  @apply border border-border/40 rounded-lg;
   background: var(--code-bg);
   color: var(--code-text);
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .prose pre code {
   @apply bg-transparent p-0 block;
   color: inherit;
+  white-space: pre;
+  display: block;
 }
 
 .prose blockquote {
@@ -255,9 +274,18 @@
   --code-text: oklch(0.88 0.02 260);
 }
 
-/* Code block container */
+/* Code block container - critical for mobile overflow */
 .code-block-wrapper {
   position: relative;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.code-block-wrapper pre {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Syntax highlighting tokens - Shiki generated styles */
@@ -350,6 +378,8 @@
 
 .prose li {
   @apply text-base md:text-lg leading-relaxed;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .prose li::marker {
@@ -366,10 +396,19 @@
 
 .prose th, .prose td {
   @apply px-2 md:px-4 py-2 border border-border/40;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .prose th {
   @apply bg-muted/30 font-semibold text-left;
+}
+
+/* Table overflow wrapper */
+.table-wrapper {
+  @apply overflow-x-auto rounded-lg border border-border/30 my-4;
 }
 
 /* ========================================

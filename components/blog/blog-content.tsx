@@ -66,12 +66,12 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                   </div>
 
                   {/* Title */}
-                  <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+                  <h1 className="font-heading text-xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
                     {post.title}
                   </h1>
 
                   {/* Description */}
-                  <p className="text-lg text-white/80 max-w-2xl leading-relaxed">
+                  <p className="text-base md:text-lg text-white/80 max-w-2xl leading-relaxed">
                     {post.description}
                   </p>
 
@@ -126,12 +126,12 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
               </Badge>
 
               {/* Title */}
-              <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              <h1 className="font-heading text-xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
                 {post.title}
               </h1>
 
               {/* Description */}
-              <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+              <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
                 {post.description}
               </p>
 
@@ -172,9 +172,9 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
       <div className="container mx-auto px-6 lg:px-8 py-8 lg:py-12 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
           {/* Main Content - order-2 on mobile, order-1 on desktop */}
-          <div className="flex-1 min-w-0 order-2 lg:order-1">
+          <div className="flex-1 min-w-0 order-2 lg:order-1 w-full max-w-full">
             {/* Content with enhanced markdown rendering */}
-            <div className="prose dark:prose-invert max-w-none animate-slide-up">
+            <div className="prose dark:prose-invert animate-slide-up w-full max-w-full overflow-x-hidden">
               <MarkdownRenderer content={post.content} />
             </div>
 

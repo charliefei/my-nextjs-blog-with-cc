@@ -144,7 +144,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
           {/* Tags */}
           <div className="flex flex-wrap gap-1 mt-3">
             {post.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs px-1.5 py-0.5 border-border/40">
+              <Badge key={tag} variant="outline" className="text-xs px-1.5 py-0.5 border-border/40 tag-item">
                 {tag}
               </Badge>
             ))}

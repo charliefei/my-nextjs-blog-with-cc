@@ -11,17 +11,12 @@ published: true
 ---
 
 ## spec-kit
-spec-kit官方仓库
 
-[https://github.com/github/spec-kit](https://github.com/github/spec-kit)
+[spec-kit官方仓库](https://github.com/github/spec-kit)
 
-sdd，规格驱动开发
+[sdd，规格驱动开发](https://github.com/github/spec-kit/blob/main/spec-driven.md)
 
-[https://github.com/github/spec-kit/blob/main/spec-driven.md](https://github.com/github/spec-kit/blob/main/spec-driven.md)
-
-spec-kit，详细流程
-
-[https://github.com/github/spec-kit#-detailed-process](https://github.com/github/spec-kit#-detailed-process)
+[spec-kit详细流程](https://github.com/github/spec-kit#-detailed-process)
 
 ### 快速开始
 #### 安装spec-kit
@@ -55,7 +50,7 @@ specify check
 ```
 
 #### 确定项目的principles
-在项目目录中启动你的 AI 助手。大多数代理会将 spec-kit 暴露为 `/speckit.*` 斜杠命令;Codex CLI 在技能模式下用的是 `$speckit-*`。
+在项目目录中启动你的 AI 助手。大多数代理会将 spec-kit 暴露为 `/speckit.*` 斜杠命令；Codex CLI 在技能模式下用的是 `$speckit-*`。
 
 使用 `/speckit.constitution` 命令创建项目的管理原则和开发指南，指导后续开发。
 
@@ -218,7 +213,6 @@ For example, extensions could add Jira integration, post-implementation code rev
 [社区拓展](https://github.com/github/spec-kit#-community-extensions)
 
 ```bash
-# Search available extensions
 specify extension search
 
 # Install an extension
@@ -235,7 +229,6 @@ For example, presets could restructure spec templates to require regulatory trac
 [预设说明](https://github.com/github/spec-kit/blob/main/presets/README.md)
 
 ```bash
-# Search available presets
 specify preset search
 
 # Install a preset

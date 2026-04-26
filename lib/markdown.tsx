@@ -42,6 +42,42 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </h4>
           );
         },
+        // Table wrapper for horizontal scroll
+        table: ({ children }) => (
+          <div className="table-wrapper">
+            <table className="w-full border-collapse text-sm md:text-base">
+              {children}
+            </table>
+          </div>
+        ),
+        th: ({ children }) => (
+          <th className="px-2 md:px-4 py-2 border border-border/40 bg-muted/30 font-semibold text-left">
+            {children}
+          </th>
+        ),
+        td: ({ children }) => (
+          <td className="px-2 md:px-4 py-2 border border-border/40">
+            {children}
+          </td>
+        ),
+        // Paragraph with overflow protection
+        p: ({ children }) => (
+          <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 break-words">
+            {children}
+          </p>
+        ),
+        // Link with word break for long URLs
+        a: ({ href, children, ...props }) => (
+          <a
+            href={href}
+            className="underline decoration-primary/30 hover:decoration-primary transition-colors break-all"
+            target={href?.startsWith('http') ? '_blank' : undefined}
+            rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+            {...props}
+          >
+            {children}
+          </a>
+        ),
         // Custom code block wrapper with copy button
         pre: ({ children, ...props }) => {
           const codeElement = children as React.ReactNode;
@@ -67,28 +103,27 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           }
 
           return (
-            <div className="code-block-wrapper group relative my-6">
+            <div className="code-block-wrapper group relative my-6 max-w-full overflow-hidden">
               {/* Copy button */}
               <CopyButton content={codeContent.trim()} />
               {/* Code container */}
               <pre
-                className="relative overflow-x-auto rounded-lg border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono"
-                style={{ background: "var(--code-bg)", color: "var(--code-text)" }}
-                {...props}
+                className="relative rounded-lg border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto"
+                style={{ background: "var(--code-bg)", color: "var(--code-text)", maxWidth: "100%" }}
               >
                 {children}
               </pre>
             </div>
           );
         },
-        // Inline code styling
+        // Inline code styling with overflow protection
         code: ({ className, children, ...props }) => {
           const isInline = !className;
 
           if (isInline) {
             return (
               <code
-                className="inline-code px-1.5 py-0.5 rounded-md bg-muted/70 border border-border/30 font-mono text-sm"
+                className="inline-code px-1.5 py-0.5 rounded-md bg-muted/70 border border-border/30 font-mono text-sm break-all"
                 {...props}
               >
                 {children}
@@ -101,7 +136,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           const lang = langMatch?.[1];
 
           return (
-            <code className={`font-mono ${className || ""}`} data-lang={lang} {...props}>
+            <code className={`font-mono ${className || ""}`} data-lang={lang} style={{ whiteSpace: "pre" }} {...props}>
               {children}
             </code>
           );
