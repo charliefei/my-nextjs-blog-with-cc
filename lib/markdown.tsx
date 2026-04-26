@@ -15,6 +15,15 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       remarkPlugins={[remarkGfm]}
       components={{
         // Custom heading components with anchor IDs
+        h1: ({ children }) => {
+          const text = String(children);
+          const id = slugify(text);
+          return (
+            <h1 id={id} className="font-heading text-3xl md:text-4xl font-bold mt-10 md:mt-14 mb-4 md:mb-6 scroll-mt-20">
+              {children}
+            </h1>
+          );
+        },
         h2: ({ children }) => {
           const text = String(children);
           const id = slugify(text);

@@ -1,7 +1,7 @@
 export interface TocItem {
   id: string;      // anchor ID (slug)
   text: string;    // heading text
-  level: number;   // 2 for h2, 3 for h3
+  level: number;   // 1-3 for h1-h3
 }
 
 /**
@@ -24,14 +24,19 @@ export function slugify(text: string): string {
 
 /**
  * Extract table of contents items from markdown content
- * Matches ## (h2) and ### (h3) headings
+ * Matches # (h1) to ### (h3) headings, excluding code blocks
  */
 export function extractToc(content: string): TocItem[] {
-  const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+  // Remove fenced code blocks (``` or ~~~ delimited) to avoid matching # comments inside
+  const contentWithoutCodeBlocks = content
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/~~~[\s\S]*?~~~/g, '');
+
+  const headingRegex = /^(#{1,3})\s+(.+)$/gm;
   const items: TocItem[] = [];
   let match;
 
-  while ((match = headingRegex.exec(content)) !== null) {
+  while ((match = headingRegex.exec(contentWithoutCodeBlocks)) !== null) {
     const level = match[1].length;
     const text = match[2].trim();
     const id = slugify(text);
