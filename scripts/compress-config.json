@@ -1,0 +1,12 @@
+{
+  "sizeThresholdMB": 1,
+  "quality": {
+    "jpeg": 80,
+    "png": 85,
+    "webp": 80,
+    "avif": 80
+  },
+  "convertToWebP": false,
+  "inputDir": "./out",
+  "extensions": ["jpg", "jpeg", "png", "webp", "avif"]
+}
