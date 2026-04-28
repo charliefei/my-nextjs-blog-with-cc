@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/flatten-rsc-paths.mjs && node scripts/compress-images.mjs",
+    "build": "next build && node scripts/flatten-rsc-paths.mjs",
     "build:only": "next build",
     "compress": "node scripts/compress-images.mjs",
     "start": "next start",
