@@ -11,10 +11,12 @@ Personal blog built with Next.js 16.2.2, Tailwind CSS v4, shadcn/ui (@base-ui/re
 ## Commands
 
 ```bash
-npm run dev      # Dev server at localhost:3000
-npm run build    # Static export to ./out
-npm run lint     # ESLint
-npm run start    # Serve static export (not used in dev)
+npm run dev           # Dev server at localhost:3000
+npm run build         # Static export to ./out + RSC path flattening
+npm run build:only    # Next.js build only (no post-processing)
+npm run lint          # ESLint
+npm run compress      # Optimize blog images (lossy WebP + AVIF)
+npm run start         # Serve static export (not used in dev)
 ```
 
 **GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `GITHUB_PAGES=true` and deploys.
@@ -53,24 +55,31 @@ lib/                           # Data access + utilities
   experience.ts                # getAllWorkExperiences, getAllProjects, getSkills
   profile.ts                   # getProfile, getPdfUrl
   toc.ts                       # Table of contents extraction
+  markdown.tsx                 # MDX renderer components
   utils.ts                     # cn() + getAssetPath()
 
 i18n/                          # next-intl config (routing.ts, request.ts)
 messages/                      # Translation JSON (en.json, zh.json)
+
+scripts/
+  flatten-rsc-paths.mjs        # Post-build: fixes RSC server-reference paths for static export
+  compress-images.mjs          # Lossy image compression (WebP + AVIF)
+  compress-config.json         # compress-images config
+
+.github/workflows/
+  deploy.yml                   # GitHub Pages CI: build with GITHUB_PAGES=true, deploy to gh-pages branch
 ```
 
 ## Key Patterns & Gotchas
 
 ### basePath / GitHub Pages
-- `next.config.ts`: `output: "export"`, `basePath` and `assetPrefix` only set when `GITHUB_PAGES=true`
+- `next.config.ts`: `output: "export"`, `trailingSlash: true`, `basePath`/`assetPrefix` only set when `GITHUB_PAGES=true`
 - Local dev: no basePath → pages load at `/`, `/blog`, etc.
 - Deploy: basePath is `/my-nextjs-blog-with-cc` → pages load at `/my-nextjs-blog-with-cc/blog`
+- `NEXT_PUBLIC_BASE_PATH` env var is set for client-side access (used in `getAssetPath()`)
 - **Use `getAssetPath(path)` for all static asset URLs** (images, PDFs in `<img>`, `<iframe>`, native `<a>`)
 - **Do NOT use `getAssetPath()` inside Next.js `<Link>` components** — they auto-prefix basePath, and double-prefixing breaks links
-
-### pdfUrl Handling
-- Native `<a>` tag (not `<Link>`) for PDF download links — `<Link>` intercepts and adds basePath again, causing double-prefixing
-- `<iframe>` and `<object>` for PDF preview need `getAssetPath()` manually since basePath doesn't apply to them
+- **PDF links:** native `<a>` tag (not `<Link>`) for PDF downloads — `<Link>` intercepts and double-prefixes; `<iframe>`/`<object>` for PDF preview need `getAssetPath()` manually
 
 ### Static Export Constraints
 - `output: "export"` means: no SSR, no middleware, no API routes, no `next/image` optimization

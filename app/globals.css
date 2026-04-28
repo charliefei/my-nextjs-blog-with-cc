@@ -378,6 +378,7 @@
   @apply text-base md:text-lg leading-relaxed;
   word-wrap: break-word;
   overflow-wrap: anywhere;
+  list-style: outside;
 }
 
 .prose li::marker {

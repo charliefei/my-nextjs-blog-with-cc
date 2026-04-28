@@ -118,7 +118,8 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                 onClick={() => scrollToHeading(item.id)}
                 className={`
                   block w-full text-left py-1.5 px-2 rounded text-sm transition-all duration-200
-                  ${item.level === 3 ? "pl-5 text-xs" : ""}
+                  ${item.level === 2 ? "pl-5 text-xs" : ""}
+                  ${item.level === 3 ? "pl-10 text-sm" : ""}
                   ${activeId === item.id
                     ? "text-primary bg-primary/10 font-medium"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"

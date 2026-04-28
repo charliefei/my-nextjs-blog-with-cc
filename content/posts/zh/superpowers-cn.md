@@ -1,7 +1,6 @@
 ---
 title: Superpowers
 description: Superpowers学习和使用总结，Process over Prompt（流程大于提示词），给 AI 套上软件工程的 “纪律与护栏”，让它像资深工程师一样先思考、再规划、后编码、必验证。
-coverImage: /images/posts/superpowers-cover.png
 date: 2026-04-27
 tags: [AICoding]
 category: 教程
