@@ -193,7 +193,7 @@ function ArticleItem({ post, locale, index }: { post: PostMeta; locale: string; 
   const t = useTranslations("blog");
 
   return (
-    <Link
+    <a
       href={`/${locale}/blog/${post.slug}`}
       className="group block p-4 rounded-lg bg-card/40 border border-border/30 hover:border-primary/20 hover:bg-card/60 transition-all duration-200 animate-fade-in"
       style={{ animationDelay: `${index * 0.05}s` }}
@@ -257,6 +257,6 @@ function ArticleItem({ post, locale, index }: { post: PostMeta; locale: string; 
           <ArrowRight className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
         </div>
       </div>
-    </Link>
+    </a>
   );
 }

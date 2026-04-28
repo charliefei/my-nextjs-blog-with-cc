@@ -18,7 +18,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
   if (featured) {
     // Featured card - elegant horizontal layout
     return (
-      <Link href={`/${locale}/blog/${post.slug}`} className="group block">
+      <a href={`/${locale}/blog/${post.slug}`} className="group block">
         <article className="relative overflow-hidden rounded-xl bg-card/50 border border-border/40 hover:border-primary/20 transition-all duration-300 hover:bg-card/80">
           {post.coverImage ? (
             <div className="flex flex-col md:flex-row gap-0">
@@ -103,13 +103,13 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
             </div>
           )}
         </article>
-      </Link>
+      </a>
     );
   }
 
   // Regular card - clean vertical layout
   return (
-    <Link href={`/${locale}/blog/${post.slug}`} className="group block h-full">
+    <a href={`/${locale}/blog/${post.slug}`} className="group block h-full">
       <article className="h-full flex flex-col overflow-hidden rounded-lg bg-card/40 border border-border/30 hover:border-primary/20 hover:bg-card/60 transition-all duration-300">
         {post.coverImage && (
           <div className="relative aspect-[16/9] overflow-hidden">
@@ -151,6 +151,6 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
           </div>
         </div>
       </article>
-    </Link>
+    </a>
   );
 }
