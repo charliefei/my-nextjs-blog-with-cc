@@ -103,6 +103,13 @@ scripts/
 - Skills: `content/experience/skills/{locale}.json`
 - Profile: `content/config/profile.json`
 
+### Internationalization (i18n)
+- All user-facing text MUST use `useTranslations()` from `next-intl` — never hardcode Chinese or English strings
+- Translation files: `messages/en.json` and `messages/zh.json` — keep both in sync when adding keys
+- Namespace per feature: `nav`, `home`, `blog`, `about`, `resume`, `experience`, `footer`, `theme`, `lang`, `notFound`
+- `t()` supports interpolation: `t("key", { count: n, name: "..." })`
+- Watch for easily-missed hardcoded strings: stat counters (`{n} 技能`), filter labels, sr-only text, empty state messages, badge text
+
 ### ui-ux-pro-max Skill
 - Installed at `.claude/skills/ui-ux-pro-max/`
 - **Correct shell command:**
