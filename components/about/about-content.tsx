@@ -22,6 +22,7 @@ interface AboutContentProps {
 export function AboutContent({ profile, locale, skills }: AboutContentProps) {
   const t = useTranslations("about");
   const tNav = useTranslations("nav");
+  const homeT = useTranslations("home");
   const bio = locale === "zh" ? profile.personal.bio.zh : profile.personal.bio.en;
 
   // Flatten skills from all categories for preview
@@ -53,7 +54,7 @@ export function AboutContent({ profile, locale, skills }: AboutContentProps) {
               {profile.personal.jobStatus.openToWork && (
                 <Badge variant="outline" className="gap-1 bg-primary/10 text-primary border-primary/20">
                   <Sparkles className="h-3 w-3" />
-                  Open to work
+                  {homeT("hero.openToWork")}
                 </Badge>
               )}
               <div className="flex items-center gap-2 text-muted-foreground justify-center md:justify-start text-sm md:text-base">
@@ -110,7 +111,7 @@ export function AboutContent({ profile, locale, skills }: AboutContentProps) {
           </div>
           <div className="mt-4">
             <Link href={`/${locale}/experience`} className="text-sm md:text-base text-primary hover:underline">
-              View full experience →
+              {t("viewExperience")}
             </Link>
           </div>
         </CardContent>

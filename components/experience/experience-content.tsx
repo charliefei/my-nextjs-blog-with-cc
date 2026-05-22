@@ -61,8 +61,8 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
             ) : (
               <Card className="glass p-6 text-center text-muted-foreground">
                 <Briefcase className="h-10 w-10 mx-auto mb-3 opacity-50" />
-                <p className="text-sm">No work experience found.</p>
-                <p className="text-xs mt-1.5">Add markdown files to content/experience/work/</p>
+                <p className="text-sm">{t("empty.work")}</p>
+                <p className="text-xs mt-1.5">{t("empty.workHint")}</p>
               </Card>
             )}
           </div>
@@ -75,8 +75,8 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
           ) : (
             <Card className="glass p-6 text-center text-muted-foreground">
               <Code2 className="h-10 w-10 mx-auto mb-3 opacity-50" />
-              <p className="text-sm">No skills data found.</p>
-              <p className="text-xs mt-1.5">Add skills JSON to content/experience/skills/</p>
+              <p className="text-sm">{t("empty.skills")}</p>
+              <p className="text-xs mt-1.5">{t("empty.skillsHint")}</p>
             </Card>
           )
         )}
@@ -91,8 +91,8 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
             ) : (
               <Card className="glass p-6 text-center text-muted-foreground col-span-full">
                 <FolderGit2 className="h-10 w-10 mx-auto mb-3 opacity-50" />
-                <p className="text-sm">No projects found.</p>
-                <p className="text-xs mt-1.5">Add markdown files to content/experience/projects/</p>
+                <p className="text-sm">{t("empty.projects")}</p>
+                <p className="text-xs mt-1.5">{t("empty.projectsHint")}</p>
               </Card>
             )}
           </div>

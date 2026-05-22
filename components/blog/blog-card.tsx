@@ -76,7 +76,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
 
                 {/* Read More Arrow */}
                 <div className="flex items-center text-primary text-sm font-medium mt-3 group-hover:gap-2 transition-all gap-1">
-                  <span>阅读全文</span>
+                  <span>{t("readMore")}</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>

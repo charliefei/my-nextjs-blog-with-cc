@@ -38,7 +38,7 @@ export function ResumeContent({ profile }: ResumeContentProps) {
         <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" rel="noopener noreferrer">
           <Button variant="outline" size="lg" className="gap-2">
             <ExternalLink className="h-5 w-5" />
-            Open in new tab
+            {t("openInNewTab")}
           </Button>
         </a>
       </div>
@@ -48,7 +48,7 @@ export function ResumeContent({ profile }: ResumeContentProps) {
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="font-medium">Resume Preview</span>
+            <span className="font-medium">{t("preview")}</span>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -67,16 +67,16 @@ export function ResumeContent({ profile }: ResumeContentProps) {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
             <Link href={`/${locale}/about`} className="p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <h3 className="font-semibold">About Me</h3>
-              <p className="text-sm text-muted-foreground">Learn more about my background</p>
+              <h3 className="font-semibold">{t("quickLinks.about")}</h3>
+              <p className="text-sm text-muted-foreground">{t("quickLinks.aboutDesc")}</p>
             </Link>
             <Link href={`/${locale}/experience`} className="p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <h3 className="font-semibold">Experience</h3>
-              <p className="text-sm text-muted-foreground">View my work history</p>
+              <h3 className="font-semibold">{t("quickLinks.experience")}</h3>
+              <p className="text-sm text-muted-foreground">{t("quickLinks.experienceDesc")}</p>
             </Link>
             <Link href={`/${locale}/blog`} className="p-4 rounded-lg hover:bg-muted/50 transition-colors">
-              <h3 className="font-semibold">Blog</h3>
-              <p className="text-sm text-muted-foreground">Read my articles</p>
+              <h3 className="font-semibold">{t("quickLinks.blog")}</h3>
+              <p className="text-sm text-muted-foreground">{t("quickLinks.blogDesc")}</p>
             </Link>
           </div>
         </CardContent>

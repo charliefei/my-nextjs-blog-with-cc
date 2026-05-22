@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { CalendarDays, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,7 @@ interface WorkCardProps {
 }
 
 export function WorkCard({ work, index }: WorkCardProps) {
-  const locale = useLocale();
+  const t = useTranslations("experience");
   const isCurrent = !work.endDate;
 
   return (
@@ -28,7 +28,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
               <h3 className="font-heading text-base font-semibold">{work.position}</h3>
               {isCurrent && (
                 <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs px-2 py-0.5">
-                  Current
+                  {t("current")}
                 </Badge>
               )}
             </div>
@@ -39,7 +39,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
           <div className="flex items-center gap-1">
             <CalendarDays className="h-3.5 w-3.5" />
             <span>
-              {work.startDate} - {work.endDate || (locale === "zh" ? "至今" : "Present")}
+              {work.startDate} - {work.endDate || t("present")}
             </span>
           </div>
           {work.location && (

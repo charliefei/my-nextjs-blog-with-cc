@@ -4,7 +4,9 @@
     "blog": "博客",
     "about": "关于",
     "resume": "简历",
-    "experience": "经历"
+    "experience": "经历",
+    "toggleMenu": "切换菜单",
+    "closeMenu": "关闭菜单"
   },
   "home": {
     "hero": {
@@ -13,40 +15,83 @@
       "openToWork": "正在寻找机会"
     },
     "latestPosts": "最新文章",
+    "latestPostsSubtitle": "最新发布的技术文章与思考",
     "viewAll": "查看全部",
-    "skillsHighlight": "我的专长"
+    "browseMore": "浏览更多文章",
+    "skillsHighlight": "我的专长",
+    "stats": {
+      "skills": "{count} 技能",
+      "experience": "{count} 经历",
+      "posts": "{count} 文章"
+    },
+    "noPosts": "暂无文章"
   },
   "blog": {
     "title": "博客",
     "description": "我的思考、教程和经验分享",
-    "readMore": "阅读更多",
+    "subtitle": "思考与灵感",
+    "readMore": "阅读全文",
     "readingTime": "{time} 分钟阅读",
     "tags": "标签",
     "categories": "分类",
     "searchPlaceholder": "搜索文章...",
     "noPosts": "暂无文章",
+    "noPostsHint": "尝试其他关键词或筛选条件",
     "relatedPosts": "相关文章",
     "share": "分享文章",
     "prevPost": "上一篇",
-    "nextPost": "下一篇"
+    "nextPost": "下一篇",
+    "showFilters": "高级筛选",
+    "hideFilters": "隐藏筛选",
+    "clearFilters": "清除筛选",
+    "clear": "清除",
+    "searchLabel": "搜索: {query}",
+    "toc": "目录",
+    "articleTags": "文章标签",
+    "viewMoreCategory": "查看更多 {category} 分类文章",
+    "browseAll": "浏览全部",
+    "stats": {
+      "articles": "篇",
+      "tags": "标签"
+    }
   },
   "about": {
     "title": "关于我",
     "bio": "个人简介",
     "social": "联系方式",
-    "location": "所在地"
+    "location": "所在地",
+    "viewExperience": "查看完整经历 →"
   },
   "resume": {
     "title": "个人简历",
     "download": "下载 PDF",
-    "lastUpdated": "更新于：{date}"
+    "lastUpdated": "更新于：{date}",
+    "openInNewTab": "在新标签页打开",
+    "preview": "简历预览",
+    "quickLinks": {
+      "about": "关于我",
+      "aboutDesc": "了解更多关于我的背景",
+      "experience": "工作经历",
+      "experienceDesc": "查看我的工作经历",
+      "blog": "博客",
+      "blogDesc": "阅读我的文章"
+    }
   },
   "experience": {
     "title": "工作经历",
     "skills": "专业技能",
     "projects": "项目经历",
     "work": "工作经历",
-    "present": "至今"
+    "present": "至今",
+    "current": "在职",
+    "empty": {
+      "work": "暂无工作经历。",
+      "workHint": "请在 content/experience/work/ 目录添加 markdown 文件",
+      "skills": "暂无技能数据。",
+      "skillsHint": "请在 content/experience/skills/ 目录添加 JSON 文件",
+      "projects": "暂无项目经历。",
+      "projectsHint": "请在 content/experience/projects/ 目录添加 markdown 文件"
+    }
   },
   "footer": {
     "nav": {
@@ -55,7 +100,8 @@
       "resume": "简历"
     },
     "copyright": "© {year} {name}。保留所有权利。",
-    "builtWith": "使用 Next.js 和 Tailwind CSS 构建"
+    "builtWith": "使用 Next.js 和 Tailwind CSS 构建",
+    "social": "联系方式"
   },
   "theme": {
     "switch": "切换主题",

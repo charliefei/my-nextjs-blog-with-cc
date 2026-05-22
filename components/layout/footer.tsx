@@ -55,7 +55,7 @@ export function Footer({ profile }: FooterProps) {
 
           {/* Social */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold">{t("nav.about")}</h3>
+            <h3 className="text-sm font-semibold">{t("social")}</h3>
             <div className="flex gap-3">
               {profile.social.map((social) => (
                 <SocialLink

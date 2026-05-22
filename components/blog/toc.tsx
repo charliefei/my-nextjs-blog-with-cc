@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { TocItem } from "@/lib/toc";
 import { List, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -9,6 +10,7 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ items }: TableOfContentsProps) {
+  const t = useTranslations("blog");
   const [activeId, setActiveId] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -63,7 +65,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
           className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors shadow-sm"
         >
           <List className="h-4 w-4" />
-          目录
+          {t("toc")}
           <span className="text-xs text-muted-foreground">({items.length})</span>
           {isOpen ? (
             <ChevronUp className="h-4 w-4 ml-1" />

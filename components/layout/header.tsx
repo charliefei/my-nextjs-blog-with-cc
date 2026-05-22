@@ -66,7 +66,7 @@ export function Header() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger className="md:hidden inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 w-9">
               <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
+              <span className="sr-only">{t("toggleMenu")}</span>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[380px] p-0" showCloseButton={false}>
               {/* Header */}
@@ -80,7 +80,7 @@ export function Header() {
                   className="inline-flex items-center justify-center rounded-md h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent/10 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                  <span className="sr-only">Close menu</span>
+                  <span className="sr-only">{t("closeMenu")}</span>
                 </button>
               </div>
 

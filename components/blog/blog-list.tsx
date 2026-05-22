@@ -65,7 +65,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
             <div className="inline-flex items-center gap-3 mb-2">
               <Sparkles className="h-4 w-4 text-primary/60" />
               <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                Thoughts & Ideas
+                {t("subtitle")}
               </span>
               <Sparkles className="h-4 w-4 text-primary/60" />
             </div>
@@ -83,13 +83,13 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
                 <FileText className="h-3.5 w-3.5 text-primary" />
                 <span className="font-medium">{posts.length}</span>
-                <span className="text-muted-foreground">篇</span>
+                <span className="text-muted-foreground">{t("stats.articles")}</span>
               </div>
               <div className="w-1 h-1 rounded-full bg-border" />
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
                 <Tag className="h-3.5 w-3.5 text-primary" />
                 <span className="font-medium">{tags.length}</span>
-                <span className="text-muted-foreground">标签</span>
+                <span className="text-muted-foreground">{t("stats.tags")}</span>
               </div>
             </div>
 
@@ -118,7 +118,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group"
             >
               <span className="group-hover:underline underline-offset-2">
-                {showFilters ? "隐藏筛选" : "高级筛选"}
+                {showFilters ? t("hideFilters") : t("showFilters")}
               </span>
               <span className="text-xs opacity-50">
                 {showFilters ? "↑" : "↓"}
@@ -137,7 +137,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               <div className="space-y-2.5">
                 <div className="flex items-center gap-1.5 text-xs font-medium text-foreground uppercase tracking-wide">
                   <FolderOpen className="h-3.5 w-3.5" />
-                  分类
+                  {t("categories")}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {categories.map((category) => (
@@ -159,7 +159,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               <div className="space-y-2.5">
                 <div className="flex items-center gap-1.5 text-xs font-medium text-foreground uppercase tracking-wide">
                   <Tag className="h-3.5 w-3.5" />
-                  标签
+                  {t("tags")}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {tags.map((tag) => (
@@ -185,7 +185,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
                   className="text-xs text-muted-foreground h-8"
                 >
                   <X className="h-3 w-3 mr-1.5" />
-                  清除筛选
+                  {t("clearFilters")}
                 </Button>
               </div>
             )}
@@ -217,7 +217,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
             )}
             {searchQuery && (
               <Badge variant="secondary" className="gap-1 text-xs">
-                搜索: {searchQuery}
+                {t("searchLabel", { query: searchQuery })}
                 <X
                   className="h-2.5 w-2.5 cursor-pointer hover:text-destructive transition-colors"
                   onClick={() => setSearchQuery("")}
@@ -228,7 +228,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               onClick={clearFilters}
               className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
             >
-              清除
+              {t("clear")}
             </button>
           </div>
         </div>
@@ -267,10 +267,10 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
             </div>
             <h3 className="text-lg font-semibold mb-1.5">{t("noPosts")}</h3>
             <p className="text-sm text-muted-foreground mb-5">
-              尝试其他关键词或筛选条件
+              {t("noPostsHint")}
             </p>
             <Button variant="outline" size="sm" onClick={clearFilters} className="h-9">
-              清除筛选
+              {t("clearFilters")}
             </Button>
           </div>
         )}

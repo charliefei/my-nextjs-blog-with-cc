@@ -88,15 +88,15 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <Code2 className="h-3 w-3 text-primary" />
-                  <span>{totalSkills} 技能</span>
+                  <span>{t("stats.skills", { count: totalSkills })}</span>
                 </Badge>
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <Briefcase className="h-3 w-3 text-primary" />
-                  <span>{experienceData.work.length} 经历</span>
+                  <span>{t("stats.experience", { count: experienceData.work.length })}</span>
                 </Badge>
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <FileText className="h-3 w-3 text-primary" />
-                  <span>{posts.length} 文章</span>
+                  <span>{t("stats.posts", { count: posts.length })}</span>
                 </Badge>
               </div>
 
@@ -141,7 +141,7 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
                     {t("latestPosts")}
                   </h2>
                   <p className="text-sm text-muted-foreground">
-                    最新发布的技术文章与思考
+                    {t("latestPostsSubtitle")}
                   </p>
                 </div>
                 <Link
@@ -149,7 +149,7 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
                   className="group flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   <span className="underline underline-offset-2 decoration-border/50 group-hover:decoration-primary">
-                    查看全部
+                    {t("viewAll")}
                   </span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
@@ -165,7 +165,7 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
               {/* Empty State */}
               {posts.length === 0 && (
                 <div className="py-12 text-center">
-                  <p className="text-muted-foreground">暂无文章</p>
+                  <p className="text-muted-foreground">{t("noPosts")}</p>
                 </div>
               )}
 
@@ -174,7 +174,7 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
                 <div className="pt-6 text-center">
                   <Link href={`/${locale}/blog`}>
                     <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-                      浏览更多文章
+                      {t("browseMore")}
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Button>
                   </Link>
@@ -190,8 +190,6 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
 
 // Article Item Component - Inline style for list
 function ArticleItem({ post, locale, index }: { post: PostMeta; locale: string; index: number }) {
-  const t = useTranslations("blog");
-
   return (
     <Link
       href={`/${locale}/blog/${post.slug}`}

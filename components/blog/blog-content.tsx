@@ -182,7 +182,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
             <div className="mt-12 pt-8 border-t border-border/30">
               <div className="tag-section-header mb-4">
                 <Tag className="h-4 w-4" />
-                <span>文章标签</span>
+                <span>{t("articleTags")}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
@@ -204,7 +204,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                 href={`/${locale}/blog?category=${post.category}`}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
               >
-                查看更多 {post.category} 分类文章
+                {t("viewMoreCategory", { category: post.category })}
               </Link>
             </div>
 
@@ -219,7 +219,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                     href={`/${locale}/blog`}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
-                    浏览全部
+                    {t("browseAll")}
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

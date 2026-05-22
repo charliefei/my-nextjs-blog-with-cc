@@ -4,7 +4,9 @@
     "blog": "Blog",
     "about": "About",
     "resume": "Resume",
-    "experience": "Experience"
+    "experience": "Experience",
+    "toggleMenu": "Toggle menu",
+    "closeMenu": "Close menu"
   },
   "home": {
     "hero": {
@@ -13,40 +15,83 @@
       "openToWork": "Open to work"
     },
     "latestPosts": "Latest Posts",
+    "latestPostsSubtitle": "Latest articles and thoughts",
     "viewAll": "View all posts",
-    "skillsHighlight": "What I do"
+    "browseMore": "Browse more articles",
+    "skillsHighlight": "What I do",
+    "stats": {
+      "skills": "{count} skills",
+      "experience": "{count} experiences",
+      "posts": "{count} articles"
+    },
+    "noPosts": "No posts yet"
   },
   "blog": {
     "title": "Blog",
     "description": "My thoughts, tutorials, and experiences",
+    "subtitle": "Thoughts & Ideas",
     "readMore": "Read more",
     "readingTime": "{time} min read",
     "tags": "Tags",
     "categories": "Categories",
     "searchPlaceholder": "Search posts...",
     "noPosts": "No posts found",
+    "noPostsHint": "Try different keywords or filters",
     "relatedPosts": "Related Posts",
     "share": "Share this article",
     "prevPost": "Previous",
-    "nextPost": "Next"
+    "nextPost": "Next",
+    "showFilters": "Filters",
+    "hideFilters": "Hide filters",
+    "clearFilters": "Clear filters",
+    "clear": "Clear",
+    "searchLabel": "Search: {query}",
+    "toc": "Table of Contents",
+    "articleTags": "Article Tags",
+    "viewMoreCategory": "View more {category} articles",
+    "browseAll": "Browse all",
+    "stats": {
+      "articles": "articles",
+      "tags": "tags"
+    }
   },
   "about": {
     "title": "About Me",
     "bio": "Biography",
     "social": "Connect with me",
-    "location": "Based in"
+    "location": "Based in",
+    "viewExperience": "View full experience →"
   },
   "resume": {
     "title": "Resume",
     "download": "Download PDF",
-    "lastUpdated": "Last updated: {date}"
+    "lastUpdated": "Last updated: {date}",
+    "openInNewTab": "Open in new tab",
+    "preview": "Resume Preview",
+    "quickLinks": {
+      "about": "About Me",
+      "aboutDesc": "Learn more about my background",
+      "experience": "Experience",
+      "experienceDesc": "View my work history",
+      "blog": "Blog",
+      "blogDesc": "Read my articles"
+    }
   },
   "experience": {
     "title": "Experience",
     "skills": "Skills",
     "projects": "Projects",
     "work": "Work Experience",
-    "present": "Present"
+    "present": "Present",
+    "current": "Current",
+    "empty": {
+      "work": "No work experience found.",
+      "workHint": "Add markdown files to content/experience/work/",
+      "skills": "No skills data found.",
+      "skillsHint": "Add skills JSON to content/experience/skills/",
+      "projects": "No projects found.",
+      "projectsHint": "Add markdown files to content/experience/projects/"
+    }
   },
   "footer": {
     "nav": {
@@ -55,7 +100,8 @@
       "resume": "Resume"
     },
     "copyright": "© {year} {name}. All rights reserved.",
-    "builtWith": "Built with Next.js & Tailwind CSS"
+    "builtWith": "Built with Next.js & Tailwind CSS",
+    "social": "Connect"
   },
   "theme": {
     "switch": "Toggle theme",
