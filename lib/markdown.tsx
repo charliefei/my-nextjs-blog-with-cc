@@ -9,49 +9,85 @@ interface MarkdownRendererProps {
   content: string;
 }
 
+function HeadingWithAnchor({
+  level,
+  id,
+  className,
+  children,
+}: {
+  level: 1 | 2 | 3 | 4;
+  id: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  const Tag = `h${level}` as const;
+  return (
+    <Tag id={id} className={className}>
+      {children}
+      <a href={`#${id}`} className="heading-anchor" aria-hidden="true">
+        #
+      </a>
+    </Tag>
+  );
+}
+
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
-        // Custom heading components with anchor IDs
         h1: ({ children }) => {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h1 id={id} className="font-heading text-3xl md:text-4xl font-bold mt-10 md:mt-14 mb-4 md:mb-6 scroll-mt-20">
+            <HeadingWithAnchor level={1} id={id} className="font-heading text-3xl md:text-4xl font-bold mt-10 md:mt-14 mb-4 md:mb-6 scroll-mt-24">
               {children}
-            </h1>
+            </HeadingWithAnchor>
           );
         },
         h2: ({ children }) => {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h2 id={id} className="font-heading text-2xl md:text-3xl font-semibold mt-8 md:mt-12 mb-3 md:mb-4 scroll-mt-20">
+            <HeadingWithAnchor level={2} id={id} className="font-heading text-2xl md:text-3xl font-semibold mt-8 md:mt-12 mb-3 md:mb-4 scroll-mt-24">
               {children}
-            </h2>
+            </HeadingWithAnchor>
           );
         },
         h3: ({ children }) => {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h3 id={id} className="font-heading text-xl md:text-2xl font-semibold mt-6 md:mt-8 mb-2 md:mb-3 scroll-mt-20">
+            <HeadingWithAnchor level={3} id={id} className="font-heading text-xl md:text-2xl font-semibold mt-6 md:mt-8 mb-2 md:mb-3 scroll-mt-24">
               {children}
-            </h3>
+            </HeadingWithAnchor>
           );
         },
         h4: ({ children }) => {
           const text = String(children);
           const id = slugify(text);
           return (
-            <h4 id={id} className="font-heading text-lg md:text-xl font-semibold mt-5 md:mt-6 mb-2 scroll-mt-20">
+            <HeadingWithAnchor level={4} id={id} className="font-heading text-lg md:text-xl font-semibold mt-5 md:mt-6 mb-2 scroll-mt-24">
               {children}
-            </h4>
+            </HeadingWithAnchor>
           );
         },
-        // Table wrapper for horizontal scroll
+        blockquote: ({ children }) => (
+          <blockquote className="border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-base md:text-lg rounded-r-lg py-3 px-4 md:px-5 my-6 bg-primary/4 dark:bg-primary/8">
+            {children}
+          </blockquote>
+        ),
+        img: ({ src, alt }) => (
+          <img
+            src={src}
+            alt={alt || ""}
+            className="prose-image rounded-xl shadow-lg my-6 w-full"
+            loading="lazy"
+          />
+        ),
+        hr: () => (
+          <div className="gradient-divider my-10" role="separator" />
+        ),
         table: ({ children }) => (
           <div className="table-wrapper">
             <table className="w-full border-collapse text-sm md:text-base">
@@ -69,17 +105,15 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             {children}
           </td>
         ),
-        // Paragraph with overflow protection
         p: ({ children }) => (
-          <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 break-words">
+          <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 wrap-break-word">
             {children}
           </p>
         ),
-        // Link with word break for long URLs
         a: ({ href, children, ...props }) => (
           <a
             href={href}
-            className="underline decoration-primary/30 hover:decoration-primary transition-colors break-all"
+            className="underline decoration-primary/30 hover:decoration-primary underline-offset-2 transition-colors break-all"
             target={href?.startsWith('http') ? '_blank' : undefined}
             rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
             {...props}
@@ -87,12 +121,10 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             {children}
           </a>
         ),
-        // Custom code block wrapper with copy button
-        pre: ({ children, ...props }) => {
+        pre: ({ children }) => {
           const codeElement = children as React.ReactNode;
           let codeContent = "";
 
-          // Extract code content for copy
           if (codeElement && typeof codeElement === "object") {
             const child = codeElement as { props?: { children?: React.ReactNode } };
             if (child.props?.children) {
@@ -113,11 +145,9 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           return (
             <div className="code-block-wrapper group relative my-6 max-w-full overflow-hidden">
-              {/* Copy button */}
               <CopyButton content={codeContent.trim()} />
-              {/* Code container */}
               <pre
-                className="relative rounded-lg border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto"
+                className="relative rounded-xl border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto"
                 style={{ background: "var(--code-bg)", color: "var(--code-text)", maxWidth: "100%" }}
               >
                 {children}
@@ -125,7 +155,6 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </div>
           );
         },
-        // Inline code styling with overflow protection
         code: ({ className, children, ...props }) => {
           const isInline = !className;
 
@@ -140,7 +169,6 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             );
           }
 
-          // Block code with language class
           const langMatch = className?.match(/language-(\w+)/);
           const lang = langMatch?.[1];
 

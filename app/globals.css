@@ -248,8 +248,8 @@
   display: block;
 }
 
-.prose blockquote {
-  @apply border-l-2 border-primary pl-3 md:pl-4 italic text-muted-foreground text-base md:text-lg;
+.prose blockquote p {
+  @apply mb-0;
 }
 
 .prose img {
@@ -386,7 +386,7 @@
 }
 
 .prose hr {
-  @apply my-8 border-border/30;
+  @apply my-10 border-none;
 }
 
 .prose table {
@@ -491,3 +491,183 @@
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
+
+/* ========================================
+   Reading Progress Bar
+   ======================================== */
+
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  background: transparent;
+}
+
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ========================================
+   Back to Top Button
+   ======================================== */
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.15);
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top-btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px oklch(0 0 0 / 0.2);
+}
+
+.back-to-top-btn.visible:hover {
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Enhanced Blockquote
+   ======================================== */
+
+.prose blockquote {
+  @apply border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-base md:text-lg;
+  @apply rounded-r-lg py-3 px-4 md:px-5 my-6;
+  border-image: linear-gradient(to bottom, var(--primary), var(--accent)) 1;
+  background: oklch(from var(--primary) l c h / 0.04);
+}
+
+.dark .prose blockquote {
+  background: oklch(from var(--primary) l c h / 0.08);
+}
+
+/* ========================================
+   Heading Anchor Links
+   ======================================== */
+
+.heading-anchor {
+  opacity: 0;
+  margin-left: 0.5rem;
+  color: var(--primary);
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor {
+  opacity: 0.7;
+}
+
+.heading-anchor:hover {
+  opacity: 1 !important;
+}
+
+/* ========================================
+   Enhanced Image Styles
+   ======================================== */
+
+.prose-image {
+  @apply rounded-xl shadow-lg transition-all duration-300 cursor-zoom-in;
+  @apply hover:shadow-xl hover:scale-[1.01];
+}
+
+/* ========================================
+   Decorative HR
+   ======================================== */
+
+.prose hr {
+  @apply my-10 border-none h-px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary) 20%,
+    var(--accent) 80%,
+    transparent
+  );
+  opacity: 0.4;
+}
+
+/* ========================================
+   TOC Enhancements
+   ======================================== */
+
+.toc-progress-track {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+  border-radius: 1px;
+}
+
+.toc-progress-indicator {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  border-radius: 1px;
+  transition: top 0.3s ease, height 0.3s ease;
+}
+
+.toc-item-active {
+  position: relative;
+}
+
+.toc-item-active::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
+/* ========================================
+   Gradient Divider
+   ======================================== */
+
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 20%,
+    var(--primary) 50%,
+    var(--border) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}

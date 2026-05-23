@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { ArrowLeft, Calendar, Clock, User, Tag, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { BlogCard } from "@/components/blog/blog-card";
 import { TableOfContents } from "@/components/blog/toc";
+import { ReadingProgress } from "@/components/blog/reading-progress";
 import { Post, PostMeta } from "@/types/post";
 import { MarkdownRenderer } from "@/lib/markdown";
 import { extractToc } from "@/lib/toc";
@@ -24,25 +24,22 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
 
   return (
     <article className="min-h-screen">
+      <ReadingProgress />
+
       {/* Hero Section with Cover */}
       <header className="relative">
         {post.coverImage ? (
-          // With Cover Image
-          <div className="relative h-[50vh] min-h-[400px] max-h-[600px] overflow-hidden">
-            {/* Background Image */}
+          <div className="relative h-[50vh] min-h-100 max-h-150 overflow-hidden">
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center bg-fixed"
               style={{ backgroundImage: `url(${post.coverImage})` }}
             />
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background/50 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/20" />
+            <div className="absolute inset-0 bg-linear-to-r from-background/40 to-transparent" />
 
-            {/* Content */}
             <div className="absolute inset-0 flex items-end">
               <div className="container mx-auto px-6 lg:px-8 pb-12 pt-20 max-w-5xl">
-                <div className="space-y-6 animate-slide-up">
-                  {/* Back Button */}
+                <div className="space-y-5 animate-slide-up">
                   <Link href={`/${locale}/blog`}>
                     <Button
                       variant="ghost"
@@ -54,7 +51,6 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                     </Button>
                   </Link>
 
-                  {/* Category Badge */}
                   <div className="flex items-center gap-3">
                     <Badge
                       variant="outline"
@@ -65,17 +61,17 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                     </Badge>
                   </div>
 
-                  {/* Title */}
-                  <h1 className="font-heading text-lg md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+                  <h1 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
                     {post.title}
                   </h1>
 
-                  {/* Description */}
+                  {/* Decorative accent line */}
+                  <div className="w-16 h-1 rounded-full bg-linear-to-r from-primary to-accent" />
+
                   <p className="text-sm md:text-lg text-white/80 max-w-2xl leading-relaxed">
                     {post.description}
                   </p>
 
-                  {/* Meta Info Row */}
                   <div className="flex flex-wrap items-center gap-4 text-white/70 text-sm">
                     <div className="flex items-center gap-1.5">
                       <User className="h-3.5 w-3.5" />
@@ -95,8 +91,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                     </div>
                   </div>
 
-                  {/* Tags Row - Editorial style */}
-                  <div className="flex flex-wrap gap-2 pt-2">
+                  <div className="flex flex-wrap gap-2 pt-1">
                     {post.tags.map((tag) => (
                       <span key={tag} className="tag-item backdrop-blur-sm bg-white/10 border-white/20">
                         {tag}
@@ -108,10 +103,8 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
             </div>
           </div>
         ) : (
-          // Without Cover Image - Clean Header
-          <div className="relative bg-gradient-to-b from-muted to-background">
-            <div className="container mx-auto px-6 lg:px-8 py-12 max-w-5xl space-y-6 animate-fade-in">
-              {/* Back Button */}
+          <div className="relative bg-linear-to-b from-muted/80 to-background">
+            <div className="container mx-auto px-6 lg:px-8 py-12 md:py-16 max-w-5xl space-y-5 animate-fade-in">
               <Link href={`/${locale}/blog`}>
                 <Button variant="ghost" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
@@ -119,23 +112,22 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                 </Button>
               </Link>
 
-              {/* Category Badge */}
               <Badge className="gap-1.5 px-3 py-1">
                 <FolderOpen className="h-3 w-3" />
                 {post.category}
               </Badge>
 
-              {/* Title */}
-              <h1 className="font-heading text-xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              <h1 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
                 {post.title}
               </h1>
 
-              {/* Description */}
+              {/* Decorative accent line */}
+              <div className="w-16 h-1 rounded-full bg-linear-to-r from-primary to-accent" />
+
               <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
                 {post.description}
               </p>
 
-              {/* Meta Info Row */}
               <div className="flex flex-wrap items-center gap-4 text-muted-foreground text-sm">
                 <div className="flex items-center gap-1.5">
                   <User className="h-3.5 w-3.5" />
@@ -155,8 +147,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                 </div>
               </div>
 
-              {/* Tags Row */}
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex flex-wrap gap-2 pt-1">
                 {post.tags.map((tag) => (
                   <span key={tag} className="tag-item">
                     {tag}
@@ -171,14 +162,13 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
       {/* Article Content - Two Column Layout */}
       <div className="container mx-auto px-6 lg:px-8 py-8 lg:py-12 max-w-7xl">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-          {/* Main Content - order-2 on mobile, order-1 on desktop */}
-          <div className="flex-1 min-w-0 order-2 lg:order-1 w-full max-w-full">
-            {/* Content with enhanced markdown rendering */}
+          {/* Main Content */}
+          <div className="flex-1 min-w-0 order-2 lg:order-1 w-full max-w-full lg:max-w-3xl">
             <div className="prose dark:prose-invert animate-slide-up w-full max-w-full overflow-x-hidden">
               <MarkdownRenderer content={post.content} />
             </div>
 
-            {/* Tags Section - Editorial style */}
+            {/* Tags Section */}
             <div className="mt-12 pt-8 border-t border-border/30">
               <div className="tag-section-header mb-4">
                 <Tag className="h-4 w-4" />
@@ -208,7 +198,8 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
               </Link>
             </div>
 
-            <Separator className="my-10" />
+            {/* Gradient Divider */}
+            <div className="gradient-divider my-10" />
 
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
@@ -222,7 +213,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
                     {t("browseAll")}
                   </Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                   {relatedPosts.map((relatedPost) => (
                     <BlogCard key={relatedPost.slug} post={relatedPost} />
                   ))}
@@ -231,9 +222,9 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
             )}
           </div>
 
-          {/* TOC Sidebar - order-1 on mobile (above content), order-2 on desktop (right side) */}
+          {/* TOC Sidebar */}
           {tocItems.length > 0 && (
-            <aside className="w-full lg:w-56 shrink-0 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
+            <aside className="w-full lg:w-64 shrink-0 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
               <TableOfContents items={tocItems} />
             </aside>
           )}
