@@ -140,6 +140,62 @@
   }
 }
 
+/* ========================================
+   Custom Scrollbar
+   ======================================== */
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.01 260 / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.01 260 / 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.02 270 / 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.02 270 / 0.6);
+}
+
+/* Thin scrollbar variant for TOC, code blocks, etc. */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.01 260 / 0.2);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.01 260 / 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.7 0.01 260 / 0.3) transparent;
+}
+
+.dark * {
+  scrollbar-color: oklch(0.4 0.02 270 / 0.4) transparent;
+}
+
 /* Gradient background for hero sections */
 @layer utilities {
   .gradient-bg {
