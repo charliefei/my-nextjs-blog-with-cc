@@ -206,7 +206,7 @@
 }
 
 .prose p {
-  @apply text-base md:text-lg leading-relaxed mb-4 md:mb-6;
+  @apply text-sm md:text-base leading-relaxed mb-4 md:mb-5;
   word-wrap: break-word;
   overflow-wrap: anywhere;
 }
@@ -375,7 +375,7 @@
 }
 
 .prose li {
-  @apply text-base md:text-lg leading-relaxed;
+  @apply text-sm md:text-base leading-relaxed;
   word-wrap: break-word;
   overflow-wrap: anywhere;
   list-style: outside;
@@ -408,6 +408,19 @@
 /* Table overflow wrapper */
 .table-wrapper {
   @apply overflow-x-auto rounded-lg border border-border/30 my-4;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  min-width: max-content;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  min-width: 8rem;
+  max-width: 12rem;
+  white-space: normal;
+  word-break: break-word;
 }
 
 /* ========================================
@@ -558,7 +571,7 @@
    ======================================== */
 
 .prose blockquote {
-  @apply border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-base md:text-lg;
+  @apply border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-sm md:text-base;
   @apply rounded-r-lg py-3 px-4 md:px-5 my-6;
   border-image: linear-gradient(to bottom, var(--primary), var(--accent)) 1;
   background: oklch(from var(--primary) l c h / 0.04);

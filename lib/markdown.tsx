@@ -73,7 +73,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           );
         },
         blockquote: ({ children }) => (
-          <blockquote className="border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-base md:text-lg rounded-r-lg py-3 px-4 md:px-5 my-6 bg-primary/4 dark:bg-primary/8">
+          <blockquote className="border-l-3 pl-4 md:pl-5 italic text-muted-foreground text-sm md:text-base rounded-r-lg py-3 px-4 md:px-5 my-6 bg-primary/4 dark:bg-primary/8">
             {children}
           </blockquote>
         ),
@@ -90,7 +90,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         ),
         table: ({ children }) => (
           <div className="table-wrapper">
-            <table className="w-full border-collapse text-sm md:text-base">
+            <table className="border-collapse text-sm md:text-base">
               {children}
             </table>
           </div>
@@ -106,7 +106,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           </td>
         ),
         p: ({ children }) => (
-          <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 wrap-break-word">
+          <p className="text-sm md:text-base leading-relaxed mb-4 md:mb-5 wrap-break-word">
             {children}
           </p>
         ),
@@ -143,16 +143,12 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             }
           }
 
+          const lineCount = codeContent.trim().split("\n").length;
+
           return (
-            <div className="code-block-wrapper group relative my-6 max-w-full overflow-hidden">
-              <CopyButton content={codeContent.trim()} />
-              <pre
-                className="relative rounded-xl border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto"
-                style={{ background: "var(--code-bg)", color: "var(--code-text)", maxWidth: "100%" }}
-              >
-                {children}
-              </pre>
-            </div>
+            <CodeBlock content={codeContent.trim()} collapsible={lineCount > 15}>
+              {children}
+            </CodeBlock>
           );
         },
         code: ({ className, children, ...props }) => {
@@ -185,9 +181,10 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   );
 }
 
-// Copy button component
-function CopyButton({ content }: { content: string }) {
+// Code block with copy + collapse
+function CodeBlock({ content, collapsible, children }: { content: string; collapsible: boolean; children: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
+  const [collapsed, setCollapsed] = useState(collapsible);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
@@ -196,21 +193,55 @@ function CopyButton({ content }: { content: string }) {
   };
 
   return (
-    <button
-      onClick={handleCopy}
-      className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 rounded-md bg-muted/50 hover:bg-muted border border-border/30 text-muted-foreground hover:text-foreground"
-      aria-label="Copy code"
-    >
-      {copied ? (
-        <CheckIcon className="h-3.5 w-3.5 text-primary" />
-      ) : (
-        <CopyIcon className="h-3.5 w-3.5" />
+    <div className="code-block-wrapper group relative my-6 max-w-full overflow-hidden">
+      {/* Toolbar */}
+      <div className="absolute top-3 right-3 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        {collapsible && (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="p-1.5 rounded-md bg-muted/50 hover:bg-muted border border-border/30 text-muted-foreground hover:text-foreground"
+            aria-label={collapsed ? "Expand code" : "Collapse code"}
+          >
+            <CollapseIcon className="h-3.5 w-3.5" collapsed={collapsed} />
+          </button>
+        )}
+        <button
+          onClick={handleCopy}
+          className="p-1.5 rounded-md bg-muted/50 hover:bg-muted border border-border/30 text-muted-foreground hover:text-foreground"
+          aria-label="Copy code"
+        >
+          {copied ? (
+            <CheckIcon className="h-3.5 w-3.5 text-primary" />
+          ) : (
+            <CopyIcon className="h-3.5 w-3.5" />
+          )}
+        </button>
+      </div>
+
+      {/* Code container */}
+      <pre
+        className={`relative rounded-xl border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto transition-[max-height] duration-300 ${collapsed ? "max-h-50 overflow-hidden" : ""}`}
+        style={{ background: "var(--code-bg)", color: "var(--code-text)", maxWidth: "100%" }}
+      >
+        {children}
+      </pre>
+
+      {/* Collapsed fade overlay + expand button */}
+      {collapsed && (
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center">
+          <div className="w-full h-16 bg-linear-to-t from-(--code-bg) to-transparent" />
+          <button
+            onClick={() => setCollapsed(false)}
+            className="absolute bottom-2 px-3 py-1 text-xs font-medium rounded-md bg-muted/80 hover:bg-muted border border-border/40 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            &#x25BC; Expand
+          </button>
+        </div>
       )}
-    </button>
+    </div>
   );
 }
 
-// Simple icons
 function CopyIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -224,6 +255,24 @@ function CheckIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function CollapseIcon({ className, collapsed }: { className?: string; collapsed: boolean }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {collapsed ? (
+        <>
+          <polyline points="7 13 12 18 17 13" />
+          <polyline points="7 6 12 11 17 6" />
+        </>
+      ) : (
+        <>
+          <polyline points="17 11 12 6 7 11" />
+          <polyline points="17 18 12 13 7 18" />
+        </>
+      )}
     </svg>
   );
 }
