@@ -57,10 +57,19 @@
   },
   "about": {
     "title": "About Me",
+    "eyebrow": "About this blog",
     "bio": "Biography",
     "social": "Connect with me",
+    "socialHint": "Find my code, writing, and updates across these channels.",
     "location": "Based in",
-    "viewExperience": "View full experience →"
+    "toolkit": "Selected toolkit",
+    "toolkitHint": "A quick scan of the technologies I use most often.",
+    "viewExperience": "View full experience",
+    "stats": {
+      "skillsLabel": "Toolkit",
+      "skillsValue": "{count} skills",
+      "focusLabel": "Focus"
+    }
   },
   "resume": {
     "title": "Resume",

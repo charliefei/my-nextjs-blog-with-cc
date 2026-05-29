@@ -57,10 +57,19 @@
   },
   "about": {
     "title": "关于我",
+    "eyebrow": "关于这个博客",
     "bio": "个人简介",
     "social": "联系方式",
+    "socialHint": "在这些渠道查看我的代码、写作和动态。",
     "location": "所在地",
-    "viewExperience": "查看完整经历 →"
+    "toolkit": "常用技术",
+    "toolkitHint": "快速了解我最常使用的技术栈。",
+    "viewExperience": "查看完整经历",
+    "stats": {
+      "skillsLabel": "技术栈",
+      "skillsValue": "{count} 项技能",
+      "focusLabel": "方向"
+    }
   },
   "resume": {
     "title": "个人简历",
