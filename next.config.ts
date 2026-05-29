@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   assetPrefix: isGitHubPages ? `/${repoName}/` : undefined,
   env: {
     NEXT_PUBLIC_BASE_PATH: isGitHubPages ? `/${repoName}` : "",
+    NEXT_PUBLIC_SITE_URL: process.env.NODE_ENV === "production"
+      ? "https://charliefei.github.io"
+      : "http://localhost:3000"
   },
 };
 
