@@ -11,13 +11,15 @@ Personal blog built with Next.js 16.2.2, Tailwind CSS v4, shadcn/ui (@base-ui/re
 ## Commands
 
 ```bash
-npm run dev      # Dev server at localhost:3000
-npm run build    # Static export to ./out
-npm run lint     # ESLint
-npm run start    # Serve static export (not used in dev)
+npm run dev           # Dev server at localhost:3000
+npm run build         # Static export to ./out + RSC path flattening
+npm run build:only    # Next.js build only (no post-processing)
+npm run lint          # ESLint
+npm run compress      # Optimize blog images (lossy WebP + AVIF)
+npm run start         # Serve static export (not used in dev)
 ```
 
-**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `GITHUB_PAGES=true` and deploys.
+**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `DEPLOY_TARGET=project` and deploys to project site. User site (`charliefei.github.io`): build without the env var and push `out/` directly.
 
 ## Architecture
 
@@ -53,24 +55,32 @@ lib/                           # Data access + utilities
   experience.ts                # getAllWorkExperiences, getAllProjects, getSkills
   profile.ts                   # getProfile, getPdfUrl
   toc.ts                       # Table of contents extraction
+  markdown.tsx                 # MDX renderer components
   utils.ts                     # cn() + getAssetPath()
 
 i18n/                          # next-intl config (routing.ts, request.ts)
 messages/                      # Translation JSON (en.json, zh.json)
+
+scripts/
+  flatten-rsc-paths.mjs        # Post-build: fixes RSC server-reference paths for static export
+  compress-images.mjs          # Lossy image compression (WebP + AVIF)
+  compress-config.json         # compress-images config
+
+.github/workflows/
+  deploy.yml                   # GitHub Pages CI: build with DEPLOY_TARGET=project, deploy to gh-pages branch
 ```
 
 ## Key Patterns & Gotchas
 
 ### basePath / GitHub Pages
-- `next.config.ts`: `output: "export"`, `basePath` and `assetPrefix` only set when `GITHUB_PAGES=true`
-- Local dev: no basePath → pages load at `/`, `/blog`, etc.
-- Deploy: basePath is `/my-nextjs-blog-with-cc` → pages load at `/my-nextjs-blog-with-cc/blog`
+- `next.config.ts`: `output: "export"`, `trailingSlash: true`
+- Two deploy modes controlled by `DEPLOY_TARGET` env var:
+  - **User site** (default): `charliefei.github.io` — no basePath, assets from `/`
+  - **Project site** (`DEPLOY_TARGET=project`): `charliefei.github.io/my-nextjs-blog-with-cc` — basePath/assetPrefix = `/my-nextjs-blog-with-cc`
+- `NEXT_PUBLIC_BASE_PATH` is `""` for user site, `/<repoName>` for project site (used in `getAssetPath()`)
 - **Use `getAssetPath(path)` for all static asset URLs** (images, PDFs in `<img>`, `<iframe>`, native `<a>`)
 - **Do NOT use `getAssetPath()` inside Next.js `<Link>` components** — they auto-prefix basePath, and double-prefixing breaks links
-
-### pdfUrl Handling
-- Native `<a>` tag (not `<Link>`) for PDF download links — `<Link>` intercepts and adds basePath again, causing double-prefixing
-- `<iframe>` and `<object>` for PDF preview need `getAssetPath()` manually since basePath doesn't apply to them
+- **PDF links:** native `<a>` tag (not `<Link>`) for PDF downloads — `<Link>` intercepts and double-prefixes; `<iframe>`/`<object>` for PDF preview need `getAssetPath()` manually
 
 ### Static Export Constraints
 - `output: "export"` means: no SSR, no middleware, no API routes, no `next/image` optimization
@@ -93,6 +103,13 @@ messages/                      # Translation JSON (en.json, zh.json)
 - Work/Project entries: `content/experience/{work|projects}/{locale}/*.md`
 - Skills: `content/experience/skills/{locale}.json`
 - Profile: `content/config/profile.json`
+
+### Internationalization (i18n)
+- All user-facing text MUST use `useTranslations()` from `next-intl` — never hardcode Chinese or English strings
+- Translation files: `messages/en.json` and `messages/zh.json` — keep both in sync when adding keys
+- Namespace per feature: `nav`, `home`, `blog`, `about`, `resume`, `experience`, `footer`, `theme`, `lang`, `notFound`
+- `t()` supports interpolation: `t("key", { count: n, name: "..." })`
+- Watch for easily-missed hardcoded strings: stat counters (`{n} 技能`), filter labels, sr-only text, empty state messages, badge text
 
 ### ui-ux-pro-max Skill
 - Installed at `.claude/skills/ui-ux-pro-max/`

@@ -19,7 +19,7 @@ npm run compress      # Optimize blog images (lossy WebP + AVIF)
 npm run start         # Serve static export (not used in dev)
 ```
 
-**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `GITHUB_PAGES=true` and deploys.
+**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `DEPLOY_TARGET=project` and deploys to project site. User site (`charliefei.github.io`): build without the env var and push `out/` directly.
 
 ## Architecture
 
@@ -67,16 +67,17 @@ scripts/
   compress-config.json         # compress-images config
 
 .github/workflows/
-  deploy.yml                   # GitHub Pages CI: build with GITHUB_PAGES=true, deploy to gh-pages branch
+  deploy.yml                   # GitHub Pages CI: build with DEPLOY_TARGET=project, deploy to gh-pages branch
 ```
 
 ## Key Patterns & Gotchas
 
 ### basePath / GitHub Pages
-- `next.config.ts`: `output: "export"`, `trailingSlash: true`, `basePath`/`assetPrefix` only set when `GITHUB_PAGES=true`
-- Local dev: no basePath → pages load at `/`, `/blog`, etc.
-- Deploy: basePath is `/my-nextjs-blog-with-cc` → pages load at `/my-nextjs-blog-with-cc/blog`
-- `NEXT_PUBLIC_BASE_PATH` env var is set for client-side access (used in `getAssetPath()`)
+- `next.config.ts`: `output: "export"`, `trailingSlash: true`
+- Two deploy modes controlled by `DEPLOY_TARGET` env var:
+  - **User site** (default): `charliefei.github.io` — no basePath, assets from `/`
+  - **Project site** (`DEPLOY_TARGET=project`): `charliefei.github.io/my-nextjs-blog-with-cc` — basePath/assetPrefix = `/my-nextjs-blog-with-cc`
+- `NEXT_PUBLIC_BASE_PATH` is `""` for user site, `/<repoName>` for project site (used in `getAssetPath()`)
 - **Use `getAssetPath(path)` for all static asset URLs** (images, PDFs in `<img>`, `<iframe>`, native `<a>`)
 - **Do NOT use `getAssetPath()` inside Next.js `<Link>` components** — they auto-prefix basePath, and double-prefixing breaks links
 - **PDF links:** native `<a>` tag (not `<Link>`) for PDF downloads — `<Link>` intercepts and double-prefixes; `<iframe>`/`<object>` for PDF preview need `getAssetPath()` manually

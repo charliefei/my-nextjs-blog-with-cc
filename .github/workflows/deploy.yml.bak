@@ -34,7 +34,7 @@ jobs:
 
       - name: Build
         env:
-          GITHUB_PAGES: "true"
+          DEPLOY_TARGET: project
         run: npm run build
 
       - name: Upload artifact

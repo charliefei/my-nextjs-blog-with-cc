@@ -1,6 +1,6 @@
 # Personal Blog
 
-一个现代化的个人博客网站，支持中英文切换、亮暗主题切换、Markdown 文章管理，可部署到 Vercel 或 GitHub Pages。
+一个现代化的个人博客网站，支持中英文切换、亮暗主题切换、Markdown 文章管理，静态导出到 GitHub Pages。
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
@@ -15,7 +15,7 @@
 - 💼 **经历展示** - 技能、项目、工作经历时间线
 - 🔍 **博客搜索** - 标签和分类筛选
 - 📱 **响应式设计** - 适配桌面、平板、手机
-- ⚡ **静态导出** - 支持 Vercel 和 GitHub Pages 部署
+- ⚡ **静态导出** - 支持 GitHub Pages 用户站点和项目站点双模式部署
 
 ## 技术栈
 
@@ -90,7 +90,11 @@ npm run dev
 ### 构建生产版本
 
 ```bash
+# 用户站点部署（charliefei.github.io）
 npm run build
+
+# 项目站点部署（charliefei.github.io/my-nextjs-blog-with-cc）
+DEPLOY_TARGET=project npm run build
 ```
 
 静态文件将生成在 `out/` 目录。
@@ -326,60 +330,35 @@ order: 1
 
 ## 部署指南
 
-### Vercel 部署（推荐）
-
-Vercel 是 Next.js 的官方托管平台，提供自动构建和部署。
-
-#### 步骤 1：推送代码到 GitHub
-
-```bash
-git add .
-git commit -m "feat: update blog content"
-git push
-```
-
-#### 步骤 2：连接 Vercel
-
-1. 访问 https://vercel.com
-2. 使用 GitHub 账号登录
-3. 点击 **Add New...** → **Project**
-4. 选择你的 GitHub 仓库
-5. 点击 **Import**
-
-#### 步骤 3：配置项目
-
-Vercel 会自动检测 Next.js 项目，无需额外配置。
-
-| 配置项 | 值 |
-|--------|-----|
-| Framework Preset | Next.js |
-| Root Directory | `./` |
-| Build Command | `npm run build` |
-| Output Directory | `out` (自动检测) |
-
-#### 步骤 4：部署
-
-点击 **Deploy**，等待构建完成。
-
-#### 自定义域名
-
-1. 进入项目 **Settings** → **Domains**
-2. 添加你的自定义域名
-3. 按照提示配置 DNS 记录
-
-#### 环境变量（如需要）
-
-在 **Settings** → **Environment Variables** 中添加。
-
----
-
 ### GitHub Pages 部署
 
-GitHub Pages 提供免费的静态网站托管。
+支持两种部署模式，通过 `DEPLOY_TARGET` 环境变量切换。
 
-#### 方法一：GitHub Actions 自动部署（推荐）
+#### 部署模式
 
-##### 步骤 1：创建工作流文件
+| 模式 | 环境变量 | 仓库 | 访问地址 |
+|------|----------|------|----------|
+| **用户站点** | 不设置（默认） | `charliefei.github.io` | `https://charliefei.github.io/` |
+| **项目站点** | `DEPLOY_TARGET=project` | `my-nextjs-blog-with-cc` | `https://charliefei.github.io/my-nextjs-blog-with-cc/` |
+
+- **用户站点**：静态资源从根路径 `/` 提供，无需 basePath
+- **项目站点**：静态资源从 `/my-nextjs-blog-with-cc/` 子路径提供，自动添加 basePath 前缀
+
+#### 用户站点部署（charliefei.github.io）
+
+将 `out/` 目录推送到 `charliefei.github.io` 仓库：
+
+```bash
+npm run build
+cd out
+git init
+git add .
+git commit -m "deploy"
+git remote add origin git@github.com:charliefei/charliefei.github.io.git
+git push -f origin main
+```
+
+#### 项目站点部署（GitHub Actions，推荐）
 
 创建 `.github/workflows/deploy.yml`：
 
@@ -388,7 +367,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main', 'master']
+    branches: ['main']
   workflow_dispatch:
 
 permissions:
@@ -418,7 +397,7 @@ jobs:
 
       - name: Build
         env:
-          GITHUB_PAGES: "true"
+          DEPLOY_TARGET: project
         run: npm run build
 
       - name: Upload artifact
@@ -438,31 +417,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-##### 步骤 2：启用 GitHub Pages
-
-1. 进入仓库 **Settings** → **Pages**
-2. Source 选择 **GitHub Actions**
-3. 推送代码后自动部署
-
-#### 方法二：手动部署
-
-```bash
-# 构建（设置环境变量启用 basePath）
-GITHUB_PAGES=true npm run build
-
-# 进入输出目录
-cd out
-
-# 初始化 git（如果使用 gh-pages 分支）
-git init
-git add .
-git commit -m "deploy"
-git branch -M gh-pages
-git remote add origin git@github.com:yourusername/blog_ai.git
-git push -f origin gh-pages
-```
-
-然后在 GitHub Pages 设置中选择 `gh-pages` 分支。
+然后在仓库 **Settings** → **Pages** 中，Source 选择 **GitHub Actions**。
 
 #### 自定义域名
 
@@ -493,7 +448,7 @@ git push -f origin gh-pages
 
 1. 修改 `content/posts/` 下的 Markdown 文件
 2. 运行 `npm run build` 验证构建
-3. 推送代码，Vercel/GitHub Actions 会自动部署
+3. 推送代码，GitHub Actions 会自动部署
 
 ### 如何添加新的语言？
 
