@@ -4,6 +4,13 @@ export interface TocItem {
   level: number;   // 1-3 for h1-h3
 }
 
+export interface TocNode {
+  id: string;
+  text: string;
+  level: number;
+  children: TocNode[];
+}
+
 /**
  * Generate a URL-friendly slug from text
  * Supports both English and Chinese characters
@@ -49,4 +56,38 @@ export function extractToc(content: string): TocItem[] {
   }
 
   return items;
+}
+
+/**
+ * Build a hierarchical tree from flat TocItem list.
+ * Uses a stack-based algorithm: each item becomes a child of the
+ * nearest preceding item with a lower level number.
+ *
+ * Example:
+ *   h2 "Intro"  → root
+ *   h3 "Setup"  → child of "Intro"
+ *   h2 "Usage"  → root (same level as Intro, pops h3)
+ */
+export function buildTocTree(items: TocItem[]): TocNode[] {
+  const roots: TocNode[] = [];
+  const stack: TocNode[] = [];
+
+  for (const item of items) {
+    const node: TocNode = { id: item.id, text: item.text, level: item.level, children: [] };
+
+    // Pop stack until we find a node with a strictly lower level (i.e., a parent)
+    while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
+      stack.pop();
+    }
+
+    if (stack.length === 0) {
+      roots.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+
+    stack.push(node);
+  }
+
+  return roots;
 }

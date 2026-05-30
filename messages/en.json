@@ -47,6 +47,8 @@
     "clear": "Clear",
     "searchLabel": "Search: {query}",
     "toc": "Table of Contents",
+    "tocExpandAll": "Expand all",
+    "tocCollapseAll": "Collapse all",
     "articleTags": "Article Tags",
     "viewMoreCategory": "View more {category} articles",
     "browseAll": "Browse all",

@@ -47,6 +47,8 @@
     "clear": "清除",
     "searchLabel": "搜索: {query}",
     "toc": "目录",
+    "tocExpandAll": "全部展开",
+    "tocCollapseAll": "全部折叠",
     "articleTags": "文章标签",
     "viewMoreCategory": "查看更多 {category} 分类文章",
     "browseAll": "浏览全部",
