@@ -86,6 +86,7 @@ scripts/
 - `output: "export"` means: no SSR, no middleware, no API routes, no `next/image` optimization
 - All i18n routes must be pre-generated via `generateStaticParams()`
 - `setRequestLocale()` must be called in each locale layout for static rendering
+- **`serve out` / local static serving keeps CRLF, so it CANNOT reproduce GitHub-Pages-only RSC byte-desync bugs** — Pages strips `\r`. To debug a prod-only Flight crash: fetch the `.txt` RSC payload and walk it like React's row scanner (states 0–4 in `react-server-dom-webpack-client.browser.development.js`); `T<hex>,` rows consume exactly `<hex>` bytes with NO trailing-newline skip.
 
 ### shadcn/ui Uses @base-ui/react
 - Not Radix UI — this project uses `@base-ui/react` as the headless primitive library for shadcn components
@@ -112,6 +113,7 @@ scripts/
 
 ### Content Management
 - Blog posts: `content/posts/{locale}/*.md` — frontmatter fields: title, description, coverImage, date, tags, category, slug, published
+- **Markdown MUST be read with CRLF→LF normalization** — `lib/posts.ts` does `.readFileSync(...).replace(/\r\n/g, "\n")`. RSC Flight text-rows (`<id>:T<hexBYTElen>,...`) declare an exact byte length; GitHub Pages strips CRLF→LF on deploy, so CRLF source makes served bytes shorter than the header → Flight parser desyncs → client-nav crash `enqueueModel is not a function`. `.gitattributes` (`eol=lf`) enforces LF at checkout as a second layer. Any new markdown read path must normalize too.
 - Work/Project entries: `content/experience/{work|projects}/{locale}/*.md`
 - Skills: `content/experience/skills/{locale}.json`
 - Profile: `content/config/profile.json`

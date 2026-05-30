@@ -26,7 +26,7 @@ export function getAllPosts(locale: string): PostMeta[] {
     .map((fileName) => {
       const slug = fileName.replace(/\.md$/, "");
       const fullPath = path.join(localePostsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
       const { data, content } = matter(fileContents);
 
       const frontmatter = data as PostFrontmatter;
@@ -51,7 +51,7 @@ export function getPostBySlug(slug: string, locale: string): Post | null {
 
   try {
     const fullPath = path.join(localePostsDirectory, `${slug}.md`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
     const { data, content } = matter(fileContents);
 
     const frontmatter = data as PostFrontmatter;
