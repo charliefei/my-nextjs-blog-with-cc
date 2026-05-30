@@ -16,9 +16,10 @@ interface BlogContentProps {
   post: Post;
   relatedPosts: PostMeta[];
   locale: string;
+  highlightedCode: Record<string, string>;
 }
 
-export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
+export function BlogContent({ post, relatedPosts, locale, highlightedCode }: BlogContentProps) {
   const t = useTranslations("blog");
   const tocItems = extractToc(post.content);
 
@@ -165,7 +166,7 @@ export function BlogContent({ post, relatedPosts, locale }: BlogContentProps) {
           {/* Main Content */}
           <div className="flex-1 min-w-0 order-2 lg:order-1 w-full max-w-full lg:max-w-3xl">
             <div className="prose dark:prose-invert animate-slide-up w-full max-w-full overflow-x-hidden">
-              <MarkdownRenderer content={post.content} />
+              <MarkdownRenderer content={post.content} highlightedCode={highlightedCode} />
             </div>
 
             {/* Tags Section */}

@@ -342,29 +342,39 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Syntax highlighting tokens - Shiki generated styles */
+/* ========================================
+   Shiki syntax highlighting (rehype-pretty-code)
+   Dual-theme: spans carry --shiki-light / --shiki-dark vars,
+   toggled by the .dark class (next-themes), not prefers-color-scheme.
+   ======================================== */
+.prose pre code[data-theme*=" "],
+.prose pre code[data-theme*=" "] span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+}
+
+.dark .prose pre code[data-theme*=" "],
+.dark .prose pre code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+}
+
 .prose pre [data-line] {
   display: block;
   min-height: 1lh;
 }
 
-/* Code background styling */
-.prose pre.bg-code-style {
-  background: var(--code-bg);
-}
-
-/* Highlighted line - mobile friendly */
-.prose pre .line--highlighted {
-  background: oklch(0.25 0.03 260 / 0.5);
+/* Highlighted line (```lang {1,3-4}) - mobile friendly */
+.prose pre [data-highlighted-line] {
+  background: oklch(0.55 0.03 260 / 0.12);
   margin-left: -0.75rem;
   padding-left: 0.75rem;
   margin-right: -0.75rem;
   padding-right: 0.75rem;
-  border-radius: 0;
 }
 
 @media (min-width: 768px) {
-  .prose pre .line--highlighted {
+  .prose pre [data-highlighted-line] {
     margin-left: -1rem;
     padding-left: 1rem;
     margin-right: -1rem;
@@ -372,18 +382,18 @@
   }
 }
 
-.dark .prose pre .line--highlighted {
-  background: oklch(0.22 0.03 260 / 0.5);
+.dark .prose pre [data-highlighted-line] {
+  background: oklch(0.7 0.03 260 / 0.12);
 }
 
-/* Highlighted word/chars */
-.prose pre .word--highlighted {
-  background: oklch(0.55 0.18 270 / 0.25);
-  border-radius: 0.2rem;
-  padding: 0.1rem 0.2rem;
+/* Highlighted word/chars (```lang /word/) */
+.prose pre [data-highlighted-chars] {
+  background: oklch(0.55 0.18 270 / 0.22);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.25rem;
 }
 
-/* Line numbers (if enabled) */
+/* Line numbers (showLineNumbers) */
 .prose pre [data-line-number]::before {
   content: attr(data-line-number);
   display: inline-block;

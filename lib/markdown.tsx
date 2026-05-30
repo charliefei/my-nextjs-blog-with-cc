@@ -7,6 +7,7 @@ import { slugify } from "@/lib/toc";
 
 interface MarkdownRendererProps {
   content: string;
+  highlightedCode?: Record<string, string>;
 }
 
 function HeadingWithAnchor({
@@ -31,7 +32,7 @@ function HeadingWithAnchor({
   );
 }
 
-export function MarkdownRenderer({ content }: MarkdownRendererProps) {
+export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRendererProps) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -124,9 +125,12 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         pre: ({ children }) => {
           const codeElement = children as React.ReactNode;
           let codeContent = "";
+          let lang = "";
 
           if (codeElement && typeof codeElement === "object") {
-            const child = codeElement as { props?: { children?: React.ReactNode } };
+            const child = codeElement as { props?: { className?: string; children?: React.ReactNode } };
+            const langMatch = child.props?.className?.match(/language-(\w+)/);
+            lang = langMatch?.[1] ?? "";
             if (child.props?.children) {
               if (typeof child.props.children === "string") {
                 codeContent = child.props.children;
@@ -144,9 +148,15 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           }
 
           const lineCount = codeContent.trim().split("\n").length;
+          const highlighted = highlightedCode[codeContent.trim()];
 
           return (
-            <CodeBlock content={codeContent.trim()} collapsible={lineCount > 15}>
+            <CodeBlock
+              content={codeContent.trim()}
+              collapsible={lineCount > 15}
+              highlightedHtml={highlighted}
+              lang={lang || "plaintext"}
+            >
               {children}
             </CodeBlock>
           );
@@ -182,7 +192,19 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 }
 
 // Code block with copy + collapse
-function CodeBlock({ content, collapsible, children }: { content: string; collapsible: boolean; children: React.ReactNode }) {
+function CodeBlock({
+  content,
+  collapsible,
+  highlightedHtml,
+  lang,
+  children,
+}: {
+  content: string;
+  collapsible: boolean;
+  highlightedHtml?: string;
+  lang: string;
+  children: React.ReactNode;
+}) {
   const [copied, setCopied] = useState(false);
   const [collapsed, setCollapsed] = useState(collapsible);
 
@@ -192,10 +214,23 @@ function CodeBlock({ content, collapsible, children }: { content: string; collap
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const preClassName = `relative rounded-xl border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-normal shadow-sm font-mono overflow-x-auto transition-[max-height] duration-300 ${collapsed ? "max-h-50 overflow-hidden" : ""}`;
+  const preStyle = {
+    background: "var(--code-bg)",
+    color: "var(--code-text)",
+    maxWidth: "100%",
+  } as const;
+
   return (
     <div className="code-block-wrapper group relative my-6 max-w-full overflow-hidden">
       {/* Toolbar */}
       <div className="absolute top-3 right-3 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <span
+          className="px-2 py-1 rounded-md bg-muted/50 border border-border/30 text-muted-foreground font-mono text-xs leading-none select-none"
+          aria-label={`Language: ${lang}`}
+        >
+          {lang}
+        </span>
         {collapsible && (
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -218,13 +253,18 @@ function CodeBlock({ content, collapsible, children }: { content: string; collap
         </button>
       </div>
 
-      {/* Code container */}
-      <pre
-        className={`relative rounded-xl border border-border/40 p-3 md:p-4 pt-4 md:pt-5 text-sm leading-relaxed shadow-sm font-mono overflow-x-auto transition-[max-height] duration-300 ${collapsed ? "max-h-50 overflow-hidden" : ""}`}
-        style={{ background: "var(--code-bg)", color: "var(--code-text)", maxWidth: "100%" }}
-      >
-        {children}
-      </pre>
+      {/* Code container — highlighted HTML (Shiki) when available, plain otherwise */}
+      {highlightedHtml ? (
+        <pre
+          className={preClassName}
+          style={preStyle}
+          dangerouslySetInnerHTML={{ __html: highlightedHtml }}
+        />
+      ) : (
+        <pre className={preClassName} style={preStyle}>
+          {children}
+        </pre>
+      )}
 
       {/* Collapsed fade overlay + expand button */}
       {collapsed && (

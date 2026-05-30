@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getRelatedPosts, getAllPosts } from "@/lib/posts";
+import { highlightCodeBlocks } from "@/lib/highlight";
 import { BlogContent } from "@/components/blog/blog-content";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
@@ -97,6 +98,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const relatedPosts = getRelatedPosts(slug, locale);
+  const highlightedCode = await highlightCodeBlocks(post.content);
   const publishedTime = new Date(post.date).toISOString();
 
   const jsonLd = {
@@ -128,7 +130,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <BlogContent post={post} relatedPosts={relatedPosts} locale={locale} />
+      <BlogContent
+        post={post}
+        relatedPosts={relatedPosts}
+        locale={locale}
+        highlightedCode={highlightedCode}
+      />
     </>
   );
 }
