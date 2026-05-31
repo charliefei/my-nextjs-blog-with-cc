@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  blog:
+    build:
+      context: ..                # Project root (where package.json, app/, etc. live)
+      dockerfile: docker/Dockerfile
+    container_name: blog
+    ports:
+      - "3000:80"                # Host:Container — change host port as needed
+    restart: unless-stopped
+    # Uncomment to mount custom nginx config at runtime:
+    # volumes:
+    #   - ./nginx.conf:/etc/nginx/nginx.conf:ro

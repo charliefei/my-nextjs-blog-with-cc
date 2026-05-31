@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Next.js
+.next/
+out/
+
+# Build artifacts
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI
+.github/
+
+# Logs
+*.log
+
+# Env files
+.env*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Claude/Codex
+.claude/
+.codex/
+
+# Docs (not needed at runtime)
+docs/
+
+# Docker
+docker/
+
+# Misc
+README.md
+AGENTS.md
+CLAUDE.md

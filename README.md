@@ -440,6 +440,110 @@ jobs:
 - 静态导出不支持 Next.js 服务端功能（API Routes、ISR 等）
 - 如需使用自定义 404 页面，确保 `out/404.html` 存在
 
+### Docker 部署
+
+项目提供了完整的 Docker + Nginx 部署方案，适合部署到 VPS、云服务器或本地 Docker 环境。
+
+#### 文件说明
+
+所有 Docker 相关文件位于 `docker/` 目录：
+
+| 文件 | 说明 |
+|------|------|
+| `Dockerfile` | 多阶段构建：Node.js 构建 + Nginx 运行 |
+| `nginx.conf` | Nginx 配置文件（静态文件服务、缓存、安全头） |
+| `docker-compose.yml` | Docker Compose 编排文件 |
+| `.dockerignore` | 构建排除文件 |
+
+#### 环境要求
+
+- Docker 20.10+
+- Docker Compose 2.0+（可选，也可直接用 `docker build`）
+
+#### 方式一：Docker Compose（推荐）
+
+```bash
+# 构建并启动
+docker compose -f docker/docker-compose.yml up -d --build
+
+# 查看日志
+docker compose -f docker/docker-compose.yml logs -f
+
+# 停止
+docker compose -f docker/docker-compose.yml down
+```
+
+访问 http://localhost:3000
+
+#### 方式二：Docker 命令
+
+```bash
+# 构建镜像
+docker build -t blog:latest -f docker/Dockerfile .
+
+# 运行容器
+docker run -d --name blog -p 3000:80 --restart unless-stopped blog:latest
+
+# 查看日志
+docker logs -f blog
+
+# 停止并删除容器
+docker stop blog && docker rm blog
+```
+
+#### 自定义端口
+
+修改 `docker/docker-compose.yml` 中的端口映射：
+
+```yaml
+ports:
+  - "8080:80"    # 将宿主机端口改为 8080
+```
+
+或使用命令行参数：
+
+```bash
+docker run -d --name blog -p 8080:80 --restart unless-stopped blog:latest
+```
+
+#### 使用外部 Nginx 配置
+
+如需在运行时挂载自定义 Nginx 配置，取消 `docker-compose.yml` 中的注释：
+
+```yaml
+volumes:
+  - ./nginx.conf:/etc/nginx/nginx.conf:ro
+```
+
+#### 配合反向代理
+
+如果你使用 Nginx 或 Caddy 作为反向代理，将流量转发到容器的 80 端口即可。
+
+**Nginx 反向代理示例：**
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:9090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+**Caddy 反向代理示例：**
+
+```caddy
+your-domain.com {
+    reverse_proxy 127.0.0.1:9090
+}
+```
+
 ---
 
 ## 常见问题
