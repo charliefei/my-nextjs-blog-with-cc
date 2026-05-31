@@ -17,6 +17,7 @@ interface HomeContentProps {
     social: ProfileConfig["social"];
   };
   posts: PostMeta[];
+  postCount: number;
   experienceData: {
     work: WorkExperience[];
     projects: Project[];
@@ -24,7 +25,7 @@ interface HomeContentProps {
   };
 }
 
-export function HomeContent({ profile, posts, experienceData }: HomeContentProps) {
+export function HomeContent({ profile, posts, postCount, experienceData }: HomeContentProps) {
   const t = useTranslations("home");
   const tNav = useTranslations("nav");
   const locale = useLocale();
@@ -96,7 +97,7 @@ export function HomeContent({ profile, posts, experienceData }: HomeContentProps
                 </Badge>
                 <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
                   <FileText className="h-3 w-3 text-primary" />
-                  <span>{t("stats.posts", { count: posts.length })}</span>
+                  <span>{t("stats.posts", { count: postCount })}</span>
                 </Badge>
               </div>
 
