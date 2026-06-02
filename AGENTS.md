@@ -40,7 +40,7 @@ components/
   ui/                          # shadcn components (uses @base-ui/react, not Radix)
   blog/, home/, about/, ...    # Feature-specific components
   theme/                       # next-themes ThemeProvider + ThemeToggle
-  mdx/                         # react-markdown + rehype-pretty-code renderer
+  (mdx/ does not exist — the markdown renderer is lib/markdown.tsx)
 
 content/
   config/profile.json          # Personal info, social links, resume PDF
@@ -86,6 +86,7 @@ scripts/
 - `output: "export"` means: no SSR, no middleware, no API routes, no `next/image` optimization
 - All i18n routes must be pre-generated via `generateStaticParams()`
 - `setRequestLocale()` must be called in each locale layout for static rendering
+- **`serve out` / local static serving keeps CRLF, so it CANNOT reproduce GitHub-Pages-only RSC byte-desync bugs** — Pages strips `\r`. To debug a prod-only Flight crash: fetch the `.txt` RSC payload and walk it like React's row scanner (states 0–4 in `react-server-dom-webpack-client.browser.development.js`); `T<hex>,` rows consume exactly `<hex>` bytes with NO trailing-newline skip.
 
 ### shadcn/ui Uses @base-ui/react
 - Not Radix UI — this project uses `@base-ui/react` as the headless primitive library for shadcn components
@@ -98,8 +99,21 @@ scripts/
 - Fonts: DM Sans (body), Crimson Pro (headings), JetBrains Mono (code)
 - Animations: `animate-fade-in`, `animate-slide-up`, `animate-scale-in` + stagger delays
 
+### Code Syntax Highlighting (build-time)
+- Renderer is `lib/markdown.tsx` (client, react-markdown) — renders synchronously, so it CANNOT run Shiki
+- `rehype-pretty-code` (Shiki, async) runs at BUILD time in `lib/highlight.ts`, called from `app/[locale]/blog/[slug]/page.tsx`
+- Flow: page.tsx awaits `highlightCodeBlocks()` → map keyed by trimmed source → passed as `highlightedCode` prop → `CodeBlock` injects HTML via `dangerouslySetInnerHTML`, else plain fallback
+- **`grid: true` is mandatory** in highlight options — `grid: false` causes DOUBLE line spacing (newline text nodes render as extra lines under `white-space: pre`)
+- Dual-theme: spans carry `--shiki-light`/`--shiki-dark` vars; globals.css maps them to `color` via `.dark` class (NOT prefers-color-scheme)
+- Missing fence lang → defaults to `plaintext` (Shiki `defaultLang` + renderer fallback must agree)
+
+### Linting
+- `npm run lint` has 6 PRE-EXISTING `react-hooks/refs` errors in `components/blog/toc.tsx` (present on clean HEAD) — not yours
+- `npm run build:only` is the real correctness gate (TypeScript passes independently of those lint errors)
+
 ### Content Management
 - Blog posts: `content/posts/{locale}/*.md` — frontmatter fields: title, description, coverImage, date, tags, category, slug, published
+- **Markdown MUST be read with CRLF→LF normalization** — `lib/posts.ts` does `.readFileSync(...).replace(/\r\n/g, "\n")`. RSC Flight text-rows (`<id>:T<hexBYTElen>,...`) declare an exact byte length; GitHub Pages strips CRLF→LF on deploy, so CRLF source makes served bytes shorter than the header → Flight parser desyncs → client-nav crash `enqueueModel is not a function`. `.gitattributes` (`eol=lf`) enforces LF at checkout as a second layer. Any new markdown read path must normalize too.
 - Work/Project entries: `content/experience/{work|projects}/{locale}/*.md`
 - Skills: `content/experience/skills/{locale}.json`
 - Profile: `content/config/profile.json`
