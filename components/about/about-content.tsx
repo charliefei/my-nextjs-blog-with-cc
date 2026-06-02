@@ -196,7 +196,7 @@ export function AboutContent({ profile, locale, skills, aboutMarkdown, links }: 
                 ))}
               </section>
 
-              <section className="space-y-4 rounded-lg border border-border/40 bg-card/50 p-4">
+              {/* <section className="space-y-4 rounded-lg border border-border/40 bg-card/50 p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <h2 className="font-heading text-base font-semibold">{t("toolkit")}</h2>
@@ -231,7 +231,7 @@ export function AboutContent({ profile, locale, skills, aboutMarkdown, links }: 
                     ))}
                   </div>
                 </div>
-              </section>
+              </section> */}
             </div>
           </aside>
 
