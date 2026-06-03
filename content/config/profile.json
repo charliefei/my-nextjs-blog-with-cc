@@ -47,10 +47,18 @@
   },
   "comments": {
     "giscus": {
-      "repo": "yourusername/blog-comments",
-      "repoId": "your-repo-id",
-      "categoryId": "your-category-id",
-      "mapping": "pathname"
+      "repo": "charliefei/charliefei.github.io",
+      "repoId": "R_kgDOIjbuug",
+      "category": "Announcements",
+      "categoryId": "DIC_kwDOIjbuus4C-bD3",
+      "mapping": "pathname",
+      "strict": "0",
+      "reactionsEnabled": "1",
+      "emitMetadata": "0",
+      "inputPosition": "bottom",
+      "theme": "preferred_color_scheme",
+      "lang": "zh-CN",
+      "loading": "lazy"
     }
   }
 }

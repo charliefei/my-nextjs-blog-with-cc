@@ -4,6 +4,21 @@ export interface SocialLink {
   username?: string;
 }
 
+export interface GiscusConfig {
+  repo: string;
+  repoId: string;
+  category: string;
+  categoryId: string;
+  mapping?: "pathname" | "url" | "title" | "og:title" | "specific" | "number";
+  strict?: "0" | "1";
+  reactionsEnabled?: "0" | "1";
+  emitMetadata?: "0" | "1";
+  inputPosition?: "top" | "bottom";
+  theme?: string;
+  lang?: string;
+  loading?: "lazy" | "eager";
+}
+
 export interface ProfileConfig {
   personal: {
     name: string;
@@ -30,11 +45,6 @@ export interface ProfileConfig {
     accentColor: string;
   };
   comments?: {
-    giscus?: {
-      repo: string;
-      repoId: string;
-      categoryId: string;
-      mapping?: "pathname" | "url" | "title" | "og:title";
-    };
+    giscus?: GiscusConfig;
   };
 }

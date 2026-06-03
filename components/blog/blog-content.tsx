@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
 import { TableOfContents } from "@/components/blog/toc";
 import { ReadingProgress } from "@/components/blog/reading-progress";
+import { GiscusComments } from "@/components/comments/giscus-comments";
+import type { GiscusConfig } from "@/types/profile";
 import { Post, PostMeta } from "@/types/post";
 import { MarkdownRenderer } from "@/lib/markdown";
 import { extractToc } from "@/lib/toc";
@@ -17,9 +19,16 @@ interface BlogContentProps {
   relatedPosts: PostMeta[];
   locale: string;
   highlightedCode: Record<string, string>;
+  commentsConfig?: GiscusConfig;
 }
 
-export function BlogContent({ post, relatedPosts, locale, highlightedCode }: BlogContentProps) {
+export function BlogContent({
+  post,
+  relatedPosts,
+  locale,
+  highlightedCode,
+  commentsConfig,
+}: BlogContentProps) {
   const t = useTranslations("blog");
   const tocItems = extractToc(post.content);
 
@@ -201,6 +210,10 @@ export function BlogContent({ post, relatedPosts, locale, highlightedCode }: Blo
 
             {/* Gradient Divider */}
             <div className="gradient-divider my-10" />
+
+            <GiscusComments config={commentsConfig} />
+
+            {commentsConfig && <div className="gradient-divider my-10" />}
 
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
