@@ -19,7 +19,9 @@ npm run compress      # Optimize blog images (lossy WebP + AVIF)
 npm run start         # Serve static export (not used in dev)
 ```
 
-**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml` builds with `DEPLOY_TARGET=project` and deploys to project site. User site (`charliefei.github.io`): build without the env var and push `out/` directly.
+**GitHub Pages deploy:** Push to `main` → `.github/workflows/deploy.yml.bak` builds with `DEPLOY_TARGET=project` and deploys to project site (currently disabled/backed up). User site (`charliefei.github.io`): build without the env var and push `out/` directly.
+
+**Docker deploy:** `docker compose -f docker/docker-compose.yml up -d` (nginx serving the static export).
 
 ## Architecture
 
@@ -34,13 +36,16 @@ app/
     layout.tsx                 # Locale layout: providers + Header + Footer
   layout.tsx                   # Root layout (font variables, minimal HTML)
   globals.css                  # Tailwind v4 + theme tokens + prose + animations
+  llms.txt/route.ts            # LLMs.txt generation (force-static GET)
+  llms-full.txt/route.ts       # LLMs full text generation (force-static GET)
+  rss.xml/route.ts             # RSS feed generation (force-static GET)
 
 components/
   layout/                      # Header, Footer, LanguageSwitcher
   ui/                          # shadcn components (uses @base-ui/react, not Radix)
   blog/, home/, about/, ...    # Feature-specific components
+  comments/                    # Giscus comments (GiscusComments)
   theme/                       # next-themes ThemeProvider + ThemeToggle
-  (mdx/ does not exist — the markdown renderer is lib/markdown.tsx)
 
 content/
   config/profile.json          # Personal info, social links, resume PDF
@@ -57,6 +62,7 @@ lib/                           # Data access + utilities
   toc.ts                       # Table of contents extraction
   markdown.tsx                 # MDX renderer components
   utils.ts                     # cn() + getAssetPath()
+  llms.ts                      # LLMs.txt content generation
 
 i18n/                          # next-intl config (routing.ts, request.ts)
 messages/                      # Translation JSON (en.json, zh.json)
@@ -67,7 +73,9 @@ scripts/
   compress-config.json         # compress-images config
 
 .github/workflows/
-  deploy.yml                   # GitHub Pages CI: build with DEPLOY_TARGET=project, deploy to gh-pages branch
+  deploy.yml.bak               # GitHub Pages CI (currently disabled)
+
+docker/                         # Docker deployment (Dockerfile, docker-compose.yml, nginx.conf)
 ```
 
 ## Key Patterns & Gotchas
@@ -86,6 +94,7 @@ scripts/
 - `output: "export"` means: no SSR, no middleware, no API routes, no `next/image` optimization
 - All i18n routes must be pre-generated via `generateStaticParams()`
 - `setRequestLocale()` must be called in each locale layout for static rendering
+- Static GET route handlers (RSS, LLMs.txt) use `export const dynamic = "force-static"` and return `new Response(...)` — no JSX, no i18n wrappers
 - **`serve out` / local static serving keeps CRLF, so it CANNOT reproduce GitHub-Pages-only RSC byte-desync bugs** — Pages strips `\r`. To debug a prod-only Flight crash: fetch the `.txt` RSC payload and walk it like React's row scanner (states 0–4 in `react-server-dom-webpack-client.browser.development.js`); `T<hex>,` rows consume exactly `<hex>` bytes with NO trailing-newline skip.
 
 ### shadcn/ui Uses @base-ui/react
