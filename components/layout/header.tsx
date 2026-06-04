@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import { Menu, Home, FileText, User, Star } from "lucide-react";
+import { Menu, Home, FileText, User, Star, Rss } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
@@ -61,6 +61,17 @@ export function Header() {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
+          <a
+            href={getAssetPath(`/${locale}/rss.xml`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-md text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            aria-label={t("rss")}
+            title={t("rss")}
+          >
+            <Rss className="h-5 w-5" />
+            <span className="sr-only">{t("rss")}</span>
+          </a>
 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
