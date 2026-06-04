@@ -211,7 +211,11 @@ export function BlogContent({
             {/* Gradient Divider */}
             <div className="gradient-divider my-10" />
 
-            <GiscusComments config={commentsConfig} />
+            <GiscusComments
+              config={commentsConfig}
+              locale={locale}
+              term={`blog/${post.slug}`}
+            />
 
             {commentsConfig && <div className="gradient-divider my-10" />}
 

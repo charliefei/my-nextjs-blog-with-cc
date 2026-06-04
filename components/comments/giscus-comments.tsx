@@ -6,11 +6,18 @@ import type { GiscusConfig } from "@/types/profile";
 
 interface GiscusCommentsProps {
   config?: GiscusConfig;
+  locale: string;
+  term: string;
 }
 
-export function GiscusComments({ config }: GiscusCommentsProps) {
+function getGiscusLang(locale: string) {
+  return locale === "zh" ? "zh-CN" : "en";
+}
+
+export function GiscusComments({ config, locale, term }: GiscusCommentsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
+  const giscusLang = getGiscusLang(locale);
 
   const giscusTheme =
     resolvedTheme === "dark" || resolvedTheme === "light"
@@ -30,7 +37,8 @@ export function GiscusComments({ config }: GiscusCommentsProps) {
       !config?.repo ||
       !config.repoId ||
       !config.category ||
-      !config.categoryId
+      !config.categoryId ||
+      !term
     ) {
       return;
     }
@@ -45,13 +53,14 @@ export function GiscusComments({ config }: GiscusCommentsProps) {
     script.dataset.repoId = config.repoId;
     script.dataset.category = config.category;
     script.dataset.categoryId = config.categoryId;
-    script.dataset.mapping = config.mapping ?? "pathname";
+    script.dataset.mapping = "specific";
+    script.dataset.term = term;
     script.dataset.strict = config.strict ?? "0";
     script.dataset.reactionsEnabled = config.reactionsEnabled ?? "1";
     script.dataset.emitMetadata = config.emitMetadata ?? "0";
     script.dataset.inputPosition = config.inputPosition ?? "top";
     script.dataset.theme = giscusThemeRef.current;
-    script.dataset.lang = config.lang ?? "zh-CN";
+    script.dataset.lang = giscusLang;
     script.dataset.loading = config.loading ?? "lazy";
 
     container.appendChild(script);
@@ -59,23 +68,25 @@ export function GiscusComments({ config }: GiscusCommentsProps) {
     return () => {
       container.innerHTML = "";
     };
-  }, [config]);
+  }, [config, giscusLang, term]);
 
   useEffect(() => {
     const container = containerRef.current;
 
-    if (!container || !config) {
+    if (!container || !config || !term) {
       return;
     }
 
-    const updateGiscusTheme = () => {
+    const updateGiscusConfig = () => {
       const iframe = container.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
 
       iframe?.contentWindow?.postMessage(
         {
           giscus: {
             setConfig: {
+              term,
               theme: giscusTheme,
+              lang: giscusLang,
             },
           },
         },
@@ -83,12 +94,12 @@ export function GiscusComments({ config }: GiscusCommentsProps) {
       );
     };
 
-    updateGiscusTheme();
+    updateGiscusConfig();
     const timeoutIds = [
-      window.setTimeout(updateGiscusTheme, 500),
-      window.setTimeout(updateGiscusTheme, 1500),
+      window.setTimeout(updateGiscusConfig, 500),
+      window.setTimeout(updateGiscusConfig, 1500),
     ];
-    const observer = new MutationObserver(updateGiscusTheme);
+    const observer = new MutationObserver(updateGiscusConfig);
 
     observer.observe(container, {
       childList: true,
@@ -99,14 +110,14 @@ export function GiscusComments({ config }: GiscusCommentsProps) {
       timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
       observer.disconnect();
     };
-  }, [config, giscusTheme]);
+  }, [config, giscusLang, giscusTheme, term]);
 
   if (!config) {
     return null;
   }
 
   return (
-    <section className="mt-12 pt-8 border-t border-border/30">
+    <section className="border-t border-border/30">
       <div ref={containerRef} />
     </section>
   );

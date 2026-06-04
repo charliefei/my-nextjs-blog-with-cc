@@ -51,7 +51,7 @@
       "repoId": "R_kgDOIjbuug",
       "category": "Announcements",
       "categoryId": "DIC_kwDOIjbuus4C-bD3",
-      "mapping": "pathname",
+      "mapping": "specific",
       "strict": "0",
       "reactionsEnabled": "1",
       "emitMetadata": "0",
