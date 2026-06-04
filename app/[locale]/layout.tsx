@@ -38,7 +38,6 @@ export default async function LocaleLayout({
         attribute="class"
         defaultTheme="system"
         enableSystem
-        disableTransitionOnChange
       >
         <TooltipProvider>
           <div className="min-h-screen flex flex-col gradient-bg noise">
