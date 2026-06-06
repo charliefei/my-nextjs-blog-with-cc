@@ -141,5 +141,27 @@
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist.",
     "backHome": "Back to Home"
+  },
+  "metadata": {
+    "home": {
+      "title": "Charlie Fei",
+      "description": "Charlie Fei's personal blog and portfolio, featuring full-stack development notes, AI coding experiments, project work, and resume information."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Technical articles, tutorials, and thoughts on frontend development, AI coding, design patterns, and engineering practice."
+    },
+    "about": {
+      "title": "About Charlie Fei",
+      "description": "Learn more about Charlie Fei, a full-stack developer focused on frontend engineering, AI coding, and practical software development."
+    },
+    "resume": {
+      "title": "Resume",
+      "description": "View and download Charlie Fei's resume, including full-stack development experience, skills, projects, and contact information."
+    },
+    "experience": {
+      "title": "Experience",
+      "description": "Explore Charlie Fei's work experience, featured projects, technical skills, and full-stack development background."
+    }
   }
 }

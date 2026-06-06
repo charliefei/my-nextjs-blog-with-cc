@@ -1,19 +1,18 @@
-"use client";
+import type { Metadata } from "next";
+import { LocaleRedirect } from "@/components/layout/locale-redirect";
+import { getLanguageAlternates, SITE_NAME } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site";
 
-import { useEffect } from "react";
+export const metadata: Metadata = {
+  title: SITE_NAME,
+  description:
+    "Charlie Fei's personal blog for full-stack development writing, AI coding notes, projects, resume, and professional experience.",
+  alternates: {
+    canonical: getSiteUrl("/"),
+    languages: getLanguageAlternates("/"),
+  },
+};
 
 export default function RootPage() {
-  useEffect(() => {
-    // Use basePath for redirect to preserve GitHub Pages path
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    const browserLang = navigator.language.toLowerCase();
-    const targetLocale = browserLang.startsWith("zh") ? "/zh/" : "/en/";
-    window.location.replace(`${basePath}${targetLocale}`);
-  }, []);
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <p className="text-muted-foreground animate-pulse">Loading...</p>
-    </div>
-  );
+  return <LocaleRedirect />;
 }

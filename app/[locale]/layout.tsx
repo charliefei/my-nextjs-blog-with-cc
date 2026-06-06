@@ -7,6 +7,11 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getProfile } from "@/lib/profile";
+import {
+  getWebsiteJsonLd,
+  serializeJsonLd,
+  type Locale,
+} from "@/lib/seo";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -31,9 +36,15 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
   const profile = getProfile();
+  const locale = resolvedLocale as Locale;
+  const websiteJsonLd = getWebsiteJsonLd(locale, profile);
 
   return (
     <NextIntlClientProvider messages={messages}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
+      />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"

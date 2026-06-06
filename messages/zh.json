@@ -141,5 +141,27 @@
     "title": "页面未找到",
     "description": "您访问的页面不存在。",
     "backHome": "返回首页"
+  },
+  "metadata": {
+    "home": {
+      "title": "Charlie Fei",
+      "description": "Charlie Fei 的个人博客与作品集，记录全栈开发、AI Coding、项目实践和个人简历信息。"
+    },
+    "blog": {
+      "title": "博客",
+      "description": "关于前端开发、AI Coding、设计模式与工程实践的技术文章、教程和思考。"
+    },
+    "about": {
+      "title": "关于 Charlie Fei",
+      "description": "了解 Charlie Fei：关注前端工程、AI Coding 和实用软件开发的全栈开发者。"
+    },
+    "resume": {
+      "title": "简历",
+      "description": "查看并下载 Charlie Fei 的个人简历，了解全栈开发经历、技能、项目和联系方式。"
+    },
+    "experience": {
+      "title": "经历",
+      "description": "浏览 Charlie Fei 的工作经历、精选项目、技术技能和全栈开发背景。"
+    }
   }
 }
