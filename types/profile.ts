@@ -23,6 +23,7 @@ export interface ProfileConfig {
   personal: {
     name: string;
     avatar: string;
+    logo: string;
     profession: string;
     jobStatus: {
       openToWork: boolean;

@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LanguageSwitcher } from "./language-switcher";
 import { getAssetPath, cn } from "@/lib/utils";
+import { getProfile } from "@/lib/profile";
 
 const navItems = [
   { key: "home", href: "/" },
@@ -27,6 +28,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const logoSrc = getProfile().personal.logo;
 
   useEffect(() => {
     // Throttle scroll updates to one rAF tick to avoid layout thrash.
@@ -72,7 +74,7 @@ export function Header() {
             )}
           >
             <img
-              src={getAssetPath("/logo.png")}
+              src={logoSrc}
               alt="Logo"
               className="h-full w-full object-contain"
             />
@@ -171,7 +173,7 @@ export function Header() {
                 <div className="flex items-center gap-3">
                   <span className="relative flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-linear-to-br from-primary to-accent ring-1 ring-border/40">
                     <img
-                      src={getAssetPath("/logo.png")}
+                      src={logoSrc}
                       alt="Logo"
                       className="h-full w-full object-contain"
                     />
