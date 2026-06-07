@@ -28,7 +28,10 @@ export function getAllWorkExperiences(locale: string): WorkExperience[] {
     .map((fileName) => {
       const slug = fileName.replace(/\.md$/, "");
       const fullPath = path.join(workDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
+      // CRLF→LF 规范化：避免 Windows 上 CRLF 源文件让 RSC Flight 字节长度
+      // 与 GitHub Pages 部署后（CR 被 strip）的实际字节不一致，触发
+      // `enqueueModel is not a function`。详见 docs/bugfix-rsc-enqueueModel.md
+      const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
       const { data, content } = matter(fileContents);
 
       return {
@@ -50,7 +53,7 @@ export function getWorkExperienceBySlug(
 
   try {
     const fullPath = path.join(workDirectory, `${slug}.md`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
     const { data, content } = matter(fileContents);
 
     return {
@@ -79,7 +82,7 @@ export function getAllProjects(locale: string): Project[] {
     .map((fileName) => {
       const slug = fileName.replace(/\.md$/, "");
       const fullPath = path.join(projectsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
+      const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
       const { data, content } = matter(fileContents);
 
       return {
@@ -103,7 +106,7 @@ export function getProjectBySlug(slug: string, locale: string): Project | null {
 
   try {
     const fullPath = path.join(projectsDirectory, `${slug}.md`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const fileContents = fs.readFileSync(fullPath, "utf8").replace(/\r\n/g, "\n");
     const { data, content } = matter(fileContents);
 
     return {
