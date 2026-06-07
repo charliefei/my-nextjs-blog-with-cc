@@ -12,7 +12,7 @@ Personal blog built with Next.js 16.2.2, Tailwind CSS v4, shadcn/ui (@base-ui/re
 
 ```bash
 npm run dev           # Dev server at localhost:3000
-npm run build         # Static export to ./out + RSC path flattening
+npm run build         # next build → fix-seo-html → flatten-rsc-paths (writes to ./out)
 npm run build:only    # Next.js build only (no post-processing)
 npm run lint          # ESLint
 npm run compress      # Optimize blog images (lossy WebP + AVIF)
@@ -38,7 +38,8 @@ app/
   globals.css                  # Tailwind v4 + theme tokens + prose + animations
   llms.txt/route.ts            # LLMs.txt generation (force-static GET)
   llms-full.txt/route.ts       # LLMs full text generation (force-static GET)
-  rss.xml/route.ts             # RSS feed generation (force-static GET)
+  rss.xml/route.ts             # RSS feed, default locale (force-static GET)
+  [locale]/rss.xml/route.ts    # Per-locale RSS feed (force-static + generateStaticParams)
 
 components/
   layout/                      # Header, Footer, LanguageSwitcher
@@ -57,10 +58,16 @@ content/
 
 lib/                           # Data access + utilities
   posts.ts                     # getAllPosts, getPostBySlug, getRelatedPosts
+  highlight.ts                 # Build-time Shiki pipeline (called from blog post page)
+  rss.ts                       # generateRssFeed() for /rss.xml route
+  seo.ts                       # JSON-LD, breadcrumb, metadata helpers
+  site.ts                      # getSiteUrl / getAbsoluteUrl (used by RSS + SEO)
+  links.ts                     # Internal/external link helpers
+  about.ts                     # getAbout / about-page data
   experience.ts                # getAllWorkExperiences, getAllProjects, getSkills
   profile.ts                   # getProfile, getPdfUrl
   toc.ts                       # Table of contents extraction
-  markdown.tsx                 # MDX renderer components
+  markdown.tsx                 # Client react-markdown renderer (synchronous; consumes highlightedCode map)
   utils.ts                     # cn() + getAssetPath()
   llms.ts                      # LLMs.txt content generation
 
@@ -68,6 +75,7 @@ i18n/                          # next-intl config (routing.ts, request.ts)
 messages/                      # Translation JSON (en.json, zh.json)
 
 scripts/
+  fix-seo-html.mjs            # Post-build: locale-specific HTML lang fix (static export can't derive per-locale)
   flatten-rsc-paths.mjs        # Post-build: fixes RSC server-reference paths for static export
   compress-images.mjs          # Lossy image compression (WebP + AVIF)
   compress-config.json         # compress-images config
@@ -142,3 +150,9 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
   ```
 - **Common mistake:** Using `skills/ui-ux-pro-max/scripts/search.py` (missing `.claude/` prefix) — fails with "No such file or directory"
 - The skill's base directory is `.claude/skills/ui-ux-pro-max/`, not `skills/ui-ux-pro-max/`
+
+### RSC Crash Postmortem
+- Full write-up of the `enqueueModel is not a function` client-nav crash lives at [`docs/bugfix-rsc-enqueueModel.md`](docs/bugfix-rsc-enqueueModel.md). Read it before touching markdown read paths or the build pipeline.
+
+### AGENTS.md Mirror
+- `AGENTS.md` is a verbatim copy of this file (some agent tools look for it). Update both together, or `cp CLAUDE.md AGENTS.md` after edits.
