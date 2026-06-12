@@ -8,7 +8,6 @@ import { SkillCategory } from "@/types/experience";
 import { FriendLink } from "@/types/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MarkdownRenderer } from "@/lib/markdown";
 import {
   ArrowRight,
@@ -18,10 +17,10 @@ import {
   Globe2,
   Mail,
   MapPin,
-  Sparkles,
   Terminal,
 } from "lucide-react";
 import { SocialLink } from "@/components/icons/social-icons";
+import { TiltAvatar } from "@/components/about/tilt-avatar";
 
 interface AboutContentProps {
   profile: {
@@ -93,23 +92,11 @@ export function AboutContent({ profile, locale, skills, aboutMarkdown, links }: 
                 {/* Body */}
                 <div className="relative p-6">
                   <div className="flex items-start gap-4">
-                    <div className="relative shrink-0">
-                      <div
-                        aria-hidden
-                        className="absolute -inset-1.5 rounded-full bg-linear-to-tr from-primary/40 via-accent/30 to-transparent opacity-70 blur-md transition-opacity duration-500 group-hover:opacity-100"
-                      />
-                      <Avatar className="relative h-20 w-20 ring-1 ring-border/50 ring-offset-4 ring-offset-background md:h-24 md:w-24">
-                        <AvatarImage src={avatarSrc} alt={profile.personal.name} />
-                        <AvatarFallback className="bg-muted text-2xl font-bold">
-                          {profile.personal.name.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
-                      {profile.personal.jobStatus.openToWork && (
-                        <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background">
-                          <Sparkles className="h-3 w-3" />
-                        </div>
-                      )}
-                    </div>
+                    <TiltAvatar
+                      src={avatarSrc}
+                      name={profile.personal.name}
+                      openToWork={profile.personal.jobStatus.openToWork}
+                    />
 
                     <div className="min-w-0 flex-1 pt-1">
                       <h1 className="gradient-text font-heading text-2xl font-bold leading-tight tracking-tight md:text-3xl">
