@@ -7,7 +7,7 @@
     "build": "next build && node scripts/fix-seo-html.mjs && node scripts/flatten-rsc-paths.mjs",
     "build:only": "next build",
     "compress": "node scripts/compress-images.mjs",
-    "start": "npx serve@latest out",
+    "start": "npx --yes serve@latest out",
     "lint": "eslint"
   },
   "dependencies": {

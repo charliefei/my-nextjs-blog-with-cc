@@ -4,12 +4,13 @@ import { getAssetPath } from "./utils";
 
 export function getProfile(): ProfileConfig {
   const profile = profileData as ProfileConfig;
-  // Add basePath to avatar URL (used in img tags, not Link components)
+  // Add basePath to image URLs (used in img tags, not Link components)
   return {
     ...profile,
     personal: {
       ...profile.personal,
       avatar: getAssetPath(profile.personal.avatar),
+      logo: getAssetPath(profile.personal.logo),
     },
     // pdfUrl is used with Link component which auto-adds basePath,
     // and iframe which needs manual basePath - handle in components

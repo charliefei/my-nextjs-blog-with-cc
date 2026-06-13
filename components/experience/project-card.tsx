@@ -57,7 +57,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         </div>
         <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{project.description}</p>
-        <div className="prose-compact dark:prose-invert max-w-none flex-1">
+        <div className="prose-compact dark:prose-invert max-w-none flex-1 prose">
           <ReactMarkdown>{project.content}</ReactMarkdown>
         </div>
         <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-border/50">

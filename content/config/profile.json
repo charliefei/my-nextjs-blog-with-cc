@@ -1,7 +1,8 @@
 {
   "personal": {
     "name": "Charlie Fei",
-    "avatar": "/images/avatar.png",
+    "avatar": "https://i.ooxx.ooo/i/NmMzZ.png",
+    "logo": "https://i.ooxx.ooo/i/YWY0Z.png",
     "profession": "Full Stack Developer",
     "jobStatus": {
       "openToWork": true,
@@ -42,8 +43,8 @@
     "lastUpdated": "2026-04"
   },
   "theme": {
-    "primaryColor": "#6366f1",
-    "accentColor": "#8b5cf6"
+    "primaryColor": "#0e7490",
+    "accentColor": "#14b8a6"
   },
   "comments": {
     "giscus": {

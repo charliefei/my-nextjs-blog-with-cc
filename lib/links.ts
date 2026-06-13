@@ -9,7 +9,7 @@ const linksPath = path.join(linksDirectory, "links.json");
 function withAssetPath(link: FriendLink): FriendLink {
   return {
     ...link,
-    avatar: link.avatar?.startsWith("/") ? getAssetPath(link.avatar) : link.avatar,
+    avatar: link.avatar ? getAssetPath(link.avatar) : link.avatar,
   };
 }
 

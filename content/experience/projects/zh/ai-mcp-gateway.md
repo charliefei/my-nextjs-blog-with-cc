@@ -12,15 +12,14 @@ technologies:
   - Spring Webflux
   - JSONRPC
 github: https://github.com/charliefei/ai-mcp-gateway
-image: /images/projects/blog.png
 featured: true
-order: 1
+order: 3
 ---
 
 **主要工作**
 
-- 基于 JSON-RPC 2.0 规范深度解析 MCP 协议，自主实现了初始化 ( initialize )、工具发现 ( tools/list )、工具调用 ( tools/call ) 等核心消息类型的序列化与反序列化处理，遵循MCP传输层规范，构建了基于HTTP POST+SSE流式响应的异步双向通信通道
-- 采用策略模式结合Java枚举分发，封装了可扩展的 MCP 消息处理器，实现了MCP协议不同消息指令的解耦处理。通过数据库动态维护网关与工具的映射关系，支持在不重启网关服务的情况下实时挂载或卸载 AI 工具
-- 设计了动态参数映射引擎 ，通过解析数据库中的多层嵌套 HTTP 接口配置，自动生成符合 MCP 标准的 JSONSchema 工具描述，实现了从MCP工具到后端接口的无缝对接，支持 Path/Query/Body/Header 等多位置参数的智能注入与正则替换，无需编写额外代码即可将任意 RESTful 接口转化为 AI 可调用的 Tool 能力
-- 设计并实现了基于 Retrofit 的通用 HTTP 网关适配器。通过动态代理和配置化映射，将标准的 MCP 工具调用自动映射为对后端异构服务的 HTTP 调用，实现零代码接入新工具的能力
-- 采用责任链模式构建会话管理和消息处理两条链路，在会话管理链路中的建立阶段植入apiKey强校验，在消息处理链路中的工具调用请求时，基于apiKey + gatewayId的维度，集成 Guava RateLimiter 令牌桶进行限流，支持按小时/按次的流量控制，有效防止突发流量对网关和下游http业务接口的冲击
+- **MCP 协议网关设计**：实现 MCP Server 的 initialize、tools/list、tools/call 等 JSON-RPC 消息处理链路，支持 SSE 与 Streamable HTTP 两种传输方式，完成客户端建连、会话保持、消息分发与结果回推
+- **动态工具注册与协议解析**：设计网关、工具、HTTP 协议、字段映射等核心表结构，支持从 OpenAPI/Swagger 中解析 requestBody、query/path 参数，自动生成 MCP Tool 的 inputSchema，降低接口接入成本
+- **工具调用适配层**：基于 Retrofit + OkHttp 封装通用 HTTP 调用网关，按配置动态构造请求头、GET 参数、POST Body 和路径参数，将大模型工具调用转发到真实业务接口
+- **鉴权与限流能力建设**：实现网关级 API Key 认证、有效期校验和基于 Guava RateLimiter 的调用频控，支持按 gatewayId + apiKey 维度进行权限控制和限流缓存
+- **DDD 分层与管理后台**：按照 Trigger → Case → Domain → Infrastructure 分层组织业务逻辑，提供网关配置、工具配置、协议导入、认证配置、分页查询和 LLM 调用测试等管理接口，并配套 Nginx 静态管理页面与 Docker 部署脚本
