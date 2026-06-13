@@ -130,7 +130,11 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-    overflow-x: hidden;
+    /* `clip` (not `hidden`) prevents horizontal scroll WITHOUT creating a scroll
+       container — keeping position: sticky on <header> working as intended.
+       `hidden` would establish html/body as scroll containers, which can break
+       sticky on Chrome and absolutely breaks it on mobile Safari. */
+    overflow-x: clip;
   }
   html {
     @apply font-sans scroll-smooth;

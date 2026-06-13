@@ -55,7 +55,7 @@ export function Header() {
           "transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
           scrolled
             ? "mt-3 h-12 max-w-3xl px-2.5 rounded-full glass-float shadow-float"
-            : "header-top h-16 max-w-7xl px-6 lg:px-8"
+            : "header-top h-16 max-w-7xl px-4 sm:px-6 lg:px-8"
         )}
       >
         {/* Brand — monogram ring + gradient wordmark */}
@@ -88,8 +88,7 @@ export function Header() {
             <span className="gradient-text">Charlie</span>
             <span
               className={cn(
-                "ml-1.5 text-muted-foreground font-normal transition-all duration-500",
-                scrolled && "hidden sm:inline"
+                "ml-1.5 text-muted-foreground font-normal transition-all duration-500 hidden sm:inline"
               )}
             >
               / Blog

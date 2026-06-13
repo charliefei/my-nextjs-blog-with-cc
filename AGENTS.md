@@ -115,6 +115,10 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 - Custom utilities: `.glass` (backdrop-blur), `.gradient-bg`, `.gradient-text`, `.noise`
 - Fonts: DM Sans (body), Crimson Pro (headings), JetBrains Mono (code)
 - Animations: `animate-fade-in`, `animate-slide-up`, `animate-scale-in` + stagger delays
+- **Horizontal-scroll protection uses `overflow-x: clip` on `<body>`, NOT `overflow-x: hidden`.**
+  `hidden` creates a scroll container, which silently breaks `position: sticky` on `<header>` (Header scrolls off-screen with the page). `clip` has the same clipping effect but does NOT establish a scroll container, so sticky keeps working. Supported in Chrome 90+ / Firefox 81+ / Safari 16+ — well within this project's browser target. **Never put `overflow: hidden` on `<html>` or on any ancestor of a `position: sticky` element.**
+- **Mobile-narrow-viewport regression baseline:** Chrome devtools iPhone SE emulation (320×568). Tailwind's `sm:` is 640px, which is much wider than real "small phones" (iPhone SE gen 1, older Android) — always visually test header / flex containers at 320px, not just 375px.
+- **Header flex items use `shrink-0` on both sides** (brand + actions). If the combined natural width exceeds the container at 320px, items WILL overflow (they can't shrink, only the container can grow). When adding new icon buttons to `components/layout/header.tsx`'s actions area, measure at 320px first or plan to hide on `< sm:`.
 
 ### Code Syntax Highlighting (build-time)
 - Renderer is `lib/markdown.tsx` (client, react-markdown) — renders synchronously, so it CANNOT run Shiki
@@ -153,6 +157,17 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 
 ### RSC Crash Postmortem
 - Full write-up of the `enqueueModel is not a function` client-nav crash lives at [`docs/bugfix-rsc-enqueueModel.md`](docs/bugfix-rsc-enqueueModel.md). Read it before touching markdown read paths or the build pipeline.
+
+### Mobile Horizontal-Scroll / Sticky Postmortem
+- Full write-up of the "horizontal scrollbar on mobile in production + `overflow-x: hidden` breaking sticky" bug lives at [`docs/bugfix-mobile-horizontal-scroll.md`](docs/bugfix-mobile-horizontal-scroll.md). Read it before:
+  - Touching `app/globals.css`'s `html` / `body` overflow rules
+  - Adding new icon buttons to the Header's actions area
+  - Changing any `shrink-0` flex children at the top of the page tree
+- The TL;DR (full reasoning in the doc):
+  1. `overflow: hidden` creates a scroll container → silently breaks `position: sticky` (Header scrolls off-screen)
+  2. Use `overflow: clip` instead — same clipping, no scroll container
+  3. The original "dev didn't show it, prod did" was almost certainly a viewport-width difference (dev at 375px, prod on real 320px device) — same code, different overflow outcome
+  4. Always test header / sticky layouts at 320×568, not just 375×667
 
 ### AGENTS.md Mirror
 - `AGENTS.md` is a verbatim copy of this file (some agent tools look for it). Update both together, or `cp CLAUDE.md AGENTS.md` after edits.
