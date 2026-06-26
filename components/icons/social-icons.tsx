@@ -27,14 +27,14 @@ export function TwitterIcon({ className }: IconProps) {
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+      viewBox="0 0 16 16"
       fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      role="img"
     >
-      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+      <path
+        fill="currentColor"
+        d="M9.332 6.925 14.544 1h-1.235L8.783 6.145 5.17 1H1l5.466 7.78L1 14.993h1.235l4.78-5.433 3.816 5.433H15L9.332 6.925ZM7.64 8.848l-.554-.775L2.68 1.91h1.897l3.556 4.975.554.775 4.622 6.466h-1.897L7.64 8.848Z"
+      ></path>
     </svg>
   );
 }
@@ -143,7 +143,10 @@ export function YouTubeIcon({ className }: IconProps) {
 }
 
 // Unified social icon mapping - single source of truth
-export const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+export const SOCIAL_ICON_MAP: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
   github: GitHubIcon,
   twitter: TwitterIcon,
   linkedin: LinkedInIcon,
@@ -154,7 +157,9 @@ export const SOCIAL_ICON_MAP: Record<string, React.ComponentType<{ className?: s
 };
 
 // Get icon component by platform name
-export function getSocialIcon(platform: string): React.ComponentType<{ className?: string }> | null {
+export function getSocialIcon(
+  platform: string,
+): React.ComponentType<{ className?: string }> | null {
   return SOCIAL_ICON_MAP[platform] || null;
 }
 
@@ -169,7 +174,13 @@ interface SocialLinkProps {
 }
 
 // Helper to render icon by platform name
-function SocialIcon({ platform, className }: { platform: string; className?: string }) {
+function SocialIcon({
+  platform,
+  className,
+}: {
+  platform: string;
+  className?: string;
+}) {
   const iconComponent = SOCIAL_ICON_MAP[platform];
   if (!iconComponent) return null;
   const Icon = iconComponent;
@@ -223,14 +234,25 @@ export function SocialLink({
       {...baseLinkProps}
       className={`flex items-center gap-3 p-4 rounded-lg border border-border hover:border-primary/30 hover:bg-primary/5 transition-colors group ${className}`}
     >
-      <SocialIcon platform={platform} className={`${iconClassName} text-muted-foreground group-hover:text-primary transition-colors`} />
+      <SocialIcon
+        platform={platform}
+        className={`${iconClassName} text-muted-foreground group-hover:text-primary transition-colors`}
+      />
       <div className="flex-1">
-        <p className="font-medium text-sm md:text-base capitalize">{platform}</p>
+        <p className="font-medium text-sm md:text-base capitalize">
+          {platform}
+        </p>
         {username && (
           <p className="text-xs md:text-sm text-muted-foreground">{username}</p>
         )}
       </div>
-      <svg className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg
+        className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
         <polyline points="15 3 21 3 21 9" />
         <line x1="10" y1="14" x2="21" y2="3" />
