@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: content_data
+title: 站点内容与多语言资源
+scope:
+    - content/
+    - messages/
+source_files: []
+depends_on: []
+related_to:
+    - path: shared_libs
+    - path: app_routes

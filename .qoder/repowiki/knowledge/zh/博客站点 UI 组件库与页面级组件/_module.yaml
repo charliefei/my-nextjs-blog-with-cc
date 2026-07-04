@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: ui_components
+title: 博客站点 UI 组件库与页面级组件
+scope:
+    - components/
+source_files: []
+depends_on: []
+related_to:
+    - path: app_routes
