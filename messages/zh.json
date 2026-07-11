@@ -91,6 +91,17 @@
     "lastUpdated": "更新于：{date}",
     "openInNewTab": "在新标签页打开",
     "preview": "简历预览",
+    "eyebrow": "专业档案",
+    "bio": "职业概述",
+    "bioHint": "精通现代Web技术的全栈开发工程师",
+    "location": "所在地",
+    "social": "联系方式",
+    "socialHint": "在这些渠道查看我的代码、写作和动态",
+    "skillsHighlight": "核心技能",
+    "skillsHint": "{count} 项关键技术与工具",
+    "experienceHighlight": "经验总结",
+    "experienceHint": "{count} 年专业工作经验",
+    "viewExperience": "查看完整经历",
     "quickLinks": {
       "about": "关于我",
       "aboutDesc": "了解更多关于我的背景",
@@ -98,6 +109,11 @@
       "experienceDesc": "查看我的工作经历",
       "blog": "博客",
       "blogDesc": "阅读我的文章"
+    },
+    "stats": {
+      "skills": "{count} 技能",
+      "experience": "{count} 经历",
+      "posts": "{count} 文章"
     }
   },
   "experience": {

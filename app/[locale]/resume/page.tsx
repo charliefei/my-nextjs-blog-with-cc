@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getProfile } from "@/lib/profile";
+import { getExperienceData } from "@/lib/experience";
 import { ResumeContent } from "@/components/resume/resume-content";
 import { buildPageMetadata, type Locale } from "@/lib/seo";
 
@@ -26,6 +27,7 @@ export default async function ResumePage({ params }: ResumePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const profile = getProfile();
+  const experienceData = getExperienceData(locale);
 
-  return <ResumeContent profile={profile} />;
+  return <ResumeContent profile={profile} experienceData={experienceData} />;
 }

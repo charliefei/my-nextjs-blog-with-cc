@@ -91,6 +91,17 @@
     "lastUpdated": "Last updated: {date}",
     "openInNewTab": "Open in new tab",
     "preview": "Resume Preview",
+    "eyebrow": "Professional Profile",
+    "bio": "Career Summary",
+    "bioHint": "Full-stack developer with expertise in modern web technologies.",
+    "location": "Based in",
+    "social": "Connect with me",
+    "socialHint": "Find my code, writing, and updates across these channels.",
+    "skillsHighlight": "Core Skills",
+    "skillsHint": "{count} key technologies and tools",
+    "experienceHighlight": "Experience Summary",
+    "experienceHint": "{count} years of professional experience",
+    "viewExperience": "View full experience",
     "quickLinks": {
       "about": "About Me",
       "aboutDesc": "Learn more about my background",
@@ -98,6 +109,11 @@
       "experienceDesc": "View my work history",
       "blog": "Blog",
       "blogDesc": "Read my articles"
+    },
+    "stats": {
+      "skills": "{count} skills",
+      "experience": "{count} experiences",
+      "posts": "{count} articles"
     }
   },
   "experience": {
