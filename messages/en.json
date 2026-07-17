@@ -114,6 +114,11 @@
       "skills": "{count} skills",
       "experience": "{count} experiences",
       "posts": "{count} articles"
+    },
+    "empty": {
+      "title": "Resume Coming Soon",
+      "description": "The PDF resume hasn't been uploaded yet. Check out the experience page for a detailed look at my background.",
+      "viewExperience": "View Experience"
     }
   },
   "experience": {

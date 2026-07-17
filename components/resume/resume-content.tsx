@@ -2,246 +2,261 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { ProfileConfig } from "@/types/profile";
-import { WorkExperience, Project, SkillCategory } from "@/types/experience";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Download, Calendar, FileText, ExternalLink, MapPin, Terminal, Code2, Briefcase, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Download,
+  ExternalLink,
+  ArrowRight,
+  FileUser,
+  FileText,
+  Briefcase,
+  Code2,
+  GraduationCap,
+} from "lucide-react";
 import Link from "next/link";
 import { getAssetPath } from "@/lib/utils";
-import { SocialLink } from "@/components/icons/social-icons";
 
 interface ResumeContentProps {
   profile: ProfileConfig;
-  experienceData: {
-    work: WorkExperience[];
-    projects: Project[];
-    skills: SkillCategory[];
-  };
 }
 
-export function ResumeContent({ profile, experienceData }: ResumeContentProps) {
+export function ResumeContent({ profile }: ResumeContentProps) {
   const t = useTranslations("resume");
-  const tNav = useTranslations("nav");
   const locale = useLocale();
-  const bio = locale === "zh" ? profile.personal.bio.zh : profile.personal.bio.en;
-  
-  // Calculate total skills count from all categories
-  const totalSkills = experienceData.skills.reduce((acc, cat) => acc + cat.skills.length, 0);
+  const hasPdf = !!profile.resume.pdfUrl;
 
   return (
     <div className="relative min-h-screen">
-      {/* Ambient gradient glow */}
+      {/* Subtle ambient glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-105 bg-[radial-gradient(ellipse_60%_60%_at_30%_0%,oklch(0.7_0.12_190/0.16),transparent_70%),radial-gradient(ellipse_50%_50%_at_85%_5%,oklch(0.65_0.12_170/0.12),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[500px] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,oklch(0.7_0.1_190/0.12),transparent)]"
       />
 
-      <div className="container mx-auto max-w-7xl px-6 py-8 md:py-12 lg:px-8 lg:py-16">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[360px_1fr] lg:gap-12 xl:gap-16">
-          {/* Left Column - Personal Info Card */}
-          <aside className="animate-slide-up lg:sticky lg:top-8 lg:self-start">
-            <div className="dev-card-border group relative overflow-hidden rounded-2xl border border-border/50 bg-card/60 backdrop-blur-sm transition-colors duration-300 hover:border-primary/40">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/20 blur-3xl transition-opacity duration-500 group-hover:opacity-80"
-              />
-
-              {/* Title bar */}
-              <div className="relative flex items-center gap-2 border-b border-border/40 bg-muted/40 px-4 py-2.5">
-                <span className="h-3 w-3 rounded-full bg-destructive/70" />
-                <span className="h-3 w-3 rounded-full bg-chart-4/80" />
-                <span className="h-3 w-3 rounded-full bg-primary/70" />
-                <span className="ml-2 truncate font-mono text-xs text-muted-foreground">
-                  ~/{profile.personal.name.toLowerCase().replace(/\s+/g, "-")}.resume
-                </span>
-                <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-medium text-primary">
-                  <Terminal className="h-3 w-3" />
-                  {t("eyebrow")}
-                </span>
-              </div>
-
-              {/* Body */}
-              <div className="relative p-6">
-                <div className="flex items-start gap-4">
-                  <div className="relative">
-                    <Avatar className="h-20 w-20 ring-1 ring-border/50 ring-offset-2 ring-offset-background">
-                      <AvatarImage src={profile.personal.avatar} alt={profile.personal.name} />
-                      <AvatarFallback className="text-2xl font-bold bg-muted">
-                        {profile.personal.name.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    {profile.personal.jobStatus.openToWork && (
-                      <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-primary animate-pulse flex items-center justify-center ring-2 ring-background">
-                        <Sparkles className="h-2.5 w-2.5 text-primary-foreground" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="min-w-0 flex-1 pt-1">
-                    <h1 className="gradient-text font-heading text-2xl font-bold leading-tight tracking-tight">
-                      {profile.personal.name}
-                    </h1>
-                    <p className="mt-1 text-sm font-medium text-muted-foreground">
-                      {profile.personal.profession}
-                    </p>
-                    <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                      <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />
-                      <span>{profile.personal.location}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bio */}
-                <div className="mt-5 rounded-lg border border-border/40 bg-muted/30 px-3 py-2.5 font-mono text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="text-primary">❯</span>
-                    <span className="text-muted-foreground">whoami</span>
-                    <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
-                      <Code2 className="h-3 w-3" />
-                      {t("skillsHint", { count: totalSkills })}
-                    </span>
-                  </div>
-                  <p className="mt-2 font-sans text-sm leading-7 text-muted-foreground">{bio}</p>
-                </div>
-
-                {/* Stats */}
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
-                    <Code2 className="h-3 w-3 text-primary" />
-                    <span>{t("stats.skills", { count: totalSkills })}</span>
-                  </Badge>
-                  <Badge variant="outline" className="gap-1.5 text-xs px-3 py-1.5 border-border/50 bg-background">
-                    <Briefcase className="h-3 w-3 text-primary" />
-                    <span>{t("stats.experience", { count: experienceData.work.length })}</span>
-                  </Badge>
-                </div>
-
-                {/* Social */}
-                <div className="mt-5 flex items-center gap-3 border-t border-border/30 pt-5">
-                  {profile.social.map((social) => (
-                    <SocialLink
-                      key={social.platform}
-                      platform={social.platform}
-                      url={social.url}
-                      variant="button"
-                      iconClassName="h-4 w-4"
-                      className="cursor-pointer"
-                    />
-                  ))}
-                </div>
-
-                {/* Download Actions */}
-                <div className="mt-5 flex flex-col gap-2 border-t border-border/30 pt-5">
-                  <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" download rel="noopener noreferrer" className="w-full">
-                    <Button className="group/btn h-9 w-full cursor-pointer justify-center gap-2">
-                      <Download className="h-4 w-4" />
-                      {t("download")}
-                    </Button>
-                  </a>
-                  <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" rel="noopener noreferrer" className="w-full">
-                    <Button variant="outline" className="group/btn h-9 w-full cursor-pointer justify-center gap-2">
-                      <ExternalLink className="h-4 w-4" />
-                      {t("openInNewTab")}
-                    </Button>
-                  </a>
-                </div>
-
-                {/* Last Updated */}
-                <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>{t("lastUpdated", { date: profile.resume.lastUpdated })}</span>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Right Column - Resume Content */}
-          <main className="animate-slide-up space-y-8" style={{ animationDelay: "0.12s" }}>
-            <section className="space-y-3">
-              <Badge variant="outline" className="border-border/60 bg-background">
+      <div className="container mx-auto max-w-5xl px-4 py-8 sm:px-6 md:py-12 lg:px-8 lg:py-16">
+        {/* Header */}
+        <header className="animate-slide-up mb-8 md:mb-10">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 font-mono text-xs text-primary">
+                <FileUser className="h-3.5 w-3.5" />
                 {t("eyebrow")}
-              </Badge>
-              <h2 className="font-heading text-3xl font-bold leading-tight md:text-4xl">
+              </div>
+              <h1 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
                 <span className="gradient-text">{t("title")}</span>
-              </h2>
-            </section>
-
-            {/* PDF Viewer */}
-            <Card className="glass overflow-hidden">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-5 w-5 text-primary" />
-                    <span className="font-medium">{t("preview")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" download rel="noopener noreferrer">
-                      <Button variant="ghost" size="sm" className="gap-2">
-                        <Download className="h-4 w-4" />
-                        <span className="hidden sm:inline">{t("download")}</span>
-                      </Button>
-                    </a>
-                    <a href={getAssetPath(profile.resume.pdfUrl)} target="_blank" rel="noopener noreferrer">
-                      <Button variant="ghost" size="sm" className="gap-2">
-                        <ExternalLink className="h-4 w-4" />
-                        <span className="hidden sm:inline">{t("openInNewTab")}</span>
-                      </Button>
-                    </a>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="w-full" style={{ height: "calc(100vh - 300px)", minHeight: "600px" }}>
-                  <iframe
-                    src={`${getAssetPath(profile.resume.pdfUrl)}#toolbar=0`}
-                    className="w-full h-full border-0"
-                    title="Resume PDF"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Links */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link href={`/${locale}/about`} className="group">
-                <Card className="h-full glass transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold group-hover:text-primary transition-colors">{t("quickLinks.about")}</h3>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">{t("quickLinks.aboutDesc")}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link href={`/${locale}/experience`} className="group">
-                <Card className="h-full glass transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold group-hover:text-primary transition-colors">{t("quickLinks.experience")}</h3>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">{t("quickLinks.experienceDesc")}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link href={`/${locale}/blog`} className="group">
-                <Card className="h-full glass transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold group-hover:text-primary transition-colors">{t("quickLinks.blog")}</h3>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">{t("quickLinks.blogDesc")}</p>
-                  </CardContent>
-                </Card>
-              </Link>
+              </h1>
+              <p className="mt-2 max-w-lg text-sm text-muted-foreground">
+                {profile.personal.name} · {profile.personal.profession}
+              </p>
             </div>
-          </main>
-        </div>
+
+            {/* Action buttons */}
+            {hasPdf && (
+              <div className="flex items-center gap-2">
+                <a
+                  href={getAssetPath(profile.resume.pdfUrl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                >
+                  <Button
+                    size="sm"
+                    className="group/btn h-9 cursor-pointer gap-2"
+                  >
+                    <Download className="h-4 w-4 transition-transform group-hover/btn:-translate-y-0.5" />
+                    {t("download")}
+                  </Button>
+                </a>
+                <a
+                  href={getAssetPath(profile.resume.pdfUrl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-9 cursor-pointer gap-2"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    {t("openInNewTab")}
+                  </Button>
+                </a>
+              </div>
+            )}
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="animate-slide-up" style={{ animationDelay: "0.08s" }}>
+          {hasPdf ? (
+            <PdfViewer
+              pdfUrl={getAssetPath(profile.resume.pdfUrl)}
+              lastUpdated={profile.resume.lastUpdated}
+              downloadLabel={t("download")}
+              updatedLabel={t("lastUpdated", {
+                date: profile.resume.lastUpdated,
+              })}
+            />
+          ) : (
+            <EmptyResume t={t} locale={locale} />
+          )}
+        </main>
+
+        {/* Quick links */}
+        <nav
+          className="animate-slide-up mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-10"
+          style={{ animationDelay: "0.16s" }}
+        >
+          <QuickLink
+            href={`/${locale}/about`}
+            icon={<Code2 className="h-4 w-4" />}
+            label={t("quickLinks.about")}
+            description={t("quickLinks.aboutDesc")}
+          />
+          <QuickLink
+            href={`/${locale}/experience`}
+            icon={<Briefcase className="h-4 w-4" />}
+            label={t("quickLinks.experience")}
+            description={t("quickLinks.experienceDesc")}
+          />
+          <QuickLink
+            href={`/${locale}/blog`}
+            icon={<GraduationCap className="h-4 w-4" />}
+            label={t("quickLinks.blog")}
+            description={t("quickLinks.blogDesc")}
+          />
+        </nav>
       </div>
     </div>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   PDF Viewer
+   ────────────────────────────────────────────── */
+
+function PdfViewer({
+  pdfUrl,
+  lastUpdated,
+  downloadLabel,
+  updatedLabel,
+}: {
+  pdfUrl: string;
+  lastUpdated: string;
+  downloadLabel: string;
+  updatedLabel: string;
+}) {
+  return (
+    <div className="group relative overflow-hidden rounded-xl border border-border/50 bg-card/40 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-border/80 hover:shadow-md">
+      {/* Toolbar */}
+      <div className="flex items-center justify-between border-b border-border/40 bg-muted/30 px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+            <span className="h-2.5 w-2.5 rounded-full bg-chart-4/60" />
+            <span className="h-2.5 w-2.5 rounded-full bg-primary/60" />
+          </div>
+          <span className="ml-2 font-mono text-xs text-muted-foreground">
+            resume.pdf
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="hidden items-center gap-1.5 text-xs text-muted-foreground sm:flex">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary/60" />
+            {updatedLabel}
+          </span>
+          <a
+            href={pdfUrl}
+            target="_blank"
+            download
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <Download className="h-3.5 w-3.5" />
+            {downloadLabel}
+          </a>
+        </div>
+      </div>
+
+      {/* PDF embed */}
+      <div
+        className="w-full"
+        style={{ height: "calc(100vh - 320px)", minHeight: "560px" }}
+      >
+        <iframe
+          src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
+          className="h-full w-full border-0"
+          title="Resume PDF"
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   Empty State — no PDF configured
+   ────────────────────────────────────────────── */
+
+function EmptyResume({
+  t,
+  locale,
+}: {
+  t: ReturnType<typeof useTranslations>;
+  locale: string;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 bg-card/30 px-6 py-16 text-center backdrop-blur-sm">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border/50 bg-muted/40 text-muted-foreground/60">
+        <FileText className="h-7 w-7" />
+      </div>
+      <h2 className="mt-5 font-heading text-lg font-semibold tracking-tight">
+        {t("empty.title")}
+      </h2>
+      <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+        {t("empty.description")}
+      </p>
+      <Link
+        href={`/${locale}/experience`}
+        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+      >
+        {t("empty.viewExperience")}
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────
+   Shared small components
+   ────────────────────────────────────────────── */
+
+function QuickLink({
+  href,
+  icon,
+  label,
+  description,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  description: string;
+}) {
+  return (
+    <Link href={href} className="group">
+      <div className="flex h-full items-center justify-between rounded-xl border border-border/50 bg-card/40 p-4 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card/60 hover:shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-muted/30 text-muted-foreground transition-colors group-hover:border-primary/30 group-hover:bg-primary/10 group-hover:text-primary">
+            {icon}
+          </div>
+          <div>
+            <div className="text-sm font-semibold transition-colors group-hover:text-primary">
+              {label}
+            </div>
+            <div className="text-xs text-muted-foreground">{description}</div>
+          </div>
+        </div>
+        <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-primary" />
+      </div>
+    </Link>
   );
 }

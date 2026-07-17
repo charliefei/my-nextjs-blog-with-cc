@@ -114,6 +114,11 @@
       "skills": "{count} 技能",
       "experience": "{count} 经历",
       "posts": "{count} 文章"
+    },
+    "empty": {
+      "title": "简历即将上线",
+      "description": "PDF 简历暂未上传，欢迎前往经历页面了解详细的工作背景。",
+      "viewExperience": "查看经历"
     }
   },
   "experience": {
