@@ -123,6 +123,9 @@
   },
   "experience": {
     "title": "Experience",
+    "eyebrow": "Professional Profile",
+    "description": "My work experience, projects, and technical skills overview",
+    "tabsLabel": "Experience content sections",
     "skills": "Skills",
     "projects": "Projects",
     "work": "Work Experience",

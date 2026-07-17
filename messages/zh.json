@@ -123,6 +123,9 @@
   },
   "experience": {
     "title": "工作经历",
+    "eyebrow": "职业档案",
+    "description": "我的工作经历、项目实践和技术栈概览",
+    "tabsLabel": "经历内容分区",
     "skills": "专业技能",
     "projects": "项目经历",
     "work": "工作经历",
