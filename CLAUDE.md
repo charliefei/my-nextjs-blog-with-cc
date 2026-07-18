@@ -8,6 +8,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Personal blog built with Next.js 16.2.2, Tailwind CSS v4, shadcn/ui (@base-ui/react), and next-intl. Static export to GitHub Pages.
 
+**Requires:** Node.js v22+
+
 ## Commands
 
 ```bash
@@ -46,6 +48,8 @@ components/
   ui/                          # shadcn components (uses @base-ui/react, not Radix)
   blog/, home/, about/, ...    # Feature-specific components
   comments/                    # Giscus comments (GiscusComments)
+  icons/                       # Icon components (social-icons.tsx)
+  resume/                      # Resume page components (resume-content.tsx)
   theme/                       # next-themes ThemeProvider + ThemeToggle
 
 content/
@@ -145,15 +149,6 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 - Namespace per feature: `nav`, `home`, `blog`, `about`, `resume`, `experience`, `footer`, `theme`, `lang`, `notFound`
 - `t()` supports interpolation: `t("key", { count: n, name: "..." })`
 - Watch for easily-missed hardcoded strings: stat counters (`{n} 技能`), filter labels, sr-only text, empty state messages, badge text
-
-### ui-ux-pro-max Skill
-- Installed at `.claude/skills/ui-ux-pro-max/`
-- **Correct shell command:**
-  ```bash
-  python .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system -p "Name"
-  ```
-- **Common mistake:** Using `skills/ui-ux-pro-max/scripts/search.py` (missing `.claude/` prefix) — fails with "No such file or directory"
-- The skill's base directory is `.claude/skills/ui-ux-pro-max/`, not `skills/ui-ux-pro-max/`
 
 ### RSC Crash Postmortem
 - Full write-up of the `enqueueModel is not a function` client-nav crash lives at [`docs/bugfix-rsc-enqueueModel.md`](docs/bugfix-rsc-enqueueModel.md). Read it before touching markdown read paths or the build pipeline.
