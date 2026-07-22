@@ -6,7 +6,7 @@ import { ArrowLeft, Calendar, Clock, User, Tag, FolderOpen } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogCard } from "@/components/blog/blog-card";
-import { TableOfContents } from "@/components/blog/toc";
+import { MobileToc, DesktopToc } from "@/components/blog/toc";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { GiscusComments } from "@/components/comments/giscus-comments";
 import type { GiscusConfig } from "@/types/profile";
@@ -31,155 +31,134 @@ export function BlogContent({
 }: BlogContentProps) {
   const t = useTranslations("blog");
   const tocItems = extractToc(post.content);
+  const formattedDate = new Date(post.date).toLocaleDateString(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <article className="min-h-screen">
       <ReadingProgress />
 
-      {/* Hero Section with Cover */}
-      <header className="relative">
-        {post.coverImage ? (
-          <div className="relative h-[50vh] min-h-100 max-h-150 overflow-hidden">
-            <div
-              className="absolute inset-0 bg-cover bg-center bg-fixed"
-              style={{ backgroundImage: `url(${post.coverImage})` }}
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/20" />
-            <div className="absolute inset-0 bg-linear-to-r from-background/40 to-transparent" />
+      <div className="container mx-auto px-6 lg:px-8 max-w-350">
+        {/* Mobile TOC — sticky bar at top */}
+        {tocItems.length > 0 && <MobileToc items={tocItems} />}
 
-            <div className="absolute inset-0 flex items-end">
-              <div className="container mx-auto px-6 lg:px-8 pb-12 pt-20 max-w-5xl">
-                <div className="space-y-5 animate-slide-up">
-                  <Link href={`/${locale}/blog`}>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="gap-2 text-white/80 hover:text-white hover:bg-white/10 backdrop-blur-sm"
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                      {t("prevPost")}
-                    </Button>
-                  </Link>
+        <div className="flex items-start gap-10 xl:gap-12">
 
-                  <div className="flex items-center gap-3">
-                    <Badge
-                      variant="outline"
-                      className="bg-primary/20 text-primary border-primary/30 backdrop-blur-sm gap-1.5 px-3 py-1"
-                    >
-                      <FolderOpen className="h-3 w-3" />
-                      {post.category}
-                    </Badge>
-                  </div>
-
-                  <h1 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight">
-                    {post.title}
-                  </h1>
-
-                  {/* Decorative accent line */}
-                  <div className="w-16 h-1 rounded-full bg-linear-to-r from-primary to-accent" />
-
-                  <p className="text-sm md:text-lg text-white/80 max-w-2xl leading-relaxed">
-                    {post.description}
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-4 text-white/70 text-sm">
-                    <div className="flex items-center gap-1.5">
-                      <User className="h-3.5 w-3.5" />
-                      <span>{post.author}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="h-3.5 w-3.5" />
-                      <span>{new Date(post.date).toLocaleDateString(locale, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                      })}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5" />
-                      <span>{t("readingTime", { time: post.readingTime })}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {post.tags.map((tag) => (
-                      <span key={tag} className="tag-item backdrop-blur-sm bg-white/10 border-white/20">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="relative bg-linear-to-b from-muted/80 to-background">
-            <div className="container mx-auto px-6 lg:px-8 py-12 md:py-16 max-w-5xl space-y-5 animate-fade-in">
+          {/* ── Left Sidebar: Article Info (desktop only) ── */}
+          <aside className="hidden xl:block w-56 shrink-0 sticky top-24 self-start">
+            <div className="space-y-5 animate-fade-in">
               <Link href={`/${locale}/blog`}>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
+                <Button variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">
+                  <ArrowLeft className="h-3.5 w-3.5" />
                   {t("prevPost")}
                 </Button>
               </Link>
 
-              <Badge className="gap-1.5 px-3 py-1">
+              {post.coverImage && (
+                <div className="rounded-lg overflow-hidden border border-border/30">
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    className="w-full h-auto object-cover"
+                    loading="eager"
+                  />
+                </div>
+              )}
+
+              <Badge variant="outline" className="gap-1.5 px-2.5 py-0.5 text-xs">
                 <FolderOpen className="h-3 w-3" />
                 {post.category}
               </Badge>
 
-              <h1 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+              <h1 className="font-heading text-lg font-bold tracking-tight leading-snug">
                 {post.title}
               </h1>
 
-              {/* Decorative accent line */}
-              <div className="w-16 h-1 rounded-full bg-linear-to-r from-primary to-accent" />
-
-              <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                {post.description}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-muted-foreground text-sm">
+              <div className="space-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5" />
+                  <User className="h-3 w-3" />
                   <span>{post.author}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>{new Date(post.date).toLocaleDateString(locale, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                  })}</span>
+                  <Calendar className="h-3 w-3" />
+                  <span>{formattedDate}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5" />
+                  <Clock className="h-3 w-3" />
                   <span>{t("readingTime", { time: post.readingTime })}</span>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className="flex flex-wrap gap-1.5">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="tag-item">
+                  <span key={tag} className="tag-item text-[0.65rem]">
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
-          </div>
-        )}
-      </header>
+          </aside>
 
-      {/* Article Content - Two Column Layout */}
-      <div className="container mx-auto px-6 lg:px-8 py-8 lg:py-12 max-w-7xl">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-          {/* Main Content */}
-          <div className="flex-1 min-w-0 order-2 lg:order-1 w-full max-w-full lg:max-w-3xl">
-            <div className="prose dark:prose-invert animate-slide-up w-full max-w-full overflow-x-hidden">
+          {/* ── Main Content ── */}
+          <div className="flex-1 min-w-0 w-full max-w-prose mx-auto py-8 lg:py-12">
+            {/* Mobile: minimal article info at top */}
+            <div className="xl:hidden mb-8 space-y-3 animate-fade-in">
+              <Link href={`/${locale}/blog`}>
+                <Button variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  {t("prevPost")}
+                </Button>
+              </Link>
+
+              <Badge variant="outline" className="gap-1.5 px-2.5 py-0.5 text-xs">
+                <FolderOpen className="h-3 w-3" />
+                {post.category}
+              </Badge>
+
+              <h1 className="font-heading text-2xl md:text-3xl font-bold tracking-tight leading-tight">
+                {post.title}
+              </h1>
+
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {post.description}
+              </p>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground text-xs">
+                <div className="flex items-center gap-1.5">
+                  <User className="h-3 w-3" />
+                  <span>{post.author}</span>
+                </div>
+                <span className="text-border">·</span>
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="h-3 w-3" />
+                  <span>{formattedDate}</span>
+                </div>
+                <span className="text-border">·</span>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3 w-3" />
+                  <span>{t("readingTime", { time: post.readingTime })}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5">
+                {post.tags.map((tag) => (
+                  <span key={tag} className="tag-item text-[0.65rem]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Article Body */}
+            <div className="prose dark:prose-invert w-full max-w-full overflow-x-hidden">
               <MarkdownRenderer content={post.content} highlightedCode={highlightedCode} />
             </div>
 
-            {/* Tags Section */}
-            <div className="mt-12 pt-8 border-t border-border/30">
+            {/* Article Footer: Tags + Category */}
+            <div className="mt-14 pt-8 border-t border-border/30 space-y-6">
               <div className="tag-section-header mb-4">
                 <Tag className="h-4 w-4" />
                 <span>{t("articleTags")}</span>
@@ -195,55 +174,54 @@ export function BlogContent({
                   </Link>
                 ))}
               </div>
+
+              <div className="flex items-center gap-3">
+                <FolderOpen className="h-4 w-4 text-muted-foreground" />
+                <Link
+                  href={`/${locale}/blog?category=${post.category}`}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
+                >
+                  {t("viewMoreCategory", { category: post.category })}
+                </Link>
+              </div>
             </div>
 
-            {/* Category Link */}
-            <div className="mt-6 flex items-center gap-3">
-              <FolderOpen className="h-4 w-4 text-muted-foreground" />
-              <Link
-                href={`/${locale}/blog?category=${post.category}`}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors underline underline-offset-2"
-              >
-                {t("viewMoreCategory", { category: post.category })}
-              </Link>
-            </div>
-
-            {/* Gradient Divider */}
+            {/* Comments */}
             <div className="gradient-divider my-10" />
-
             <GiscusComments
               config={commentsConfig}
               locale={locale}
               term={`blog/${post.slug}`}
             />
 
-            {commentsConfig && <div className="gradient-divider my-10" />}
-
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
-              <section className="space-y-6 animate-slide-up">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-heading text-xl font-semibold">{t("relatedPosts")}</h2>
-                  <Link
-                    href={`/${locale}/blog`}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {t("browseAll")}
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {relatedPosts.map((relatedPost) => (
-                    <BlogCard key={relatedPost.slug} post={relatedPost} />
-                  ))}
-                </div>
-              </section>
+              <>
+                <div className="gradient-divider my-10" />
+                <section className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-heading text-xl font-semibold">{t("relatedPosts")}</h2>
+                    <Link
+                      href={`/${locale}/blog`}
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {t("browseAll")}
+                    </Link>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {relatedPosts.map((relatedPost) => (
+                      <BlogCard key={relatedPost.slug} post={relatedPost} />
+                    ))}
+                  </div>
+                </section>
+              </>
             )}
           </div>
 
-          {/* TOC Sidebar */}
+          {/* ── Right Sidebar: Desktop TOC ── */}
           {tocItems.length > 0 && (
-            <aside className="w-full lg:w-64 shrink-0 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
-              <TableOfContents items={tocItems} />
+            <aside className="hidden lg:block w-60 shrink-0 sticky top-24 self-start">
+              <DesktopToc items={tocItems} />
             </aside>
           )}
         </div>
