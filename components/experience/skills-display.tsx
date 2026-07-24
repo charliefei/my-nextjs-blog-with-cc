@@ -63,12 +63,12 @@ export function SkillsDisplay({ skills }: SkillsDisplayProps) {
           style={{ animationDelay: `${index * 0.1}s` }}
         >
           {/* Category header */}
-          <div className="flex items-center gap-3 border-b border-border/40 bg-muted/30 px-5 py-3.5">
+          <div className="flex min-w-0 items-center gap-3 border-b border-border/40 bg-muted/30 px-5 py-3.5">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-background/60 text-muted-foreground transition-colors duration-300 group-hover:border-primary/30 group-hover:bg-primary/10 group-hover:text-primary">
               {getCategoryIcon(category.category)}
             </div>
-            <div>
-              <h3 className="font-heading text-sm font-semibold">{category.category}</h3>
+            <div className="min-w-0">
+              <h3 className="truncate font-heading text-sm font-semibold">{category.category}</h3>
               <p className="text-xs text-muted-foreground">
                 {category.skills.length} {category.skills.length === 1 ? "skill" : "skills"}
               </p>
@@ -79,9 +79,9 @@ export function SkillsDisplay({ skills }: SkillsDisplayProps) {
           <div className="space-y-3.5 p-5">
             {category.skills.map((skill) => (
               <div key={skill.name} className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{skill.name}</span>
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="min-w-0 truncate text-sm font-medium">{skill.name}</span>
+                  <div className="flex shrink-0 items-center gap-2">
                     <span className="text-xs text-muted-foreground">
                       {getLevelLabel(skill.level)}
                     </span>

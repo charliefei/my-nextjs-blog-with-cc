@@ -20,7 +20,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       className="group relative flex animate-fade-in flex-col overflow-hidden rounded-xl border border-border/50 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card/80 hover:shadow-md"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      {/* Featured badge */}
+      {/* Featured badge — reserve space in content flow via pr-* on the title */}
       {isFeatured && (
         <div className="absolute top-3 right-3 z-10">
           <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 gap-1">
@@ -44,7 +44,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       {/* Content */}
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3 mb-2">
-          <h3 className="font-heading text-base font-semibold transition-colors group-hover:text-primary">
+          <h3 className={`min-w-0 flex-1 font-heading text-base font-semibold transition-colors group-hover:text-primary ${isFeatured ? "pr-16" : ""}`}>
             {project.title}
           </h3>
           <div className="flex gap-1.5 shrink-0">
@@ -81,7 +81,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         )}
 
-        <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{project.description}</p>
+        <p className="text-sm text-muted-foreground mb-3 leading-relaxed line-clamp-3">{project.description}</p>
 
         <div className="prose-compact dark:prose-invert max-w-none flex-1 prose">
           <ReactMarkdown>{project.content}</ReactMarkdown>

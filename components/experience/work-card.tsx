@@ -38,16 +38,16 @@ export function WorkCard({ work, index }: WorkCardProps) {
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-heading text-base font-semibold">{work.position}</h3>
+                <h3 className="min-w-0 font-heading text-base font-semibold">{work.position}</h3>
                 {isCurrent && (
                   <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs px-2 py-0.5">
                     {t("current")}
                   </Badge>
                 )}
               </div>
-              <div className="mt-1 flex items-center gap-2">
+              <div className="mt-1 flex min-w-0 items-center gap-2">
                 <Building2 className="h-3.5 w-3.5 shrink-0 text-primary" />
-                <p className="text-sm font-medium text-primary">{work.company}</p>
+                <p className="min-w-0 truncate text-sm font-medium text-primary">{work.company}</p>
               </div>
             </div>
           </div>

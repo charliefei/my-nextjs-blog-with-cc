@@ -80,18 +80,18 @@ export function ExperienceContent({ work, projects, skills }: ExperienceContentP
                   aria-controls={`experience-${tab.key}-panel`}
                   id={`experience-${tab.key}-tab`}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`relative z-10 flex cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                  className={`relative z-10 flex min-w-0 cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-full px-3 py-2.5 text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                     isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <span
-                    className={`transition-colors duration-300 ${isActive ? "text-primary" : ""}`}
+                    className={`shrink-0 transition-colors duration-300 ${isActive ? "text-primary" : ""}`}
                   >
                     {tab.icon}
                   </span>
-                  <span className="whitespace-nowrap">{tab.label}</span>
+                  <span className="truncate">{tab.label}</span>
                   <span
-                    className={`hidden rounded-full px-2 py-0.5 text-xs transition-colors duration-300 sm:inline ${
+                    className={`hidden shrink-0 rounded-full px-2 py-0.5 text-xs transition-colors duration-300 sm:inline ${
                       isActive
                         ? "bg-primary/10 text-primary"
                         : "bg-muted/60 text-muted-foreground"
