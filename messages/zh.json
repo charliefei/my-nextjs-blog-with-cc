@@ -53,6 +53,10 @@
     "articleTags": "文章标签",
     "viewMoreCategory": "查看更多 {category} 分类文章",
     "browseAll": "浏览全部",
+    "viewGrid": "网格视图",
+    "viewList": "列表视图",
+    "showingResults": "显示 {total} 篇中的 {count} 篇",
+    "featured": "精选",
     "stats": {
       "articles": "篇",
       "tags": "标签"

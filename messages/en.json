@@ -53,6 +53,10 @@
     "articleTags": "Article Tags",
     "viewMoreCategory": "View more {category} articles",
     "browseAll": "Browse all",
+    "viewGrid": "Grid view",
+    "viewList": "List view",
+    "showingResults": "Showing {count} of {total} posts",
+    "featured": "Featured",
     "stats": {
       "articles": "articles",
       "tags": "tags"

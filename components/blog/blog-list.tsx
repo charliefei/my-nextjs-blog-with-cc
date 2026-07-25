@@ -1,12 +1,21 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { BlogCard } from "@/components/blog/blog-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useMemo } from "react";
-import { Search, Tag, X, FileText, Sparkles, Hash } from "lucide-react";
+import {
+  Search,
+  Tag,
+  X,
+  FileText,
+  Hash,
+  LayoutGrid,
+  List,
+  Sparkles
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PostMeta } from "@/types/post";
 
@@ -18,19 +27,11 @@ interface BlogListProps {
 
 export function BlogList({ posts, tags, categories }: BlogListProps) {
   const t = useTranslations("blog");
-  const locale = useLocale();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
-
-  // Sort posts by date descending (newest first)
-  const sortedPosts = useMemo(() => {
-    return [...posts].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-  }, [posts]);
+  const [view, setView] = useState<"grid" | "list">("grid");
 
   // Compute post count per category
   const categoryCounts = useMemo(() => {
@@ -42,17 +43,19 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
-    return sortedPosts.filter((post) => {
-      const matchesSearch =
-        !searchQuery ||
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesTag = !selectedTag || post.tags.includes(selectedTag);
-      const matchesCategory =
-        !selectedCategory || post.category === selectedCategory;
-      return matchesSearch && matchesTag && matchesCategory;
-    });
-  }, [sortedPosts, searchQuery, selectedTag, selectedCategory]);
+    return posts
+      .filter((post) => {
+        const matchesSearch =
+          !searchQuery ||
+          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesTag = !selectedTag || post.tags.includes(selectedTag);
+        const matchesCategory =
+          !selectedCategory || post.category === selectedCategory;
+        return matchesSearch && matchesTag && matchesCategory;
+      })
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [posts, searchQuery, selectedTag, selectedCategory]);
 
   const hasFilters = selectedTag || selectedCategory || searchQuery;
 
@@ -62,19 +65,22 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
     setSelectedCategory(null);
   };
 
-  // First post is featured
-  const featuredPost = filteredPosts[0];
-  const regularPosts = filteredPosts.slice(1);
+  // First post is featured (only in grid view with no filters)
+  const showFeatured = view === "grid" && !hasFilters;
+  const featuredPost = showFeatured ? filteredPosts[0] : null;
+  const regularPosts = showFeatured ? filteredPosts.slice(1) : filteredPosts;
 
   return (
     <div className="min-h-screen">
       {/* Editorial Header */}
       <header className="relative py-12 md:py-16">
-        {/* Subtle background texture */}
-        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-background to-background" />
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
-        }} />
+        <div className="absolute inset-0 bg-linear-to-b from-muted/30 via-background to-background" />
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
 
         <div className="relative container mx-auto px-6 lg:px-8 max-w-5xl">
           {/* Centered Content */}
@@ -88,10 +94,12 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               <Sparkles className="h-4 w-4 text-primary/60" />
             </div>
 
+            {/* Title */}
             <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               {t("title")}
             </h1>
 
+            {/* Description */}
             <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
               {t("description")}
             </p>
@@ -101,17 +109,21 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
                 <FileText className="h-3.5 w-3.5 text-primary" />
                 <span className="font-medium">{posts.length}</span>
-                <span className="text-muted-foreground">{t("stats.articles")}</span>
+                <span className="text-muted-foreground">
+                  {t("stats.articles")}
+                </span>
               </div>
               <div className="w-1 h-1 rounded-full bg-border" />
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50">
                 <Tag className="h-3.5 w-3.5 text-primary" />
                 <span className="font-medium">{tags.length}</span>
-                <span className="text-muted-foreground">{t("stats.tags")}</span>
+                <span className="text-muted-foreground">
+                  {t("stats.tags")}
+                </span>
               </div>
             </div>
 
-            {/* Elegant Search Bar */}
+            {/* Search Bar */}
             <div className="relative max-w-md mx-auto">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
               <Input
@@ -129,65 +141,51 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
                 </button>
               )}
             </div>
-
-            {/* Minimal Filter Toggle */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors group"
-            >
-              <span className="group-hover:underline underline-offset-2">
-                {showFilters ? t("hideFilters") : t("showFilters")}
-              </span>
-              <span className="text-xs opacity-50">
-                {showFilters ? "↑" : "↓"}
-              </span>
-            </button>
           </div>
         </div>
       </header>
 
-      {/* Compact Tags Filter Panel */}
-      {showFilters && (
-        <div className="border-y border-border/40 bg-muted/20 animate-slide-up">
-          <div className="container mx-auto px-6 lg:px-8 max-w-5xl py-6">
-            <div className="space-y-2.5">
+      {/* Tags Filter — always visible */}
+      <div className="border-y border-border/40 bg-muted/20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-5xl py-5">
+          <div className="space-y-2.5">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5 text-xs font-medium text-foreground uppercase tracking-wide">
                 <Tag className="h-3.5 w-3.5" />
                 {t("tags")}
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant={selectedTag === tag ? "default" : "outline"}
-                    className="cursor-pointer transition-all hover:border-primary/40 text-xs px-2.5 py-1"
-                    onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {hasFilters && (
-              <div className="mt-4 pt-4 border-t border-border/30">
+              {hasFilters && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={clearFilters}
-                  className="text-xs text-muted-foreground h-8"
+                  className="text-xs text-muted-foreground h-7 px-2"
                 >
-                  <X className="h-3 w-3 mr-1.5" />
+                  <X className="h-3 w-3 mr-1" />
                   {t("clearFilters")}
                 </Button>
-              </div>
-            )}
+              )}
+            </div>
+            <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1">
+              {tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant={selectedTag === tag ? "default" : "outline"}
+                  className="cursor-pointer transition-all hover:border-primary/40 text-xs px-2.5 py-1 shrink-0"
+                  onClick={() =>
+                    setSelectedTag(selectedTag === tag ? null : tag)
+                  }
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Active Filters Inline Display */}
-      {hasFilters && !showFilters && (
+      {hasFilters && (
         <div className="relative z-10 container mx-auto px-6 lg:px-8 max-w-5xl pt-4">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {selectedCategory && (
@@ -230,7 +228,7 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
       {/* Main Layout: Category Sidebar + Posts */}
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl py-10">
         <div className="flex gap-8 lg:gap-10">
-          {/* Category Sidebar – desktop only */}
+          {/* Category Sidebar — desktop only */}
           <aside className="hidden lg:block w-56 shrink-0">
             <div className="sticky top-24">
               <div className="rounded-xl border border-border/40 bg-card/40 backdrop-blur-sm overflow-hidden">
@@ -244,7 +242,6 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
 
                 {/* Category list */}
                 <nav className="p-2 space-y-0.5" aria-label={t("categories")}>
-                  {/* "Browse All" option */}
                   <button
                     onClick={() => setSelectedCategory(null)}
                     className={cn(
@@ -258,7 +255,9 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
                       <span
                         className={cn(
                           "w-1.5 h-1.5 rounded-full shrink-0 transition-colors",
-                          !selectedCategory ? "bg-primary" : "bg-muted-foreground/30"
+                          !selectedCategory
+                            ? "bg-primary"
+                            : "bg-muted-foreground/30"
                         )}
                       />
                       <span className="truncate">{t("browseAll")}</span>
@@ -268,7 +267,6 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
                     </span>
                   </button>
 
-                  {/* Category items */}
                   {categories.map((category) => (
                     <button
                       key={category}
@@ -323,11 +321,15 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
                   <span
                     className={cn(
                       "w-1.5 h-1.5 rounded-full shrink-0",
-                      !selectedCategory ? "bg-primary-foreground/60" : "bg-muted-foreground/40"
+                      !selectedCategory
+                        ? "bg-primary-foreground/60"
+                        : "bg-muted-foreground/40"
                     )}
                   />
                   {t("browseAll")}
-                  <span className="text-xs opacity-70 tabular-nums">{posts.length}</span>
+                  <span className="text-xs opacity-70 tabular-nums">
+                    {posts.length}
+                  </span>
                 </button>
                 {categories.map((category) => (
                   <button
@@ -362,26 +364,73 @@ export function BlogList({ posts, tags, categories }: BlogListProps) {
               </div>
             </div>
 
+            {/* Content Header: results count + view toggle */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-muted-foreground">
+                {hasFilters
+                  ? t("showingResults", {
+                      count: filteredPosts.length,
+                      total: posts.length,
+                    })
+                  : `${posts.length} ${t("stats.articles")}`}
+              </p>
+
+              {/* View Toggle */}
+              <div className="flex items-center gap-1 p-0.5 rounded-lg bg-muted/50 border border-border/40">
+                <button
+                  onClick={() => setView("grid")}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all",
+                    view === "grid"
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                  aria-label={t("viewGrid")}
+                >
+                  <LayoutGrid className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setView("list")}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all",
+                    view === "list"
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                  aria-label={t("viewList")}
+                >
+                  <List className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
             {/* Posts */}
             {filteredPosts.length > 0 ? (
               <div className="space-y-8">
-                {/* Featured Post */}
+                {/* Featured Post (grid view, no filters) */}
                 {featuredPost && (
                   <div className="animate-slide-up">
                     <BlogCard post={featuredPost} featured />
                   </div>
                 )}
 
-                {/* Regular Posts Grid */}
+                {/* Regular Posts */}
                 {regularPosts.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-slide-up">
+                  <div
+                    className={cn(
+                      view === "grid"
+                        ? "grid grid-cols-1 md:grid-cols-2 gap-5"
+                        : "space-y-3",
+                      "animate-slide-up"
+                    )}
+                  >
                     {regularPosts.map((post, index) => (
                       <div
                         key={post.slug}
                         className="animate-fade-in"
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
-                        <BlogCard post={post} />
+                        <BlogCard post={post} view={view} />
                       </div>
                     ))}
                   </div>
