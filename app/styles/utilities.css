@@ -1,0 +1,79 @@
+/* ========================================
+   Shared visual utilities
+   Used across pages/layout (gradient backgrounds, tags, dividers).
+   ======================================== */
+
+/* Gradient background for hero sections */
+@layer utilities {
+  .gradient-bg {
+    background:
+      radial-gradient(ellipse at 20% 0%, oklch(from var(--primary) l c h / 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, oklch(from var(--accent) l c h / 0.1) 0%, transparent 50%),
+      var(--background);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .noise {
+    position: relative;
+  }
+
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/200/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ========================================
+   Tag Styling - Editorial aesthetic
+   ======================================== */
+
+.tag-item {
+  @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full;
+  @apply bg-muted/40 border border-border/30;
+  @apply text-xs font-mono;
+  @apply text-muted-foreground;
+  @apply hover:bg-primary/10 hover:border-primary/30 hover:text-primary;
+  @apply transition-colors duration-200;
+}
+
+.tag-item::before {
+  content: "#";
+  @apply text-primary/70;
+}
+
+/* Tag section header */
+.tag-section-header {
+  @apply flex items-center gap-2 text-sm font-medium text-foreground;
+}
+
+.tag-section-header::before {
+  content: "";
+  @apply w-1 h-4 rounded-full bg-primary/60;
+}
+
+/* ========================================
+   Gradient Divider
+   ======================================== */
+
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border) 20%,
+    var(--primary) 50%,
+    var(--border) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}

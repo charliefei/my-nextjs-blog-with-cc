@@ -1,0 +1,62 @@
+/* ========================================
+   Reading Progress Bar + Back to Top Button
+   Used by components/blog/reading-progress.tsx (both live in the
+   same component; `.visible` is toggled on the button there).
+   ======================================== */
+
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  background: transparent;
+}
+
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ========================================
+   Back to Top Button
+   ======================================== */
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.15);
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top-btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px oklch(0 0 0 / 0.2);
+}
+
+.back-to-top-btn.visible:hover {
+  transform: translateY(-2px);
+}

@@ -37,7 +37,8 @@ app/
     experience/page.tsx
     layout.tsx                 # Locale layout: providers + Header + Footer
   layout.tsx                   # Root layout (font variables, minimal HTML)
-  globals.css                  # Tailwind v4 + theme tokens + prose + animations
+  globals.css                  # Tailwind v4 ENTRY ONLY: font/vendor imports, @custom-variant, @theme, :root/.dark tokens, and @imports of all partials
+  styles/                      # Shared CSS partials (@import-ed by globals.css, one Tailwind unit): base.css, utilities.css, prose.css, animations.css
   llms.txt/route.ts            # LLMs.txt generation (force-static GET)
   llms-full.txt/route.ts       # LLMs full text generation (force-static GET)
   rss.xml/route.ts             # RSS feed, default locale (force-static GET)
@@ -51,6 +52,10 @@ components/
   icons/                       # Icon components (social-icons.tsx)
   resume/                      # Resume page components (resume-content.tsx)
   theme/                       # next-themes ThemeProvider + ThemeToggle
+  # Component-specific CSS lives next to its component as <name>.css
+  # (layout/header.css, blog/toc.css, blog/reading-progress.css,
+  #  about/tilt-avatar.css, theme/theme-transition.css) — all are
+  # @import-ed by app/globals.css, NEVER JS-imported from the .tsx
 
 content/
   config/profile.json          # Personal info, social links, resume PDF
@@ -116,9 +121,13 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 ### CSS / Theming
 - **Tailwind CSS v4** with `@theme inline` for design tokens (OKLCH color space)
 - Dark mode: `.dark` class on `<html>`, toggled by `next-themes`
-- Custom utilities: `.glass` (backdrop-blur), `.gradient-bg`, `.gradient-text`, `.noise`
+- **Stylesheet organization (split Aug 2026):** `app/globals.css` is the ENTRY ONLY — it holds the Google Fonts `@import url(...)` (must stay line 1), `@import "tailwindcss"/"tw-animate-css"/"shadcn/tailwind.css"`, `@custom-variant`, `@theme inline`, and the `:root`/`.dark` token blocks. Everything else lives in partials that `globals.css` pulls in via plain CSS `@import`:
+  - `app/styles/` — cross-page shared: `base.css` (element defaults, scrollbars, `.scrollbar-thin`), `utilities.css` (`.gradient-bg`, `.gradient-text`, `.noise`, `.tag-item`, `.gradient-divider`), `prose.css` (`.prose`/`.prose-compact`, code blocks, Shiki dual-theme selectors, tables, blockquotes, heading anchors), `animations.css` (entrance fades, tab slides, `.dev-card-border`, stagger delays)
+  - Component-colocated: `components/layout/header.css` (`.glass-float`/`.shadow-float`/`.brand-ring`/`.header-top`), `components/blog/toc.css`, `components/blog/reading-progress.css` (progress bar + back-to-top), `components/about/tilt-avatar.css`, `components/theme/theme-transition.css`
+  - Tailwind inlines the whole `@import` graph into ONE compilation unit before Next sees it — `@apply`, theme tokens, `@property` all work across files, and output cascade order follows the `@import` order in `globals.css`. **To add styles: create the partial and add an `@import` line to `globals.css` in the right cascade position. Do NOT JS-`import "./x.css"` from a `.tsx`** — that is a separate Tailwind unit where `@apply bg-background`/`font-heading`/etc. fail the production build (`Cannot apply unknown utility class`; needs `@reference`) and Next's cssChunking may reorder chunks.
+  - Ordering notes: `.prose-compact` rules must stay after the `.prose` rules inside `prose.css` (project cards carry both classes); custom-property blocks (`:root`/`.dark`, including `--code-bg/--code-text` in `prose.css`) are runtime-resolved and order-independent.
 - Fonts: DM Sans (body), Crimson Pro (headings), JetBrains Mono (code)
-- Animations: `animate-fade-in`, `animate-slide-up`, `animate-scale-in` + stagger delays
+- Animations: `animate-fade-in`, `animate-slide-up`, `animate-tab-left/right`, `animate-avatar-tap` + `stagger-1/2` delays (dead classes `.glass`/`animate-scale-in`/`animate-caret`/`stagger-3-5` were removed in the split)
 - **Horizontal-scroll protection uses `overflow-x: clip` on `<body>`, NOT `overflow-x: hidden`.**
   `hidden` creates a scroll container, which silently breaks `position: sticky` on `<header>` (Header scrolls off-screen with the page). `clip` has the same clipping effect but does NOT establish a scroll container, so sticky keeps working. Supported in Chrome 90+ / Firefox 81+ / Safari 16+ — well within this project's browser target. **Never put `overflow: hidden` on `<html>` or on any ancestor of a `position: sticky` element.**
 - **Mobile-narrow-viewport regression baseline:** Chrome devtools iPhone SE emulation (320×568). Tailwind's `sm:` is 640px, which is much wider than real "small phones" (iPhone SE gen 1, older Android) — always visually test header / flex containers at 320px, not just 375px.

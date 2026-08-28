@@ -1,0 +1,60 @@
+/* ========================================
+   Theme switching transition
+   Driven by components/theme/theme-toggle.tsx, which imperatively
+   toggles `theme-transitioning` / `theme-view-transitioning` on <html>.
+   ======================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-transitioning:not(.theme-view-transitioning),
+  html.theme-transitioning:not(.theme-view-transitioning) *,
+  html.theme-transitioning:not(.theme-view-transitioning) *::before,
+  html.theme-transitioning:not(.theme-view-transitioning) *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, text-decoration-color;
+    transition-duration: 640ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: 780ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 780ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: theme-circular-reveal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
+
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+@keyframes theme-circular-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-transition-x, 100vw) var(--theme-transition-y, 0));
+  }
+  to {
+    clip-path: circle(var(--theme-transition-radius, 150vmax) at var(--theme-transition-x, 100vw) var(--theme-transition-y, 0));
+  }
+}

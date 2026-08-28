@@ -1,0 +1,80 @@
+/* ========================================
+   Base layer — element defaults
+   ======================================== */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* `clip` (not `hidden`) prevents horizontal scroll WITHOUT creating a scroll
+       container — keeping position: sticky on <header> working as intended.
+       `hidden` would establish html/body as scroll containers, which can break
+       sticky on Chrome and absolutely breaks it on mobile Safari. */
+    overflow-x: clip;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold tracking-tight;
+  }
+}
+
+/* ========================================
+   Custom Scrollbar
+   ======================================== */
+
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.01 220 / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.01 220 / 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.02 220 / 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.02 220 / 0.6);
+}
+
+/* Thin scrollbar variant for TOC, code blocks, etc. */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.01 220 / 0.2);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.01 220 / 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.7 0.01 220 / 0.3) transparent;
+}
+
+.dark * {
+  scrollbar-color: oklch(0.4 0.02 220 / 0.4) transparent;
+}

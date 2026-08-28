@@ -1,0 +1,15 @@
+/* ========================================
+   Avatar tap feedback (touch devices)
+   Used by components/about/tilt-avatar.tsx.
+   ======================================== */
+
+@keyframes avatarTap {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.92) rotate(-2deg); }
+  70% { transform: scale(1.06) rotate(1.5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.animate-avatar-tap {
+  animation: avatarTap 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

@@ -1,0 +1,119 @@
+/* ========================================
+   Floating Glass Header
+   Used by Header when the page is scrolled.
+   Stronger blur + saturation than `.glass`,
+   plus a soft tinted drop shadow that lifts
+   the pill off the page.
+   ======================================== */
+
+.glass-float {
+  background: oklch(1 0 0 / 0.55);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid oklch(1 0 0 / 0.5);
+}
+
+.dark .glass-float {
+  background: oklch(0.19 0.03 250 / 0.6);
+  border: 1px solid oklch(1 0 0 / 0.08);
+}
+
+.shadow-float {
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.04),
+    0 8px 24px -8px oklch(0.1 0.02 175 / 0.18),
+    0 24px 48px -16px oklch(from var(--primary) l c h / 0.18),
+    inset 0 1px 0 oklch(1 0 0 / 0.5);
+}
+
+.dark .shadow-float {
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.3),
+    0 8px 24px -8px oklch(0 0 0 / 0.45),
+    0 24px 48px -16px oklch(from var(--primary) l c h / 0.18),
+    inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+
+/* The faint inner highlight along the top edge of the floating pill */
+.glass-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    oklch(1 0 0 / 0.6),
+    oklch(1 0 0 / 0) 40%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.dark .glass-float::before {
+  background: linear-gradient(
+    180deg,
+    oklch(1 0 0 / 0.12),
+    oklch(1 0 0 / 0) 40%
+  );
+  opacity: 0.9;
+}
+
+/* Subtle sheen on the brand monogram ring */
+.brand-ring {
+  position: relative;
+}
+
+.brand-ring::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    oklch(from var(--primary) l c h / 0.4),
+    oklch(from var(--accent) l c h / 0.4),
+    oklch(from var(--primary) l c h / 0.4)
+  );
+  filter: blur(6px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.5s ease;
+}
+
+.brand-ring:hover::after {
+  opacity: 1;
+}
+
+/* ========================================
+   Top-state Header — seamless blend
+   No solid bg, no hard border. Only a soft,
+   edge-fading hairline for legibility when
+   content scrolls under. The floating pill
+   on scroll uses its own .glass-float styling,
+   so the hairline is simply not applied.
+   ======================================== */
+
+.header-top {
+  position: relative;
+}
+
+.header-top::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(from var(--border) l c h / 0.55) 18%,
+    oklch(from var(--border) l c h / 0.55) 82%,
+    transparent
+  );
+  pointer-events: none;
+}
