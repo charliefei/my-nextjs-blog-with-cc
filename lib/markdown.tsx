@@ -41,7 +41,7 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           const text = String(children);
           const id = slugify(text);
           return (
-            <HeadingWithAnchor level={1} id={id} className="font-heading text-3xl md:text-4xl font-bold mt-10 md:mt-14 mb-4 md:mb-6 scroll-mt-24">
+            <HeadingWithAnchor level={1} id={id} className="font-heading text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-4 md:mb-5 scroll-mt-24">
               {children}
             </HeadingWithAnchor>
           );
@@ -50,7 +50,7 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           const text = String(children);
           const id = slugify(text);
           return (
-            <HeadingWithAnchor level={2} id={id} className="font-heading text-2xl md:text-3xl font-semibold mt-8 md:mt-12 mb-3 md:mb-4 scroll-mt-24">
+            <HeadingWithAnchor level={2} id={id} className="font-heading text-2xl md:text-3xl font-semibold leading-snug tracking-tight mb-3 md:mb-4 scroll-mt-24">
               {children}
             </HeadingWithAnchor>
           );
@@ -59,7 +59,7 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           const text = String(children);
           const id = slugify(text);
           return (
-            <HeadingWithAnchor level={3} id={id} className="font-heading text-xl md:text-2xl font-semibold mt-6 md:mt-8 mb-2 md:mb-3 scroll-mt-24">
+            <HeadingWithAnchor level={3} id={id} className="font-heading text-xl md:text-2xl font-semibold leading-snug mb-2 md:mb-3 scroll-mt-24">
               {children}
             </HeadingWithAnchor>
           );
@@ -68,7 +68,7 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           const text = String(children);
           const id = slugify(text);
           return (
-            <HeadingWithAnchor level={4} id={id} className="font-heading text-lg md:text-xl font-semibold mt-5 md:mt-6 mb-2 scroll-mt-24">
+            <HeadingWithAnchor level={4} id={id} className="font-heading text-lg md:text-xl font-semibold leading-snug mb-2 scroll-mt-24">
               {children}
             </HeadingWithAnchor>
           );
@@ -107,7 +107,7 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           </td>
         ),
         p: ({ children }) => (
-          <p className="text-sm md:text-base leading-relaxed mb-4 md:mb-5 wrap-break-word">
+          <p className="text-sm md:text-base leading-7 md:leading-8 mb-5 md:mb-6 wrap-break-word">
             {children}
           </p>
         ),
