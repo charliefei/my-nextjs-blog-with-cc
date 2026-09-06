@@ -170,6 +170,12 @@
     "description": "您访问的页面不存在。",
     "backHome": "返回首页"
   },
+  "lightbox": {
+    "close": "关闭",
+    "openImage": "查看图片",
+    "zoomIn": "放大",
+    "zoomOut": "缩小"
+  },
   "metadata": {
     "home": {
       "title": "Charlie Fei",

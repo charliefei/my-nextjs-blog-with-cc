@@ -3,7 +3,10 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { slugify } from "@/lib/toc";
+import { getAssetPath } from "@/lib/utils";
+import { ImageLightbox, type LightboxImage } from "@/components/blog/image-lightbox";
 
 interface MarkdownRendererProps {
   content: string;
@@ -33,7 +36,11 @@ function HeadingWithAnchor({
 }
 
 export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRendererProps) {
+  const t = useTranslations("lightbox");
+  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+
   return (
+    <>
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
@@ -78,14 +85,35 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
             {children}
           </blockquote>
         ),
-        img: ({ src, alt }) => (
-          <img
-            src={src}
-            alt={alt || ""}
-            className="prose-image rounded-xl shadow-lg my-6 w-full"
-            loading="lazy"
-          />
-        ),
+        img: ({ src, alt, title, ...rest }) => {
+          const resolvedSrc = typeof src === "string" && src ? getAssetPath(src) : "";
+          return (
+            <button
+              type="button"
+              onClick={(e) => {
+                const imgEl = e.currentTarget.querySelector("img");
+                setLightbox({
+                  src: resolvedSrc,
+                  alt: alt || "",
+                  title: title || "",
+                  width: imgEl?.naturalWidth || undefined,
+                  height: imgEl?.naturalHeight || undefined,
+                });
+              }}
+              aria-label={alt || title || t("openImage")}
+              className="block m-0 w-full cursor-zoom-in rounded-xl border-0 bg-transparent p-0 text-left"
+            >
+              <img
+                src={resolvedSrc}
+                alt={alt || ""}
+                title={title}
+                className="prose-image my-6 w-full rounded-xl shadow-lg"
+                loading="lazy"
+                {...rest}
+              />
+            </button>
+          );
+        },
         hr: () => (
           <div className="gradient-divider my-10" role="separator" />
         ),
@@ -188,6 +216,8 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
     >
       {content}
     </ReactMarkdown>
+    <ImageLightbox image={lightbox} onClose={() => setLightbox(null)} />
+    </>
   );
 }
 
