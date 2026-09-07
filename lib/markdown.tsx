@@ -2,7 +2,7 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { slugify } from "@/lib/toc";
 import { getAssetPath } from "@/lib/utils";
@@ -37,13 +37,42 @@ function HeadingWithAnchor({
 
 export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRendererProps) {
   const t = useTranslations("lightbox");
-  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+  const lightboxGroupId = useId();
+  const [lightbox, setLightbox] = useState<{
+    images: LightboxImage[];
+    index: number;
+  } | null>(null);
+
+  const openImageLightbox = (button: HTMLButtonElement) => {
+    const imageButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("button[data-lightbox-group]"),
+    ).filter((candidate) => candidate.dataset.lightboxGroup === lightboxGroupId);
+    const buttonsWithImages = imageButtons.filter(
+      (candidate) => candidate.querySelector("img"),
+    );
+    const imageElements = buttonsWithImages
+      .map((candidate) => candidate.querySelector<HTMLImageElement>("img"))
+      .filter((image): image is HTMLImageElement => image !== null);
+    const images = imageElements.map((image) => ({
+      src: image.currentSrc || image.src,
+      alt: image.alt,
+      title: image.title || undefined,
+      width: image.naturalWidth || undefined,
+      height: image.naturalHeight || undefined,
+    }));
+    const index = buttonsWithImages.indexOf(button);
+
+    setLightbox({
+      images,
+      index: index >= 0 ? index : 0,
+    });
+  };
 
   return (
     <>
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      components={{
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
         h1: ({ children }) => {
           const text = String(children);
           const id = slugify(text);
@@ -90,15 +119,9 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
           return (
             <button
               type="button"
+              data-lightbox-group={lightboxGroupId}
               onClick={(e) => {
-                const imgEl = e.currentTarget.querySelector("img");
-                setLightbox({
-                  src: resolvedSrc,
-                  alt: alt || "",
-                  title: title || "",
-                  width: imgEl?.naturalWidth || undefined,
-                  height: imgEl?.naturalHeight || undefined,
-                });
+                openImageLightbox(e.currentTarget);
               }}
               aria-label={alt || title || t("openImage")}
               className="block m-0 w-full cursor-zoom-in rounded-xl border-0 bg-transparent p-0 text-left"
@@ -212,11 +235,15 @@ export function MarkdownRenderer({ content, highlightedCode = {} }: MarkdownRend
             </code>
           );
         },
-      }}
-    >
-      {content}
-    </ReactMarkdown>
-    <ImageLightbox image={lightbox} onClose={() => setLightbox(null)} />
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+      <ImageLightbox
+        images={lightbox?.images ?? []}
+        index={lightbox?.index ?? 0}
+        onClose={() => setLightbox(null)}
+      />
     </>
   );
 }

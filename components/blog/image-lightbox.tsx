@@ -17,39 +17,37 @@ export interface LightboxImage {
 }
 
 interface ImageLightboxProps {
-  image: LightboxImage | null;
+  images: readonly LightboxImage[];
+  index: number;
   onClose: () => void;
 }
 
 // Stable reference — YARL re-initializes plugins when the array identity changes.
 const plugins = [Zoom, Captions];
 
-export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
+export function ImageLightbox({ images, index, onClose }: ImageLightboxProps) {
   const t = useTranslations("lightbox");
 
   const slides = useMemo(
     () =>
-      image
-        ? [
-            {
-              src: image.src,
-              alt: image.alt,
-              title: image.title || image.alt || undefined,
-              description:
-                image.width && image.height
-                  ? `${image.width} × ${image.height}`
-                  : undefined,
-            },
-          ]
-        : [],
-    [image],
+      images.map((image) => ({
+        src: image.src,
+        alt: image.alt,
+        title: image.title || image.alt || undefined,
+        description:
+          image.width && image.height
+            ? `${image.width} × ${image.height}`
+            : undefined,
+      })),
+    [images],
   );
 
   return (
     <Lightbox
-      open={!!image}
+      open={images.length > 0}
       close={onClose}
       slides={slides}
+      index={index}
       plugins={plugins}
       labels={{
         Close: t("close"),
