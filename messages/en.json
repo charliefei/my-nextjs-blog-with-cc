@@ -174,7 +174,16 @@
     "close": "Close",
     "openImage": "View image",
     "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out"
+    "zoomOut": "Zoom out",
+    "previous": "Previous image",
+    "next": "Next image",
+    "download": "Download",
+    "enterFullscreen": "Enter fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "showCaptions": "Show caption",
+    "hideCaptions": "Hide caption",
+    "showThumbnails": "Show thumbnails",
+    "hideThumbnails": "Hide thumbnails"
   },
   "metadata": {
     "home": {

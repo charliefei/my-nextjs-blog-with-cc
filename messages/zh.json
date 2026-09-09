@@ -174,7 +174,16 @@
     "close": "关闭",
     "openImage": "查看图片",
     "zoomIn": "放大",
-    "zoomOut": "缩小"
+    "zoomOut": "缩小",
+    "previous": "上一张",
+    "next": "下一张",
+    "download": "下载图片",
+    "enterFullscreen": "进入全屏",
+    "exitFullscreen": "退出全屏",
+    "showCaptions": "显示说明",
+    "hideCaptions": "隐藏说明",
+    "showThumbnails": "显示缩略图",
+    "hideThumbnails": "隐藏缩略图"
   },
   "metadata": {
     "home": {
