@@ -56,6 +56,7 @@ components/
   # (layout/header.css, blog/toc.css, blog/reading-progress.css,
   #  about/tilt-avatar.css, theme/theme-transition.css) — all are
   # @import-ed by app/globals.css, NEVER JS-imported from the .tsx
+  # EXCEPTION: blog/image-lightbox.css IS JS-imported (see lightbox gotcha)
 
 content/
   config/profile.json          # Personal info, social links, resume PDF
@@ -76,7 +77,7 @@ lib/                           # Data access + utilities
   experience.ts                # getAllWorkExperiences, getAllProjects, getSkills
   profile.ts                   # getProfile, getPdfUrl
   toc.ts                       # Table of contents extraction
-  markdown.tsx                 # Client react-markdown renderer (synchronous; consumes highlightedCode map)
+  markdown.tsx                 # Client react-markdown renderer (synchronous; consumes highlightedCode map; hosts lightbox gallery state)
   utils.ts                     # cn() + getAssetPath()
   llms.ts                      # LLMs.txt content generation
 
@@ -141,8 +142,14 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 - Dual-theme: spans carry `--shiki-light`/`--shiki-dark` vars; globals.css maps them to `color` via `.dark` class (NOT prefers-color-scheme)
 - Missing fence lang → defaults to `plaintext` (Shiki `defaultLang` + renderer fallback must agree)
 
+### Image Lightbox (yet-another-react-lightbox)
+- `lib/markdown.tsx` wraps every markdown image in `<button data-lightbox-group>` — all images in one post form a single gallery (group id via `useId()`)
+- `components/blog/image-lightbox.tsx`: client YARL wrapper (Zoom/Captions/Counter/Download/Fullscreen/Thumbnails). The `plugins` array MUST stay a module-level constant — YARL re-initializes plugins when array identity changes
+- **`image-lightbox.css` is the ONE sanctioned exception to "never JS-import CSS from a .tsx":** it overrides YARL's vendor `--yarl__*` custom properties and must be imported AFTER `yet-another-react-lightbox/styles.css` to win the cascade. It contains zero `@apply`/theme tokens, so the separate-Tailwind-unit failure mode doesn't apply. Do NOT move it into globals.css
+- Theming is pure CSS: `:root.dark .yarl-blog` remaps every `--yarl__*` var — no JS theme detection. Portal z-index is 10000 (above reading-progress bar's 9999)
+
 ### Linting
-- `npm run lint` has 6 PRE-EXISTING `react-hooks/refs` errors in `components/blog/toc.tsx` (present on clean HEAD) — not yours
+- `npm run lint` has 4 PRE-EXISTING `react-hooks/refs` errors in `components/blog/toc.tsx` (lines 52/56, present on clean HEAD) — not yours; the ~13 warnings (`no-img-element`, unused vars) are also pre-existing
 - `npm run build:only` is the real correctness gate (TypeScript passes independently of those lint errors)
 
 ### Content Management
@@ -155,7 +162,7 @@ docker/                         # Docker deployment (Dockerfile, docker-compose.
 ### Internationalization (i18n)
 - All user-facing text MUST use `useTranslations()` from `next-intl` — never hardcode Chinese or English strings
 - Translation files: `messages/en.json` and `messages/zh.json` — keep both in sync when adding keys
-- Namespace per feature: `nav`, `home`, `blog`, `about`, `resume`, `experience`, `footer`, `theme`, `lang`, `notFound`
+- Namespace per feature: `nav`, `home`, `blog`, `about`, `resume`, `experience`, `footer`, `theme`, `lang`, `notFound`, `lightbox`, `metadata`
 - `t()` supports interpolation: `t("key", { count: n, name: "..." })`
 - Watch for easily-missed hardcoded strings: stat counters (`{n} 技能`), filter labels, sr-only text, empty state messages, badge text
 
