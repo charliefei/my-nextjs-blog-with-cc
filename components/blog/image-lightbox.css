@@ -195,14 +195,30 @@
   height: 24px;
 }
 
+/* NOTE: the generic :active press feedback sets `transform: scale(...)`,
+   which would wipe the translateY(-50%) centering and make the button jump
+   24px under the cursor mid-click (swallowing the click). Keep the centering
+   transform on every interaction state. */
+.yarl-blog .yarl__button.yarl__navigation_prev:active:not(:disabled),
+.yarl-blog .yarl__button.yarl__navigation_next:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.92);
+}
+
 [dir="rtl"] .yarl-blog .yarl__button.yarl__navigation_prev {
   left: auto;
   right: 20px;
+  transform: translateY(-50%) rotate(180deg);
 }
 
 [dir="rtl"] .yarl-blog .yarl__button.yarl__navigation_next {
   right: auto;
   left: 20px;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+[dir="rtl"] .yarl-blog .yarl__button.yarl__navigation_prev:active:not(:disabled),
+[dir="rtl"] .yarl-blog .yarl__button.yarl__navigation_next:active:not(:disabled) {
+  transform: translateY(-50%) rotate(180deg) scale(0.92);
 }
 
 @media (hover: hover) {

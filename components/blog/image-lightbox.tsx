@@ -118,6 +118,8 @@ export function ImageLightbox({ images, index, onClose }: ImageLightboxProps) {
       }}
       captions={{
         showToggle: true,
+        // Hidden on open; the toolbar caption button reveals title/dimensions
+        hidden: true,
         descriptionTextAlign: "center",
       }}
       thumbnails={{
@@ -129,9 +131,9 @@ export function ImageLightbox({ images, index, onClose }: ImageLightboxProps) {
         padding: 2,
         gap: 10,
         showToggle: hasMultipleImages,
-        // A single-image gallery has no toggle button, so the strip must
-        // start hidden (display:none — the plugin keeps it mounted).
-        hidden: !hasMultipleImages,
+        // Hidden on open; the toolbar thumbnails button reveals the strip.
+        // (Single-image galleries have no toggle, so it stays hidden.)
+        hidden: true,
         vignette: true,
       }}
       // Counter plugin is loaded unconditionally (stable plugin list); hide
