@@ -256,7 +256,7 @@ export function AboutContent({ profile, locale, skills, aboutMarkdown, links }: 
                     </span>
                   </div>
 
-                  <div className="scrollbar-thin relative max-h-[calc(100vh-13rem)] overflow-y-auto overscroll-contain px-5 py-5 md:px-7 md:py-7">
+                  <div className="relative px-5 py-5 md:px-7 md:py-7">
                     {aboutMarkdown ? (
                       <div className="[&_a]:text-primary [&_a]:underline-offset-4 [&_h2:first-child]:mt-0 [&_h2]:bg-linear-to-r [&_h2]:from-foreground [&_h2]:to-foreground/70 [&_h2]:bg-clip-text [&_h2]:text-2xl [&_h3]:text-xl [&_img]:rounded-lg [&_img]:mr-auto [&_img]:max-h-72 [&_img]:max-w-md [&_img]:object-contain [&_img]:shadow-md [&_p]:text-muted-foreground [&_ul]:mb-5 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5 [&_li]:text-sm [&_li]:leading-7 [&_li]:text-muted-foreground [&_li::marker]:text-primary/70 md:[&_li]:text-base">
                         <MarkdownRenderer content={aboutMarkdown} />
